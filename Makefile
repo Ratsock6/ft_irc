@@ -6,7 +6,7 @@
 #    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/11 11:29:45 by mgallais         ###   ########.fr        #
+#    Updated: 2024/07/11 11:49:15 by mgallais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME    = ircserv
 CC      = c++
 RM      = rm -f
 CFLAGS += -g -Wall -Wextra -Werror -std=c++98
-INCLUDE = -I include -I include/classes -I lib/DailyLib
+INCLUDE = -I include -I include/classes
 DEBUG   = 0
 
 SRC		= src/main.cpp #
