@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/11 11:30:07 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/12 09:14:57 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 #include <cstdio>        // For standard input/output functions if needed (e.g. printf)
 #include <cstdlib>       // For type conversion functions if needed (e.g. atoi, atof)
 #include <ctime>         // For time functions (time, clock, difftime, mktime, ...)
+#include <sstream>       // For string stream functions (std::stringstream)
 
 #include "color.h"       // For color definitions
 #include "dailylib.h"	 // For custom defines and structures
