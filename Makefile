@@ -6,7 +6,7 @@
 #    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/11 11:49:15 by mgallais         ###   ########.fr        #
+#    Updated: 2024/07/18 09:42:26 by mgallais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ CFLAGS += -g -Wall -Wextra -Werror -std=c++98
 INCLUDE = -I include -I include/classes
 DEBUG   = 0
 
-SRC		= src/main.cpp #
+SRC		= src/main.cpp \
+		  src/classes/Server.cpp \
+		  src/classes/Client.cpp #
 
 OBJ		= $(SRC:.cpp=.o)
 
