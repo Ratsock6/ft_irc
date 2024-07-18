@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:59:32 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/18 14:30:10 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:53:04 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,29 @@ typedef struct s_RBGA
 	char	b;
 	char	a;
 }	t_RGBA;
+
+template <typename T>
+typedef struct s_2type
+{
+	T		x;
+	T		y;
+}	t_2type;
+
+template <typename T>
+typedef struct s_3type
+{
+	T		x;
+	T		y;
+	T		z;
+}	t_3type;
+
+template <typename T>
+typedef struct s_4type
+{
+	T		x;
+	T		y;
+	T		z;
+	T		w;
+}	t_4type;
 
 #endif
