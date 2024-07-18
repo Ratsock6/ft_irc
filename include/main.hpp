@@ -6,11 +6,11 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/18 09:40:47 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:52:02 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/// This is the main header file.
+/// This is the main header file, which will be included in all the source files.
 /// It is used to include all the necessary libraries and classes and to define some useful macros.
 #pragma once
 
@@ -22,6 +22,7 @@
 /*###########################################################################*/
 /*                                  Includes                                 */
 /*###########################################################################*/
+// Standard libraries
 #include <iostream>      // For standard input/output functions (std::cout, std::cin, std::cerr)
 #include <algorithm>     // For functions std::min, std::max, std::sort, std::find, std::count, std::replace, std::remove
 #include <cstring>       // For string manipulation functions (strlen, strcpy, strcmp, ...)
@@ -41,15 +42,18 @@
 #include <ctime>         // For time functions (time, clock, difftime, mktime, ...)
 #include <sstream>       // For string stream functions (std::stringstream)
 
+// Custom libraries
 #include "color.h"       // For color definitions
 #include "dailylib.h"	 // For custom defines and structures
 
 /*###########################################################################*/
 /*                            Structures & Classes                           */
 /*###########################################################################*/
+// Classes
 #include "Server.hpp"
 #include "Client.hpp"
 
+// Structures
 
 /*###########################################################################*/
 /*                            Functions Prototypes                           */
