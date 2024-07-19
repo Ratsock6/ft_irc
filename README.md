@@ -2,6 +2,7 @@
 
 ## Docs :
  - https://modern.ircdocs.horse/
+ - https://github.com/marineks/Ft_irc
 
 ## Infos :
  - Signaux a gerer (priorite) : CTRL+C, CTRL+D, CTRL+Z
