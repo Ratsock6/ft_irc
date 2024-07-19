@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/18 14:53:34 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:22:54 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@
 // Custom libraries
 # include "color.h"       // For color definitions
 
-# define DAILYLIB_DEF 0	 // Defines not needed
-# include "dailylib.h"	 // For custom defines and structures
+# define DAILYLIB_DEF 0	  // Defines not needed
+# define DAILYLIB_C_LIB 0 // C libraries not needed
+# include "dailylib.h"	  // For custom defines and structures
 
 /*###########################################################################*/
 /*                            Structures & Classes                           */
