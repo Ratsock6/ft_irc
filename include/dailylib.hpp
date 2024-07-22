@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:59:32 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 13:40:59 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:43:24 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,12 @@
 /*###########################################################################*/
 /*                                Structures                                 */
 /*###########################################################################*/
-# ifndef DAILYLIB_STRUCT
+# ifndef DAILYLIB_TYPE_STRUCT
+#  define DAILYLIB_TYPE_STRUCT 1
+# endif
+
+
+# if DAILYLIB_TYPE_STRUCT == 1
 // Structure for 2 integers
 typedef struct s_2int
 {
