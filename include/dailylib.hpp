@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:59:32 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 13:43:24 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:10:41 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,23 +153,23 @@ typedef struct s_4double
 	double	w;
 }	t_4double;
 
-// Structure for 3 chars
+// Structure for 3 unsigned chars
 // Can contain a color in RGB format
 typedef struct s_RBG
 {
-	char	r;
-	char	g;
-	char	b;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_RGB;
 
-// Structure for 4 chars
+// Structure for 4 unsigned chars
 // Can contain a color in RGBA format
 typedef struct s_RBGA
 {
-	char	r;
-	char	g;
-	char	b;
-	char	a;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+	unsigned char	a;
 }	t_RGBA;
 # endif
 #endif
