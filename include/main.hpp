@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/19 18:22:54 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:11:34 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 # define DAILYLIB_DEF 0	  // Defines not needed
 # define DAILYLIB_C_LIB 0 // C libraries not needed
-# include "dailylib.h"	  // For custom defines and structures
+# include "dailylib.hpp"	  // For custom defines and structures
 
 /*###########################################################################*/
 /*                            Structures & Classes                           */
