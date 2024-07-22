@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dailylib.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:59:32 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 13:12:55 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:40:59 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@
 /*###########################################################################*/
 /*                                Structures                                 */
 /*###########################################################################*/
+# ifndef DAILYLIB_STRUCT
 // Structure for 2 integers
 typedef struct s_2int
 {
@@ -165,4 +166,5 @@ typedef struct s_RBGA
 	char	b;
 	char	a;
 }	t_RGBA;
+# endif
 #endif
