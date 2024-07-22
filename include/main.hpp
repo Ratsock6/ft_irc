@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 13:11:34 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:35:20 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,39 @@
 /*###########################################################################*/
 /*                                  Includes                                 */
 /*###########################################################################*/
-// IRC needed libraries
-# include <sys/types.h>   // For socket data types
-# include <sys/socket.h>  // For socket functions: socket, bind, connect, listen, accept, setsockopt
-# include <sys/time.h>    // For struct timeval used in select()
-# include <netinet/in.h>  // For functions htons, htonl, ntohs, ntohl and data structures for addresses
-# include <arpa/inet.h>   // For functions inet_addr, inet_ntoa
-# include <netdb.h>       // For functions getprotobyname, gethostbyname, getaddrinfo, freeaddrinfo
-# include <fcntl.h>       // For functions fcntl
-# include <poll.h>        // For function poll
-# include <sys/stat.h>    // For function fstat
+// Webserv needed librairies
+# if defined(__APPLE__)
+#  include <sys/event.h>   // For kqueue, kevent (only on BSD systems like MacOS)
+# endif
+
+# include <unistd.h>       // For execve, dup, dup2, pipe, chdir, close, read, write, access, opendir, readdir, closedir
+# include <string.h>       // For strerror
+# include <errno.h>        // For errno
+# include <sys/types.h>    // For socketpair, waitpid, kill, stat, open
+# include <sys/socket.h>   // For socket, accept, listen, send, recv, bind, connect, getaddrinfo, freeaddrinfo, setsockopt, getsockname, getprotobyname
+# include <netinet/in.h>   // For htons, htonl, ntohs, ntohl
+# include <sys/select.h>   // For select
+# include <poll.h>         // For poll
+# include <sys/epoll.h>    // For epoll_create, epoll_ctl, epoll_wait
+# include <netdb.h>        // For gai_strerror, getaddrinfo, freeaddrinfo, getprotobyname
+# include <fcntl.h>        // For fcntl
+# include <sys/wait.h>     // For waitpid
+# include <signal.h>       // For signal
+# include <sys/stat.h>     // For stat, open
+# include <dirent.h>       // For opendir, readdir, closedir
+
 
 // Custom libraries
 # include "color.h"       // For color definitions
 
 # define DAILYLIB_DEF 0	  // Defines not needed
 # define DAILYLIB_C_LIB 0 // C libraries not needed
-# include "dailylib.hpp"	  // For custom defines and structures
+# include "dailylib.hpp"  // For custom defines and structures
 
 /*###########################################################################*/
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
-# include "Server.hpp"
-# include "Client.hpp"
 
 // Structures
 
