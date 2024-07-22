@@ -30,8 +30,7 @@
 *.exe
 *.out
 *.app
-ircserv
-Ircserv
+webserv
 
 # Debug files
 .vscode

@@ -6,11 +6,11 @@
 #    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/18 09:42:26 by mgallais         ###   ########.fr        #
+#    Updated: 2024/07/22 13:24:48 by mgallais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = ircserv
+NAME    = webserv
 CC      = c++
 RM      = rm -f
 CFLAGS += -g -Wall -Wextra -Werror -std=c++98
