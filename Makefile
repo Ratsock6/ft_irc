@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
+#    By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/22 14:06:24 by mgallais         ###   ########.fr        #
+#    Updated: 2024/07/22 15:25:44 by vsoltys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRC		= src/main.cpp \
 		  src/signals.cpp \
 		  src/classes/Server.cpp \
 		  src/classes/Client.cpp \
-		  src/commands/command.cpp #
+		  src/commands/command.cpp \
+		  src/utils/ft_split.cpp \
+		  src/commands/parsing.cpp #
 
 OBJ		= $(SRC:.cpp=.o)
 

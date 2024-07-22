@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 13:35:20 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:45:01 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@
 # include <sys/wait.h>     // For waitpid
 # include <signal.h>       // For signal
 # include <sys/stat.h>     // For stat, open
-# include <dirent.h>       // For opendir, readdir, closedir
+# include <dirent.h>    
+# include <vector>   // For opendir, readdir, closedir
 
 
 // Custom libraries
@@ -55,7 +56,9 @@
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
-
+int connection_setup(int port, char *password);
+char	**ft_split(char const *s, char c);
+int parsing_command(char *str);
 // Structures
 
 /*###########################################################################*/
