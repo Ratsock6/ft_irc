@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:43:49 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:19:03 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	Server::start()
 	{
 		create_server_socket();
 		server_status = RUNNING;
-		// server_loop();
+		server_loop();
 	}
 	catch(const std::exception& e)
 	{
