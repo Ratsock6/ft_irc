@@ -36,5 +36,5 @@ ircserv
 # Debug files
 .vscode
 *.json
-tests/
+#tests/
 
