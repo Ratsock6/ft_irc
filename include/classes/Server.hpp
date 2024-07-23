@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:10:02 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:16:54 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ class Server {
 		void	close_client( int client_socket );
 		void	close_all_clients();
 		void	close_server_socket();
-
 	public :
 		/// Constructors & Destructor :
 		Server( int port );

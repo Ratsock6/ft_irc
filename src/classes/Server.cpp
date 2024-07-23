@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:11:45 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:21:08 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	Server::create_server_socket()
 	// Socket creation
 	socket_fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
 	if (socket_fd == -1) {
+		freeaddrinfo(res);
 		throw std::runtime_error( strerror(errno) );
 	}
 
@@ -69,6 +70,8 @@ void	Server::create_server_socket()
 	// Binding of the socket to the address and port
 	status = bind(socket_fd, res->ai_addr, res->ai_addrlen);
 	if (status != 0) {
+		freeaddrinfo(res);
+		close(socket_fd);
 		throw std::runtime_error( strerror(errno) );
 	}
 
