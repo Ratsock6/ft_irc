@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/22 16:45:01 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/23 09:57:03 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,25 @@
 #pragma once
 
 /*###########################################################################*/
-/*                                   Defines                                 */
+/*                              Defines & Enums                              */
 /*###########################################################################*/
+enum command
+{
+	KICK,
+	INVITE,
+	TOPIC,
+	MODE,
+	CMD_ERROR
+};
 
+enum mode{
+	i,
+	t,
+	k,
+	o,
+	l,
+	mode_error
+};
 
 /*###########################################################################*/
 /*                                  Includes                                 */
@@ -42,7 +58,7 @@
 # include <signal.h>       // For signal
 # include <sys/stat.h>     // For stat, open
 # include <dirent.h>    
-# include <vector>   // For opendir, readdir, closedir
+# include <vector>  	   // For opendir, readdir, closedir
 
 
 // Custom libraries
@@ -56,11 +72,12 @@
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
-int connection_setup(int port, char *password);
-char	**ft_split(char const *s, char c);
-int parsing_command(char *str);
+
 // Structures
 
 /*###########################################################################*/
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
+int connection_setup(int port, char *password);
+char	**ft_split(char const *s, char c);
+int parsing_command(char *str);

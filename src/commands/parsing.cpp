@@ -4,25 +4,9 @@
 // 1 == command without problem
 // -1 == command does not exist
 // -2 == command existing but problem with
+// UTILISE DES TRY/CATCH !!!!!!!!!
 
-enum command
-{
-	KICK,
-	INVITE,
-	TOPIC,
-	MODE,
-	CMD_ERROR
-};
-
-enum mode{
-	i,
-	t,
-	k,
-	o,
-	l,
-	mode_error
-};
-
+// y'a pas un monde ou si je fais "saidoadaosjdaosjd/kick" ca fonctionne ?
 int get_command(char *str)
 {
 	if(strcmp(str, "/kick") == 0)
