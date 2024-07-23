@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:16:54 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:42:19 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ enum server_status
 class Server {
 	private :
 		/// Attributes :
-		static const unsigned short		max_clients = 20;
-		const timeval					timeout;
+		static const unsigned short		max_clients = 500;
+		const timeval					timeout; // 2 seconds
 
 		// Server socket :
 		unsigned short	port;
@@ -39,14 +39,18 @@ class Server {
 		// std::vector<Channel>	channels;	   // Array of channels
 
 		/// Private Functions :
-		void	create_server_socket();
+		// Start
+		void	create_server_socket(); // done
 		void	server_loop();
 		void	accept_new_client();
 		void	receive_data( int client_socket );
 		void	send_data( int client_socket, std::string data );
 		void	close_client( int client_socket );
+
+		// Stop
 		void	close_all_clients();
 		void	close_server_socket();
+
 	public :
 		/// Constructors & Destructor :
 		Server( int port );
