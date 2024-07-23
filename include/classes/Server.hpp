@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/23 12:54:04 by mgallais         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/23 12:50:32 by vsoltys          ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 # include "main.hpp"
+# include "Client.hpp"
 
 enum server_status
 {

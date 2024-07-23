@@ -6,7 +6,7 @@
 #    By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/22 15:25:44 by vsoltys          ###   ########.fr        #
+#    Updated: 2024/07/23 12:53:45 by vsoltys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC		= src/main.cpp \
 		  src/classes/Client.cpp \
 		  src/commands/command.cpp \
 		  src/utils/ft_split.cpp \
-		  src/commands/parsing.cpp #
+		  src/commands/parsing.cpp \
+		  src/classes/Channel.cpp #
 
 OBJ		= $(SRC:.cpp=.o)
 
