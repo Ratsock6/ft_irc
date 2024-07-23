@@ -4,18 +4,18 @@
 #include <vector>
 #include "Client.hpp"
 
-class channel{
+class Channel{
 	private:
 		std::string channel_name;
 		std::string topic;
-		std::vector<Client> users;
-		std::vector<Client> admin_users;
+		std::vector<Client> users_list;
+		std::vector<Client> admin_users_list;
 		Client creator;
 	public:
-		channel(std::string channel_name, Client creator);
-		~channel();
-		channel(const channel &c);
-		channel& operator=(const channel &c);
+		Channel(std::string channel_name, const Client& creator);
+		~Channel();
+		Channel(const Channel &c);
+		Channel& operator=(const Channel &c);
 
 		void add_user(Client user);
 		void remove_user(Client user);

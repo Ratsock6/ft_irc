@@ -7,31 +7,25 @@
 // UTILISE DES TRY/CATCH !!!!!!!!!
 
 // y'a pas un monde ou si je fais "saidoadaosjdaosjd/kick" ca fonctionne ?
-int get_command(char *str)
-{
-	if(strcmp(str, "/kick") == 0)
-		return KICK;
-	if(strcmp(str, "/invite") == 0)
-		return INVITE;
-	if(strcmp(str, "/topic") == 0)
-		return TOPIC;
-	if(strcmp(str, "/mode") == 0)
-		return MODE;
-	return CMD_ERROR;
+int get_command(const std::string& command) {
+    if (command == "/kick") return KICK;
+    if (command == "/invite") return INVITE;
+    if (command == "/topic") return TOPIC;
+    if (command == "/mode") return MODE;
+    return CMD_ERROR;
 }
-int get_mode(char *str)
-{
-	if(strcmp(str, "i") == 0)
-		return i;
-	if(strcmp(str, "t") == 0)
-		return t;
-	if(strcmp(str, "k") == 0)
-		return k;
-	if(strcmp(str, "o") == 0)
-		return o;
-	if(strcmp(str, "l") == 0)
-		return l;
-	return mode_error;
+int get_mode(const std::string& command) {
+    if (command.compare("i") == 0)
+        return i;
+    if (command.compare("t") == 0)
+        return t;
+    if (command.compare("k") == 0)
+        return k;
+    if (command.compare("o") == 0)
+        return o;
+    if (command.compare("l") == 0)
+        return l;
+    return mode_error;
 }
 
 int parsing_mode(char *str)
@@ -50,42 +44,50 @@ int parsing_mode(char *str)
 		case l:
 			break;
 		case mode_error:
-			std::cerr << "Mode does not exist\n";
-			return -1;
+			throw std::invalid_argument("Mode does not exist");
 	}
 	return 1;
 }
-int parsing_command(char *str)
-{
-	char **args;
+int parsing_command(const std::string& str) {
+    if (str[0] != '/')
+        return 0;
 
-	if(str[0] != '/')
-		return 0;
-	args = ft_split(str, ' ');
-	for(int i = 0; args[i] != NULL; i++)
-		std::cout << args[i] << std::endl;
-	switch(get_command(args[0]))
-	{
-		case KICK:
-			if(args[1] == NULL || args[2] == NULL)
-				return -2;
-			break;
-		case INVITE:
-			if(args[1] == NULL || args[2] == NULL)
-				return -2;
-			break;
-		case TOPIC:
-			if(args[1] == NULL)
-				return -2;
-			break;
-		case MODE:
-			if(args[0] == NULL || args[1] == NULL)
-				return -2;
-			return(parsing_mode(strdup(args[1])));
-			break;
-		case CMD_ERROR:
-			std::cerr << "Command does not exist\n";
-			return -1;
-	}
-	return 1;
+    std::istringstream stream(str);
+    std::vector<std::string> args;
+    std::string arg;
+
+    while (stream >> arg) {
+        args.push_back(arg);
+    }
+
+    for (std::vector<std::string>::size_type i = 0; i < args.size(); ++i) {
+        std::cout << args[i] << std::endl;
+    }
+
+    if (args.empty()) {
+        throw std::invalid_argument("Empty command");
+    }
+
+    switch (get_command(args[0])) {
+        case KICK:
+            if (args.size() < 3)
+                throw std::invalid_argument("Not enough arguments");
+            break;
+        case INVITE:
+            if (args.size() < 3)
+                throw std::invalid_argument("Not enough arguments");
+            break;
+        case TOPIC:
+            if (args.size() < 2)
+                throw std::invalid_argument("Not enough arguments");
+            break;
+        case MODE:
+            if (args.size() < 2)
+                throw std::invalid_argument("Not enough arguments");
+            return parsing_mode(const_cast<char*>(args[1].c_str()));
+        case CMD_ERROR:
+            throw std::invalid_argument("Command does not exist");
+    }
+
+    return 1;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 12:27:36 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:54:11 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,4 @@ class Channel;
 /*###########################################################################*/
 int connection_setup(int port, char *password);
 char	**ft_split(char const *s, char c);
-int parsing_command(char *str);
+int parsing_command(const std::string& str);

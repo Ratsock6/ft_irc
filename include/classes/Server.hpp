@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 12:02:01 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:50:32 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 # include "main.hpp"
+# include "Client.hpp"
 
 enum server_status
 {
@@ -24,7 +25,7 @@ class Server {
 	private :
 		/// Attributes :
 		static const unsigned short		max_clients = 20;
-		static const timeval			select_timeout = {2, 0};
+		static const timeval			select_timeout;
 
 		const int	port;
 		const int	server_socket;
