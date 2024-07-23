@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 09:57:03 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:27:36 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,14 @@ enum mode{
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
+# include "Server.hpp"
+class Server;
+
+# include "Client.hpp"
+class Client;
+
+# include "Channel.hpp"
+class Channel;
 
 // Structures
 
