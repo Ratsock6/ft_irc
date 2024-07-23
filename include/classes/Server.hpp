@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 11:40:50 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:02:01 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,27 @@
 
 # include "main.hpp"
 
+enum server_status
+{
+	STOPPED = 0,
+	RUNNING
+};
+
 class Server {
 	private :
 		/// Attributes :
-		static const unsigned short		PORT = 8080;
 		static const unsigned short		max_clients = 20;
 		static const timeval			select_timeout = {2, 0};
 
-		const int		server_socket;
-		int				status;
+		const int	port;
+		const int	server_socket;
+		int			status;
 
 		// To monitor client sockets:
-		struct pollfd	*all_sockets;  // Array of descriptors
-		int 			poll_size;  // Size of the descriptor array
-		int 			poll_count; // Current number of descriptors in the array		
+		struct pollfd		*all_sockets;  // Array of descriptors
+		int 				poll_size;     // Size of the descriptor array
+		int 				poll_count;    // Current number of descriptors in the array
+		std::vector<Client>	clients; 	   // Array of clients
 
 		/// Private Functions :
 		void	create_server_socket();
