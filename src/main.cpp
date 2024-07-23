@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:11:20 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:43:43 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main( int argc, char **argv )
 	Server server( port );
 
 	server.start();
-
+	server.stop();
 
 	return 0;
 }

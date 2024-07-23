@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:21:08 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:43:49 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Server::Server( const int port )
 	this->server_status = STOPPED;
 	this->poll_size = 1;
 	this->poll_count = 0;
-	this->all_sockets = new pollfd[max_clients];
+	this->all_sockets = new struct pollfd[max_clients];
 	std::cout << BWhite;
 	std::cout << "[Server] Server initialized\n";
 	std::cout << Color_Off;
@@ -35,9 +35,10 @@ Server::~Server()
 
 
 /// Private Functions :
+
+// Create the server socket, and bind it
 void	Server::create_server_socket()
 {
-	int		socket_fd;
 	int		status;
 	
 
@@ -57,21 +58,21 @@ void	Server::create_server_socket()
 	}
 
 	// Socket creation
-	socket_fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-	if (socket_fd == -1) {
+	server_socket = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+	if (server_socket == -1) {
 		freeaddrinfo(res);
 		throw std::runtime_error( strerror(errno) );
 	}
 
 	std::cout << BWhite;
-	std::cout << "[Server] Created server socket fd: " << socket_fd << std::endl;
+	std::cout << "[Server] Created server socket fd: " << server_socket << std::endl;
 	std::cout << Color_Off;
 
 	// Binding of the socket to the address and port
-	status = bind(socket_fd, res->ai_addr, res->ai_addrlen);
+	status = bind(server_socket, res->ai_addr, res->ai_addrlen);
 	if (status != 0) {
 		freeaddrinfo(res);
-		close(socket_fd);
+		close(server_socket);
 		throw std::runtime_error( strerror(errno) );
 	}
 
@@ -79,8 +80,60 @@ void	Server::create_server_socket()
 	std::cout << "[Server] Bound socket to localhost port " << port << std::endl;
 	std::cout << Color_Off;
 
+	// Listen for incoming connections
+	status = listen(server_socket, 5);
+	if (status != 0) {
+		freeaddrinfo(res);
+		close(server_socket);
+		throw std::runtime_error( strerror(errno) );
+	}
+
+	// Add the server socket to the pollfd array
+	all_sockets[0].fd = server_socket;
+	all_sockets[0].events = POLLIN;
+	poll_count = 1;
+
+	std::cout << BWhite;
+	std::cout << "[Server] Ready " << std::endl;
+	std::cout << Color_Off;
+
 	// Clean up
 	freeaddrinfo(res);
+}
+
+void	Server::server_loop()
+{
+	int		status;
+	int		i;
+
+	while (server_status == RUNNING)
+	{
+		// Poll for events
+		status = poll(all_sockets, poll_count, timeout.tv_sec * 1000);
+		if (status == -1) {
+			throw std::runtime_error( strerror(errno) );
+		}
+		else if (status == 0) {
+			std::cout << "[Server] Waiting...\n";
+			continue;
+		}
+
+		// Check for events
+		for (i = 0; i < poll_count; i++)
+		{
+			if (all_sockets[i].revents & POLLIN)
+			{
+				if (all_sockets[i].fd == server_socket)
+				{
+					// accept_new_client();
+				}
+				else
+				{
+					// receive_data(all_sockets[i].fd);
+				}
+			}
+		}
+	}
 }
 /// ---
 
@@ -108,6 +161,7 @@ void	Server::stop()
 {
 	// close_all_clients();
 	// close_server_socket();
+	close(server_socket);
 }
 /// ---
 
