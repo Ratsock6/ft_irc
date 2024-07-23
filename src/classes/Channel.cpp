@@ -2,7 +2,8 @@
 
 Channel::Channel(std::string channel_name, const Client& creator)
     : channel_name(channel_name), creator(creator) {
-    // Constructor body
+    Channel::add_user(creator);
+	Channel::add_admin(creator);
 }
 
 Channel::~Channel(){
@@ -54,4 +55,24 @@ void Channel::change_topic(std::string topic_name, Client client){
 	if (client.getID() == this->creator.getID()){
 		this->topic = topic_name;
 	}
+}
+
+std::string Channel::get_channel_name(){
+	return this->channel_name;
+}
+
+std::string Channel::get_topic(){
+	return this->topic;
+}
+
+std::vector<Client> Channel::get_users_list(){
+	return this->users_list;
+}
+
+std::vector<Client> Channel::get_admin_users_list(){
+	return this->admin_users_list;
+}
+
+Client Channel::get_creator(){
+	return this->creator;
 }

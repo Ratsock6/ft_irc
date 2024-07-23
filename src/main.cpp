@@ -6,11 +6,13 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 12:54:51 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/23 14:53:56 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
+#include "Client.hpp"
+#include "Channel.hpp"
 
 int	main( int argc, char **argv )
 {

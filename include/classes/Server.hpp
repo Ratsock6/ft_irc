@@ -6,14 +6,13 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 12:50:32 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:01:56 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 # include "main.hpp"
-# include "Client.hpp"
 
 enum server_status
 {
@@ -36,6 +35,7 @@ class Server {
 		int 				poll_size;     // Size of the descriptor array
 		int 				poll_count;    // Current number of descriptors in the array
 		std::vector<Client>	clients; 	   // Array of clients
+		std::vector<Channel> channels;
 
 		/// Private Functions :
 		void	create_server_socket();
