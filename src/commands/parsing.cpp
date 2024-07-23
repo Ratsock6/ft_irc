@@ -7,6 +7,16 @@
 // UTILISE DES TRY/CATCH !!!!!!!!!
 
 // y'a pas un monde ou si je fais "saidoadaosjdaosjd/kick" ca fonctionne ?
+
+bool str_to_bool(std::string str)
+{
+    if (str == "true")
+        return true;
+    else if (str == "false")
+        return false;
+    throw std::invalid_argument("Invalid boolean");
+    return false;
+}
 int get_command(const std::string& command) {
     if (command == "/kick") return KICK;
     if (command == "/invite") return INVITE;
@@ -15,76 +25,162 @@ int get_command(const std::string& command) {
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {
-    if (command.compare("i") == 0)
-        return i;
-    if (command.compare("t") == 0)
-        return t;
-    if (command.compare("k") == 0)
-        return k;
-    if (command.compare("o") == 0)
-        return o;
-    if (command.compare("l") == 0)
-        return l;
+    if (command.compare("-i") == 0)
+        return minus_i;
+    if (command.compare("+i") == 0)
+        return plus_i;
+    if (command.compare("+t") == 0)
+        return plus_t;
+    if (command.compare("-t") == 0)
+        return minus_t;
+    if (command.compare("+k") == 0)
+        return plus_k;
+    if (command.compare("-k") == 0)
+        return minus_k;
+    if (command.compare("-o") == 0)
+        return minus_o;
+    if (command.compare("+o") == 0)
+        return plus_o;
+    if (command.compare("-l") == 0)
+        return minus_l;
+    if (command.compare("+l") == 0)
+        return plus_l;
     return mode_error;
 }
 
-int parsing_mode(char *str)
+Client Search_client_ID(std::string str, std::vector<Client> users_list)
 {
-	std::cout << str << std::endl;
-	switch(get_mode(str))
+    for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+    {
+        if (it->getUsername() == str)
+            return *it;
+    }
+    throw std::invalid_argument("User does not exist");
+}
+
+int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
+{
+    std::stringstream test;
+	int num;
+	switch(get_mode(args[1]))
 	{
-		case i:
+		case minus_i:
+            if (args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.set_invite_only(false, client);
 			break;
-		case t:
+        case plus_i:
+            if (args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.set_invite_only(true, client);
+            break;
+		case minus_t:
+            if (args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.change_topic_autorization(false, client);
 			break;
-		case k:
+        case plus_t:
+            if (args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.change_topic_autorization(true, client);
+            break;
+		case plus_k:
+            if (args.size() != 3)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.set_password(args[2], client);
 			break;
-		case o:
+        case minus_k:
+            if (args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.unset_password(client);
+            break;
+		case plus_o:
+            if(args.size() != 3)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.add_admin(Search_client_ID(args[2], channel.get_users_list()), client);
 			break;
-		case l:
+        case minus_o:
+            if(args.size() != 3)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.remove_admin(Search_client_ID(args[3], channel.get_users_list()), client);
+            break;
+		case minus_l:
+            if(args.size() != 2)
+                throw std::invalid_argument("wrong number of arguments");
+            channel.change_user_limit(0, client);
 			break;
+        case plus_l:
+            if(args.size() != 3)
+                throw std::invalid_argument("Not enough arguments");
+            test << args[2];
+            test >> num;
+            if (test.fail())
+                throw std::invalid_argument("User limit must be a number");
+            channel.change_user_limit(num, client);
+            break;
 		case mode_error:
 			throw std::invalid_argument("Mode does not exist");
 	}
 	return 1;
 }
-int parsing_command(const std::string& str) {
+Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
+{
+    channel_name.erase(0, 1);
+    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
+    {
+        if (it->get_channel_name() == channel_name)
+            return *it;
+    }
+    throw std::invalid_argument("Channel does not exist");
+}
+bool is_channel(std::vector<Channel> channels, std::string channel_name)
+{
+    channel_name.erase(0, 1);
+    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
+    {
+        if (it->get_channel_name() == channel_name)
+            return true;
+    }
+    return false;
+}
+
+int parsing_command(const std::string& str , std::vector<Channel> channels, Client client) {
     if (str[0] != '/')
         return 0;
 
     std::istringstream stream(str);
     std::vector<std::string> args;
     std::string arg;
-
     while (stream >> arg) {
         args.push_back(arg);
     }
-
-    for (std::vector<std::string>::size_type i = 0; i < args.size(); ++i) {
-        std::cout << args[i] << std::endl;
-    }
-
     if (args.empty()) {
         throw std::invalid_argument("Empty command");
     }
-
+    if (is_channel(channels, args[1]) == false)
+        throw std::invalid_argument("Channel does not exist");
+    Channel channel = Search_channel(channels, args[1]);
+    args.erase(args.begin() + 1);
     switch (get_command(args[0])) {
         case KICK:
-            if (args.size() < 3)
-                throw std::invalid_argument("Not enough arguments");
+            if (args.size() != 2)
+                throw std::invalid_argument("Wrong number of arguments");
+            channel.remove_user(Search_client_ID(args[1], channel.get_users_list()), client);
             break;
         case INVITE:
-            if (args.size() < 3)
-                throw std::invalid_argument("Not enough arguments");
+            if (args.size() != 2)
+                throw std::invalid_argument("Wrong number of arguments");
+            channel.add_user_by_admin(Search_client_ID(args[1], channel.get_users_list()), client);
             break;
         case TOPIC:
-            if (args.size() < 2)
-                throw std::invalid_argument("Not enough arguments");
+            if (args.size() != 2)
+                throw std::invalid_argument("Wrong number of arguments");
+            channel.change_topic(args[1], client);
             break;
         case MODE:
             if (args.size() < 2)
-                throw std::invalid_argument("Not enough arguments");
-            return parsing_mode(const_cast<char*>(args[1].c_str()));
+                throw std::invalid_argument("Wrong number of arguments");
+            return parsing_mode(args, channel, client);
         case CMD_ERROR:
             throw std::invalid_argument("Command does not exist");
     }

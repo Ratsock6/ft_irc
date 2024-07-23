@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 12:54:11 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/23 17:06:27 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ enum command
 };
 
 enum mode{
-	i,
-	t,
-	k,
-	o,
-	l,
+	minus_i,
+	plus_i,
+	minus_t,
+	plus_t,
+	minus_k,
+	plus_k,
+	minus_o,
+	plus_o,
+	minus_l,
+	plus_l,
 	mode_error
 };
 
@@ -88,4 +93,4 @@ class Channel;
 /*###########################################################################*/
 int connection_setup(int port, char *password);
 char	**ft_split(char const *s, char c);
-int parsing_command(const std::string& str);
+int parsing_command(const std::string& str , std::vector<Channel> channels, Client client);
