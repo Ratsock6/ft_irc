@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 13:04:30 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:11:45 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ Server::Server( const int port )
 	this->poll_size = 1;
 	this->poll_count = 0;
 	this->all_sockets = new pollfd[max_clients];
+	std::cout << BWhite;
 	std::cout << "[Server] Server initialized\n";
+	std::cout << Color_Off;
 }
 
 Server::~Server()
@@ -60,7 +62,9 @@ void	Server::create_server_socket()
 		throw std::runtime_error( strerror(errno) );
 	}
 
+	std::cout << BWhite;
 	std::cout << "[Server] Created server socket fd: " << socket_fd << std::endl;
+	std::cout << Color_Off;
 
 	// Binding of the socket to the address and port
 	status = bind(socket_fd, res->ai_addr, res->ai_addrlen);
@@ -68,7 +72,9 @@ void	Server::create_server_socket()
 		throw std::runtime_error( strerror(errno) );
 	}
 
+	std::cout << BWhite;
 	std::cout << "[Server] Bound socket to localhost port " << port << std::endl;
+	std::cout << Color_Off;
 
 	// Clean up
 	freeaddrinfo(res);

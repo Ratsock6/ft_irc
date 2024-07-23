@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:02:45 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:10:02 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ class Server {
 		struct pollfd		*all_sockets;  // Array of descriptors
 		int 				poll_size;     // Size of the descriptor array
 		int 				poll_count;    // Current number of descriptors in the array
-		std::vector<Client>	clients; 	   // Array of clients
-		std::vector<Channel>	channels;	   // Array of channels
+		// std::vector<Client>	clients; 	   // Array of clients
+		// std::vector<Channel>	channels;	   // Array of channels
 
 		/// Private Functions :
 		void	create_server_socket();
