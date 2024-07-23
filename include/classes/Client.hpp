@@ -7,10 +7,10 @@ class Client{
 	private:
 		std::string username;
 		int user_ID;
-		int fd = -1;
+		int fd;
 		std::string ip;
 		bool admin;
-		bool topic_autorization = false;
+		bool topic_autorization;
 	public:
 		Client(std::string username, int fd, bool admin);
 		~Client();

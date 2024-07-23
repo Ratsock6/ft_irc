@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/18 09:27:39 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:01:03 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,20 @@ int	main( int argc, char **argv )
 		return 1;
 	}
 	
-	int	port = atoi( argv[1] );
+	std::stringstream ss;
+	int port;
 
-	if ( !port ) {
+	ss << argv[1];
+	ss >> port;
+	if ( ss.fail() ) {
 		std::cerr << "Port must be a number\n";
 		return 1;
 	}
+
+	Server server( port );
+
+	server.start();
+
 
 	return 0;
 }
