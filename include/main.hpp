@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 11:15:54 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:50:39 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ enum mode{
 	plus_l,
 	mode_error
 };
+
+# define RECV_BUFFER_SIZE 4 // small for testing purposes (should concatenate until '\r\n')
 
 /*###########################################################################*/
 /*                                  Includes                                 */
