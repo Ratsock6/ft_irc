@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 16:26:13 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:30:27 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,11 @@ enum mode{
 
 class Client;
 
+# include "Channel.hpp"
+class Channel;
 # include "Server.hpp"
 class Server;
 
-# include "Channel.hpp"
-class Channel;
 
 // Structures
 
