@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 10:34:56 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:15:54 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,4 @@ class Channel;
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
 int 		connection_setup(int port, char *password);
-char		**ft_split(char const *s, char c);
 int 		parsing_command(const std::string& str , std::vector<Channel> channels, Client client);

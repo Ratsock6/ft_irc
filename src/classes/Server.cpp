@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 10:50:20 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:11:39 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,15 @@ void	Server::stop()
 	// close_all_clients();
 	// close_server_socket();
 	close(server_socket);
+}
+/// ---
+
+
+
+/// Getters & Setters :
+int		Server::get_status() const
+{
+	return server_status;
 }
 /// ---
 

@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 10:51:05 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:11:42 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ class Server {
 		/// Public Functions :
 		void	start();
 		void	stop();
+
+		/// Getters & Setters :
+		int		get_status() const;
 
 		/// Exceptions :
 		
