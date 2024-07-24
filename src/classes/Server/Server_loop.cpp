@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 15:40:16 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:23:18 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void	Server::receive_data(int client_socket)
 		
 		// if the message is complete (ending by \r\n), interprate it
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			// interprate_message(client_socket, message.str()); // Valentin part
+			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
 			message.str("");
 			message.clear();
 		}
 
 		std::cout << BGreen;
-		std::cout << "[Server] Received message: " << message << std::endl;
+		std::cout << "[Server] Received message: " << message.str() << std::endl;
 		std::cout << Color_Off;
 	}
 }

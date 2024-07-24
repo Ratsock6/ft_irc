@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel(std::string channel_name, const Client& creator)
+Channel::Channel(std::string channel_name, Client &creator)
     : channel_name(channel_name), creator(creator) {
     Channel::add_user_by_admin(creator, creator);
 	Channel::add_admin(creator, creator);

@@ -13,11 +13,11 @@ class Channel{
 		std::string topic;
 		std::vector<Client> users_list;
 		std::vector<Client> admin_users_list;
-		Client *creator;
+		Client &creator;
 		bool invite_only;
 		bool topic_autorization;
 	public:
-		Channel(std::string channel_name, const Client& creator);
+		Channel(std::string channel_name, Client &creator);
 		~Channel();
 		Channel(const Channel &c);
 		Channel& operator=(const Channel &c);

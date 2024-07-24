@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 16:25:45 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:23:00 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ class Server {
 		std::vector<struct pollfd>	all_sockets;   // Array of client sockets
 		int 						poll_size;     // Size of the descriptor array
 		int 						poll_count;    // Current number of descriptors in the array
-		// std::vector<Client>	clients; 	   // Array of clients
-		// std::vector<Channel>	channels;	   // Array of channels
+		std::vector<Client>	clients; 	   // Array of clients
+		std::vector<Channel>	channels;	   // Array of channels
 
 		int client_count;
 		/// Private Functions :
@@ -49,7 +49,7 @@ class Server {
 		void	receive_data( int client_socket );
 		void	send_data( int client_socket, std::string data );
 		void	close_client( int client_socket );
-
+		Client	get_client_by_socket( int client_socket );
 		// Stop
 		void	close_all_clients();
 		void	close_server_socket();

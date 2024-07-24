@@ -127,16 +127,16 @@ int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
 	}
 	return 1;
 }
-Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
-{
-    channel_name.erase(0, 1);
-    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
-    {
-        if (it->get_channel_name() == channel_name)
-            return *it;
-    }
-    throw std::invalid_argument("Channel does not exist");
-}
+// Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
+// {
+//     channel_name.erase(0, 1);
+//     for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
+//     {
+//         if (it->get_channel_name() == channel_name)
+//             return *it;
+//     }
+//     throw std::invalid_argument("Channel does not exist");
+// }
 bool is_channel(std::vector<Channel> channels, std::string channel_name)
 {
     channel_name.erase(0, 1);
@@ -192,6 +192,19 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
             throw std::invalid_argument("Command does not exist");
     }
     return 1;
+}
+
+Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
+{
+    if (channel_name[0] != '#')
+        throw std::invalid_argument("Channel name does not start with #");
+    channel_name.erase(0, 1);
+    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
+    {
+        if (it->get_channel_name() == channel_name)
+            return *it;
+    }
+    throw std::invalid_argument("Channel does not exist");
 }
 int parsing_command(const std::string& str , std::vector<Channel> channels, Client client) {
     if (str[0] != '/')

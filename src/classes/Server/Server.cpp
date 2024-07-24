@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 16:26:03 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:15:31 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,15 @@ void	Server::create_server_socket()
 }
 /// ---
 
-
+Client Server::get_client_by_socket( int client_socket)
+{
+	for (int i = 0; i < client_count; i++)
+	{
+		if (clients[i].getFd() == client_socket)
+			return clients[i];
+	}
+	throw std::invalid_argument("Client does not exist");
+}
 
 /// Public Functions :
 void	Server::start()
@@ -126,7 +134,6 @@ void	Server::start()
 		std::cerr << BRed;
 		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
 		std::cerr << Color_Off;
-		stop();
 	}
 }
 
