@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 14:18:09 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:46:40 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 
 	this->server_status = STOPPED;
 	this->poll_size = 1;
 	this->poll_count = 0;
-	this->all_sockets = new struct pollfd[max_clients];
+	this->all_sockets = std::vector<struct pollfd>(max_clients);
 	std::cout << BWhite;
 	std::cout << "[Server] Server initialized\n";
 	std::cout << Color_Off;
@@ -28,7 +28,9 @@ Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 
 
 Server::~Server()
 {
-	delete[] all_sockets;
+	std::cout << BWhite;
+	std::cout << "[Server] Server destroyed\n";
+	std::cout << Color_Off;
 }
 /// ---
 
@@ -89,8 +91,7 @@ void	Server::create_server_socket()
 	}
 
 	// Add the server socket to the pollfd array
-	all_sockets[0].fd = server_socket;
-	all_sockets[0].events = POLLIN;
+	
 	poll_count = 1;
 
 	std::cout << BWhite;
