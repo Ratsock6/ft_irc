@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 11:38:38 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:20:00 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	Server::server_loop()
 			{
 				if (all_sockets[i].fd == server_socket)
 				{
-					// accept_new_client();
+					accept_new_client();
 				}
 				else
 				{
@@ -47,5 +47,21 @@ void	Server::server_loop()
 	}
 	std::cout << BWhite;
 	std::cout << "[Server] Server stopped\n";
+	std::cout << Color_Off;
+}
+
+void Server::accept_new_client()
+{
+	int					client_socket;
+
+	client_socket = accept(server_socket, NULL, NULL);
+	if (client_socket == -1) {
+		throw std::runtime_error("accept: " + std::string(strerror(errno)));
+	}
+	all_sockets[poll_count].fd = client_socket;
+	all_sockets[poll_count].events = POLLIN;
+	poll_count++;
+	std::cout << BGreen;
+	std::cout << "[Server] New client connected\n";
 	std::cout << Color_Off;
 }
