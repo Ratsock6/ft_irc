@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:27:01 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 11:09:56 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:24:30 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void signal_callback_handler(int signum)
 {
 	std::cout << BRed;
-	std::cout << "[Server] Caught signal " << signum << std::endl;
+	std::cout << "\r[Server] Caught signal " << signum << std::endl;
 	std::cout << BWhite;
 	std::cout << "[Server] Server stopped\n";
 	std::cout << Color_Off;

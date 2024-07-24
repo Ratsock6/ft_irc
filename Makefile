@@ -6,7 +6,7 @@
 #    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/24 11:15:40 by mgallais         ###   ########.fr        #
+#    Updated: 2024/07/24 11:23:52 by mgallais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,9 @@ DEBUG   = 0
 
 SRC		= src/main.cpp \
 		  src/signals.cpp \
-		  src/classes/Server.cpp \
 		  src/classes/Client.cpp \
+		  src/classes/Server/Server.cpp \
+		  src/classes/Server/Server_loop.cpp \
 		  src/commands/command.cpp \
 		  src/commands/parsing.cpp \
 		  src/classes/Channel.cpp #
