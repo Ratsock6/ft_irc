@@ -159,10 +159,9 @@ void Channel::change_user_limit(int user_limit, Client client){
 }
 
 void Channel::send_msg_to_channel(std::string msg, Client client){
-	(void)client;
 	(void)msg;
 	for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
-		std::cout << "replace with the send msg function" << std::endl;
+		std::cout << client.getNickname() << ": " << "replace with the send msg function" << std::endl;
 	}
 }
 std::string Channel::get_channel_name(){

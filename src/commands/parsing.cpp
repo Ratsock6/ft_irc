@@ -127,16 +127,7 @@ int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
 	}
 	return 1;
 }
-// Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
-// {
-//     channel_name.erase(0, 1);
-//     for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
-//     {
-//         if (it->get_channel_name() == channel_name)
-//             return *it;
-//     }
-//     throw std::invalid_argument("Channel does not exist");
-// }
+
 bool is_channel(std::vector<Channel> channels, std::string channel_name)
 {
     channel_name.erase(0, 1);
