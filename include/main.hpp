@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 15:37:28 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:26:13 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ enum command
 	INVITE,
 	TOPIC,
 	MODE,
+	MSG,
+	NICK,
+	PART,
+	QUIT,
 	CMD_ERROR
 };
 
@@ -80,11 +84,12 @@ enum mode{
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
+# include "Client.hpp"
+
+class Client;
+
 # include "Server.hpp"
 class Server;
-
-# include "Client.hpp"
-class Client;
 
 # include "Channel.hpp"
 class Channel;

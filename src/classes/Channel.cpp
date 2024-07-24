@@ -44,7 +44,7 @@ void Channel::add_user_by_admin(Client user_to_add, Client user_who_add){
 }
 
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
-	if (user_who_remove.getAdmin() == true){
+	if (user_who_remove.getAdmin() == true || user_who_remove.getID() == user_to_remove.getID()){
 		for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
 			if (it->getID() == user_to_remove.getID()){
 				this->users_list.erase(it);
@@ -155,6 +155,14 @@ void Channel::change_user_limit(int user_limit, Client client){
 	}
 	else{
 		throw std::invalid_argument("You are not an admin");
+	}
+}
+
+void Channel::send_msg_to_channel(std::string msg, Client client){
+	(void)client;
+	(void)msg;
+	for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
+		std::cout << "replace with the send msg function" << std::endl;
 	}
 }
 std::string Channel::get_channel_name(){

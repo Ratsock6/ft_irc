@@ -22,6 +22,10 @@ int get_command(const std::string& command) {
     if (command == "/invite") return INVITE;
     if (command == "/topic") return TOPIC;
     if (command == "/mode") return MODE;
+    if (command == "/msg") return MSG;
+    if (command == "/nick") return NICK;
+    if (command == "/part") return PART;
+    if (command == "/quit") return QUIT;
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {
@@ -143,24 +147,8 @@ bool is_channel(std::vector<Channel> channels, std::string channel_name)
     }
     return false;
 }
-
-int parsing_command(const std::string& str , std::vector<Channel> channels, Client client) {
-    if (str[0] != '/')
-        return 0;
-
-    std::istringstream stream(str);
-    std::vector<std::string> args;
-    std::string arg;
-    while (stream >> arg) {
-        args.push_back(arg);
-    }
-    if (args.empty()) {
-        throw std::invalid_argument("Empty command");
-    }
-    if (is_channel(channels, args[1]) == false)
-        throw std::invalid_argument("Channel does not exist");
-    Channel channel = Search_channel(channels, args[1]);
-    args.erase(args.begin() + 1);
+int switch_search_command(std::vector<std::string> args, Channel channel, Client client)
+{
     switch (get_command(args[0])) {
         case KICK:
             if (args.size() != 2)
@@ -181,9 +169,48 @@ int parsing_command(const std::string& str , std::vector<Channel> channels, Clie
             if (args.size() < 2)
                 throw std::invalid_argument("Wrong number of arguments");
             return parsing_mode(args, channel, client);
+        case MSG:
+            if (args.size() < 3)
+                throw std::invalid_argument("Wrong number of arguments");
+            channel.send_msg_to_channel("test", client);
+            break;
+        case NICK:
+            if (args.size() != 2)
+                throw std::invalid_argument("Wrong number of arguments");
+            client.setNickname(args[1]);
+            break;
+        case PART:
+            if (args.size() != 1)
+                throw std::invalid_argument("Wrong number of arguments");
+            channel.remove_user(client, client);
+            break;
+        case QUIT:
+            if (args.size() != 1)
+                throw std::invalid_argument("Wrong number of arguments");
+            break;
         case CMD_ERROR:
             throw std::invalid_argument("Command does not exist");
     }
+    return 1;
+}
+int parsing_command(const std::string& str , std::vector<Channel> channels, Client client) {
+    if (str[0] != '/')
+        return 0;
+    
+    std::istringstream stream(str);
+    std::vector<std::string> args;
+    std::string arg;
+    while (stream >> arg) {
+        args.push_back(arg);
+    }
+    if (args.empty()) {
+        throw std::invalid_argument("Empty command");
+    }
+    if (is_channel(channels, args[1]) == false)
+        throw std::invalid_argument("Channel does not exist");
+    Channel channel = Search_channel(channels, args[1]);
+    args.erase(args.begin() + 1);
+    switch_search_command(args, channel, client);
 
     return 1;
 }

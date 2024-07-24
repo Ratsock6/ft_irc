@@ -5,18 +5,20 @@
 class Client{
 	private:
 		std::string username;
+		std::string nickname;
 		int user_ID;
 		int fd;
 		std::string ip;
 		bool admin;
 		bool topic_autorization;
 	public:
-		Client(std::string username, int fd, bool admin);
+		Client(std::string username, int fd, int ID, bool admin);
 		~Client();
 		Client(const Client &c);
 		Client& operator=(const Client &c);
 
 		std::string getUsername();
+		std::string getNickname();
 		int getFd();
 		std::string getIp();
 		bool getAdmin();
@@ -25,4 +27,6 @@ class Client{
 
 		void setAdmin(bool admin);
 		void setTopicAutorization(bool topic_autorization);
+		void setUsername(std::string username);
+		void setNickname(std::string nickname);
 };

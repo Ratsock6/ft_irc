@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 15:21:28 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:25:45 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Server {
 		// std::vector<Client>	clients; 	   // Array of clients
 		// std::vector<Channel>	channels;	   // Array of channels
 
+		int client_count;
 		/// Private Functions :
 		// Start
 		void	signal_handler();
@@ -52,9 +53,9 @@ class Server {
 		// Stop
 		void	close_all_clients();
 		void	close_server_socket();
+		
 
 	public :
-		static unsigned int client_count;
 		/// Constructors & Destructor :
 		Server( int port , std::string password );
 		~Server();
@@ -62,6 +63,7 @@ class Server {
 		/// Public Functions :
 		void	start();
 		void	stop();
+		int new_ID();
 
 		/// Getters & Setters :
 		int		get_status() const;

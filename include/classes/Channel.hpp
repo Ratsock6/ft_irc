@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <vector>
-#include "Client.hpp"
+#include "main.hpp"
+
 
 class Channel{
 	private:
@@ -12,7 +13,7 @@ class Channel{
 		std::string topic;
 		std::vector<Client> users_list;
 		std::vector<Client> admin_users_list;
-		Client creator;
+		Client *creator;
 		bool invite_only;
 		bool topic_autorization;
 	public:
@@ -32,6 +33,7 @@ class Channel{
 		void unset_password(Client client);
 		void change_user_limit(int user_limit, Client client);
 		void set_invite_only(bool invite_only, Client client);
+		void send_msg_to_channel(std::string msg, Client client);
 
 		std::string get_channel_name();
 		std::string get_topic();
