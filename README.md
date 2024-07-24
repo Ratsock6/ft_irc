@@ -25,3 +25,4 @@ A suggestion of project roadmap : 1- Begin by establishing a working client/serv
        - client disconnect = close le socket
        #### else :
        - client a envoyer qqch, interpreter
+ 
