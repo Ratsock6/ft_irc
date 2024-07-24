@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 11:11:42 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:29:35 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ class Server {
 		int				server_socket;
 
 		// To monitor client sockets :
-		struct pollfd		*all_sockets;  // Array of descriptors
-		int 				poll_size;     // Size of the descriptor array
-		int 				poll_count;    // Current number of descriptors in the array
+		std::vector<struct pollfd>	all_sockets;   // Array of client sockets
+		int 						poll_size;     // Size of the descriptor array
+		int 						poll_count;    // Current number of descriptors in the array
 		// std::vector<Client>	clients; 	   // Array of clients
 		// std::vector<Channel>	channels;	   // Array of channels
 
