@@ -6,17 +6,17 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 16:19:03 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:50:20 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 /// Constructors & Destructor :
-Server::Server( const int port )
-	: 	timeout( (timeval){ 2, 0 } )
+Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 0 } )
 {
 	this->port = port;
+	this->password = password;
 	this->server_status = STOPPED;
 	this->poll_size = 1;
 	this->poll_count = 0;
@@ -134,6 +134,9 @@ void	Server::server_loop()
 			}
 		}
 	}
+	std::cout << BWhite;
+	std::cout << "[Server] Server stopped\n";
+	std::cout << Color_Off;
 }
 /// ---
 
@@ -143,6 +146,7 @@ void	Server::server_loop()
 /// Public Functions :
 void	Server::start()
 {
+	signal_handler();
 	try
 	{
 		create_server_socket();

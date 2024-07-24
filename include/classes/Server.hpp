@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 15:42:19 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:51:05 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # include "main.hpp"
 
-enum server_status
+enum server_status_e
 {
 	STOPPED = 0,
 	RUNNING
@@ -25,11 +25,12 @@ class Server {
 		/// Attributes :
 		static const unsigned short		max_clients = 500;
 		const timeval					timeout; // 2 seconds
+		std::string 					password;
+		int								server_status;
 
 		// Server socket :
 		unsigned short	port;
 		int				server_socket;
-		int				server_status;
 
 		// To monitor client sockets :
 		struct pollfd		*all_sockets;  // Array of descriptors
@@ -40,6 +41,7 @@ class Server {
 
 		/// Private Functions :
 		// Start
+		void	signal_handler();
 		void	create_server_socket(); // done
 		void	server_loop();
 		void	accept_new_client();
@@ -53,7 +55,7 @@ class Server {
 
 	public :
 		/// Constructors & Destructor :
-		Server( int port );
+		Server( int port , std::string password );
 		~Server();
 
 		/// Public Functions :

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/23 17:47:27 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/24 09:55:22 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	main( int argc, char **argv )
 		std::cerr << Color_Off;
 		return 1;
 	}
-	
-	Server server( port );
+
+	Server server( port , argv[2] );
 
 	server.start();
-
+	server.stop();
 
 	return 0;
 }
