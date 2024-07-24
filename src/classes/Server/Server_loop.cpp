@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 11:29:24 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:38:38 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	Server::server_loop()
 			throw std::runtime_error( strerror(errno) );
 		}
 		else if (status == 0) {
-			std::cout << Gray << "[Server] Waiting...\n" << Color_Off;
+			std::cout << BGray << "[Server] Waiting...\n" << Color_Off;
 			continue;
 		}
 
