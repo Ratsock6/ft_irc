@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 14:50:39 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:05:38 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ enum mode{
 /*###########################################################################*/
 /*                                  Includes                                 */
 /*###########################################################################*/
-// Webserv needed librairies
+// IRC needed librairies
 # if defined(__APPLE__)
 #  include <sys/event.h>   // For kqueue, kevent (only on BSD systems like MacOS)
 # endif

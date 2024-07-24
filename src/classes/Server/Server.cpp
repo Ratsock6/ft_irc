@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 14:46:40 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:04:38 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 
 	this->poll_size = 1;
 	this->poll_count = 0;
 	this->all_sockets = std::vector<struct pollfd>(max_clients);
+
 	std::cout << BWhite;
 	std::cout << "[Server] Server initialized\n";
 	std::cout << Color_Off;
@@ -120,14 +121,20 @@ void	Server::start()
 		std::cerr << BRed;
 		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
 		std::cerr << Color_Off;
+		stop();
 	}
 }
 
 void	Server::stop()
 {
+	server_status = STOPPED;
 	// close_all_clients();
 	// close_server_socket();
 	close(server_socket);
+
+	std::cout << BWhite;
+	std::cout << "[Server] Server stopped\n";
+	std::cout << Color_Off;
 }
 /// ---
 

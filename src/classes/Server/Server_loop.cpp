@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 14:59:12 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:02:25 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ void	Server::server_loop()
 			}
 		}
 	}
-
-	std::cout << BWhite;
-	std::cout << "[Server] Server stopped\n";
-	std::cout << Color_Off;
 }
 
 void	Server::receive_data(int client_socket)
