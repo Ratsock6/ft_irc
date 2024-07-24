@@ -1,10 +1,11 @@
 #include "Client.hpp"
 /**********************Canonic form(useless)***************************/
-Client::Client(std::string username, int fd, int ID, bool admin){
+Client::Client(std::string username, int fd, bool admin){
 	this->username = username;
 	this->fd = fd;
 	this->admin = admin;
-	this->user_ID = ID;
+	this->user_ID = Server::client_count;
+	Server::client_count++;
 	this->topic_autorization = false;
 }
 

@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 14:29:35 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:21:28 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Server {
 		void	close_server_socket();
 
 	public :
+		static unsigned int client_count;
 		/// Constructors & Destructor :
 		Server( int port , std::string password );
 		~Server();

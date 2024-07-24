@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 15:04:38 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:21:43 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 
 	this->server_status = STOPPED;
 	this->poll_size = 1;
 	this->poll_count = 0;
+	this->client_count = 0;
 	this->all_sockets = std::vector<struct pollfd>(max_clients);
 
 	std::cout << BWhite;

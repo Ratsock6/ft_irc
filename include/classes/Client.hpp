@@ -1,7 +1,6 @@
 #pragma once
 
-#include <iostream>
-
+#include "main.hpp"
 
 class Client{
 	private:
@@ -12,7 +11,7 @@ class Client{
 		bool admin;
 		bool topic_autorization;
 	public:
-		Client(std::string username, int fd, int ID, bool admin);
+		Client(std::string username, int fd, bool admin);
 		~Client();
 		Client(const Client &c);
 		Client& operator=(const Client &c);
