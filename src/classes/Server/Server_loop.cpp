@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:29:58 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:36:19 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	Server::server_loop()
 	while (server_status == RUNNING)
 	{
 		// Poll for events
-		status = poll(all_sockets.data(), poll_count, timeout.tv_sec * 1000);
+		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == -1) {
 			throw std::runtime_error( strerror(errno) );
 		}
 		else if (status == 0) {
-			std::cout << BGray << "\r[Server] Waiting...\n" << Color_Off;
+			std::cout << BGray << "[Server] Waiting...\n" << Color_Off;
 			continue;
 		}
-
+		std::cout << BGreen << "[Server] Polling...\n" << Color_Off;
 		// Check for events
 		for (i = 0; i < poll_count; i++)
 		{

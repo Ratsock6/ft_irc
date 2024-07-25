@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 17:31:36 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/25 09:37:00 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 /// Constructors & Destructor :
-Server::Server( const int port, std::string password ): 	timeout( (timeval){ 2, 0 } )
+Server::Server( const int port, std::string password )
 {
 	this->port = port;
 	this->password = password;

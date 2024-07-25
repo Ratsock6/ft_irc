@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 17:31:06 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/25 09:34:29 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ enum server_status_e
 	RUNNING
 };
 
+# define POLL_TIMEOUT 2000 // 2 seconds
+
 class Server {
 	private :
 		/// Attributes :
 		static const unsigned short		max_clients = 500;
-		const timeval					timeout; // 2 seconds
 		std::string 					password;
 		int								server_status;
 
