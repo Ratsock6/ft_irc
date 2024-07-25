@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:26:58 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:06:39 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Client{
 		std::string ip;
 		bool admin;
 		bool topic_autorization;
+		std::stringstream	messageBuffer; // used for recv
 	
 	public:
 		Client(std::string username, int fd, int ID, bool admin);
@@ -37,9 +38,11 @@ class Client{
 		bool getAdmin();
 		bool getTopicAutorization();
 		int getID();
+		std::stringstream& getMessageBuffer();
 
 		void setAdmin(bool admin);
 		void setTopicAutorization(bool topic_autorization);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
+		void setMessageBuffer(std::stringstream &message);
 };

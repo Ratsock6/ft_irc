@@ -70,3 +70,11 @@ bool Client::getTopicAutorization(){
 int Client::getID(){
 	return this->user_ID;
 }
+
+std::stringstream& Client::getMessageBuffer(){
+	return this->messageBuffer;
+}
+
+void Client::setMessageBuffer(std::stringstream& message){
+	this->messageBuffer.str(message.str());
+}
