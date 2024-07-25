@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
+/*   Updated: 2024/07/25 09:26:58 by mgallais         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include "main.hpp"
@@ -11,6 +23,7 @@ class Client{
 		std::string ip;
 		bool admin;
 		bool topic_autorization;
+	
 	public:
 		Client(std::string username, int fd, int ID, bool admin);
 		~Client();

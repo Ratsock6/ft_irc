@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/24 17:23:18 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/25 09:29:58 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,46 @@ void	Server::server_loop()
 	}
 }
 
+void	Server::close_client( int client_socket )
+{
+	std::vector<struct pollfd>::iterator	it;
+	std::vector<Client>::iterator			client_it;
+
+	// Close the socket
+	close(client_socket);
+
+	// Remove the client from the all_sockets list
+	it = all_sockets.begin();
+	while (it != all_sockets.end())
+	{
+		if (it->fd == client_socket)
+		{
+			it = all_sockets.erase(it);
+			break ;
+		}
+		else
+			it++;
+	}
+	
+	// Remove the client from the client vector
+	client_it = clients.begin();
+	while (client_it != clients.end())
+	{
+		if (client_it->getFd() == client_socket)
+		{
+			client_it = clients.erase(client_it);
+			break ;
+		}
+		else
+			client_it++;
+	}
+
+	if (it == all_sockets.end() || client_it == clients.end())
+		throw std::runtime_error("Client not found in the list");
+	
+	poll_count--;
+}
+
 void	Server::receive_data(int client_socket)
 {
 	static std::stringstream	message;
@@ -54,7 +94,7 @@ void	Server::receive_data(int client_socket)
 		throw std::runtime_error("recv: " + std::string(strerror(errno)));
 	}
 	else if (status == 0) {
-		// close_client(client_socket); // Antoine part
+		close_client(client_socket);
 	}
 	else {
 		// concatenate, then interprate the message
@@ -82,10 +122,12 @@ void	Server::accept_new_client()
 	if (client_socket == -1) {
 		throw std::runtime_error("accept: " + std::string(strerror(errno)));
 	}
+
 	new_socket.fd = client_socket;
 	new_socket.events = POLLIN;
 	all_sockets.push_back(new_socket);
 	poll_count++;
+
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected\n";
 	std::cout << Color_Off;
