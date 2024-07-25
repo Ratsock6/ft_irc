@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:36:19 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:46:45 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	Server::server_loop()
 			std::cout << BGray << "[Server] Waiting...\n" << Color_Off;
 			continue;
 		}
+
 		std::cout << BGreen << "[Server] Polling...\n" << Color_Off;
+
 		// Check for events
 		for (i = 0; i < poll_count; i++)
 		{
@@ -80,6 +82,10 @@ void	Server::close_client( int client_socket )
 	if (it == all_sockets.end() || client_it == clients.end())
 		throw std::runtime_error("Client not found in the list");
 	
+	std::cout << BGreen;
+	std::cout << "[Server] Client disconnected : " << client_socket << "\n";
+	std::cout << Color_Off;
+
 	poll_count--;
 }
 
@@ -129,6 +135,6 @@ void	Server::accept_new_client()
 	poll_count++;
 
 	std::cout << BGreen;
-	std::cout << "[Server] New client connected\n";
+	std::cout << "[Server] New client connected : " << client_socket << "\n";
 	std::cout << Color_Off;
 }

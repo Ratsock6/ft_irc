@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:34:29 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:41:37 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Server {
 		int				server_socket;
 
 		// To monitor client sockets :
-		std::vector<struct pollfd>	all_sockets;   // Array of client sockets
+		std::vector<struct pollfd>	all_sockets;   // Array of client sockets (0 is the server socket)
 		int 						poll_size;     // Size of the descriptor array
 		int 						poll_count;    // Current number of descriptors in the array
 		std::vector<Client>			clients; 	   // Array of clients

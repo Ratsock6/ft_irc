@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:37:00 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:43:09 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	Server::create_server_socket()
 	// Add the server socket to the pollfd array
 	
 	poll_count = 1;
+	all_sockets[0].fd = server_socket;
+	all_sockets[0].events = POLLIN;
 
 	std::cout << BWhite;
 	std::cout << "[Server] Ready " << std::endl;
