@@ -26,6 +26,9 @@ int get_command(const std::string& command) {
     if (command == "/nick") return NICK;
     if (command == "/part") return PART;
     if (command == "/quit") return QUIT;
+    if (command == "/user") return USER;
+    if (command == "/ping") return PING;
+    if (command == "/join") return JOIN;
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {
@@ -178,6 +181,24 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
         case QUIT:
             if (args.size() != 1)
                 throw std::invalid_argument("Wrong number of arguments");
+            break;
+        case USER:
+            if (args.size() != 4)
+                throw std::invalid_argument("Wrong number of arguments");
+            client.setUsername(args[3]);
+            client.setNickname(args[1]);
+            break;
+        case PING:
+            if (args.size() != 1)
+                throw std::invalid_argument("Wrong number of arguments");
+            break;
+        case JOIN:
+            if (args.size() < 2 || args.size() > 3)
+                throw std::invalid_argument("Wrong number of arguments");
+            if (args.size() == 2)
+                channel.join_request(client, "");
+            else
+                channel.join_request(client, args[2]);
             break;
         case CMD_ERROR:
             throw std::invalid_argument("Command does not exist");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:51:49 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:47:27 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ enum command
 	NICK,
 	PART,
 	QUIT,
+	USER,
+	PING,
+	JOIN,
 	CMD_ERROR
 };
-
 enum mode{
 	minus_i,
 	plus_i,
