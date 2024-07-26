@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:43:09 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:38:27 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,12 @@ std::vector<Client>	Server::get_clients() const
 	return clients;
 }
 
-std::vector<Channel>	Server::get_channels() const
+std::vector<Channel *>	Server::get_channels() const
 {
 	return channels;
 }
 
-void Server::add_channel(Channel channel)
+void Server::add_channel(Channel *channel)
 {
 	channels.push_back(channel);
 }

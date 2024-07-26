@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 15:47:27 by val              ###   ########.fr       */
+/*   Updated: 2024/07/26 15:42:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,4 @@ class Server;
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
 int 		connection_setup(int port, char *password);
-int 		parsing_command(const std::string& str , std::vector<Channel> channels, Client client);
+int 		parsing_command(const std::string& str , std::vector<Channel *> channels, Client client);

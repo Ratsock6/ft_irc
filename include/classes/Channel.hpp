@@ -40,4 +40,5 @@ class Channel{
 		std::vector<Client> get_users_list();
 		std::vector<Client> get_admin_users_list();
 		Client get_creator();
+		std::string get_password();
 };
