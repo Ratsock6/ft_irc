@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:49:05 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:56:32 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ class Server {
 		/// Public Functions :
 		void	start();
 		void	stop();
+		bool	server_command();
 		int new_ID();
 
 		/// Getters & Setters :

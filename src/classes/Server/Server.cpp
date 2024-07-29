@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:43:09 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:56:24 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ Server::~Server()
 }
 /// ---
 
-int Server::new_ID()
-{
-	client_count++;
-	return client_count;
-}
+
 
 /// Private Functions :
 
@@ -109,7 +105,6 @@ void	Server::create_server_socket()
 	// Clean up
 	freeaddrinfo(res);
 }
-/// ---
 
 Client Server::get_client_by_socket( int client_socket)
 {
@@ -120,6 +115,33 @@ Client Server::get_client_by_socket( int client_socket)
 	}
 	throw std::invalid_argument("Client does not exist");
 }
+
+int Server::new_ID()
+{
+	client_count++;
+	return client_count;
+}
+
+bool	Server::server_command()
+{
+	std::string buffer;
+
+	std::getline(std::cin, buffer);
+	if (buffer == "/stop" && server_status == RUNNING)
+		stop();
+	if (buffer == "/start" && server_status == STOPPED)
+		start();
+	if (buffer == "/exit")
+	{
+		if (server_status == RUNNING)
+			stop();
+		return false;
+	}
+	return true;
+}
+/// ---
+
+
 
 /// Public Functions :
 void	Server::start()
@@ -159,7 +181,6 @@ int		Server::get_status() const
 {
 	return server_status;
 }
-/// ---
 
 std::vector<Client>	Server::get_clients() const
 {
@@ -180,5 +201,9 @@ void Server::add_client(Client client)
 {
 	clients.push_back(client);
 }
+/// ---
+
+
+
 /// Exceptions :
 /// ---

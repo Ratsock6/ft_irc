@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 11:13:09 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:58:22 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	Server::server_loop()
 
 	while (server_status == RUNNING)
 	{
+		server_command();
+	
 		// Poll for events
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == -1) {
@@ -28,8 +30,6 @@ void	Server::server_loop()
 			std::cout << BGray << "[Server] Waiting...\n" << Color_Off;
 			continue;
 		}
-
-		std::cout << BGreen << "[Server] Polling...\n" << Color_Off;
 
 		// Check for events
 		for (i = 0; i < poll_count; i++)
@@ -130,7 +130,7 @@ void	Server::accept_new_client()
 	client_socket = accept(server_socket, NULL, NULL);
 	if (client_socket == -1) {
 		if (errno == EWOULDBLOCK || errno == EAGAIN) {
-			// No incoming connections, continue polling
+			std::cout << "No incoming connections, continue polling\n";
 			return ;
 		} else {
 			throw std::runtime_error("accept: " + std::string(strerror(errno)));
