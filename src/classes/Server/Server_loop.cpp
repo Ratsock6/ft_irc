@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 18:08:44 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:11:05 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void	Server::close_client( int client_socket )
 	std::vector<struct pollfd>::iterator	it;
 	std::vector<Client>::iterator			client_it;
 
-	// Close the socket
 	close(client_socket);
 
-	// Remove the client from the all_sockets list
 	it = all_sockets.begin();
 	while (it != all_sockets.end())
 	{
@@ -101,13 +99,11 @@ void	Server::receive_data(int client_socket)
 		close_client(client_socket);
 	}
 	else {
-		// concatenate, then interprate the message
 		message << std::string(buffer, status);
 		client.setMessageBuffer(message);
 		
-		// if the message is complete (ending by \r\n), interprate it
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
+			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
 			message.str("");
 			message.clear();
 		}

@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 16:12:30 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:39:32 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,4 @@ class Server;
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
 int 		connection_setup(int port, char *password);
-int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client, Server server);
+int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client);

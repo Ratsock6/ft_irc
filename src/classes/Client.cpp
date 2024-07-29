@@ -43,7 +43,7 @@ void Client::setUsername(std::string username){
 	this->username = username;
 }
 
-int Client::getFd(){
+int Client::getFd() const{
 	return this->fd;
 }
 

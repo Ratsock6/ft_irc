@@ -65,6 +65,16 @@ Client Search_client_ID(std::string str, std::vector<Client> users_list)
     throw std::invalid_argument("User does not exist");
 }
 
+Client Search_client_by_name(std::string str, std::vector<Client> users_list)
+{
+    for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+    {
+        if (it->getUsername() == str)
+            return *it;
+    }
+    throw std::invalid_argument("User does not exist");
+}
+
 int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
 {
     std::stringstream test;
@@ -144,7 +154,7 @@ bool is_channel(const std::vector<Channel*>& channels, const std::string& channe
     }
     return false;
 }
-int switch_search_command(std::vector<std::string> args, Channel channel, Client client , Server server)
+int switch_search_command(std::vector<std::string> args, Channel channel, Client client)
 {
     switch (get_command(args[0])) {
         case KICK:
@@ -169,7 +179,7 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
         case MSG:
             if (args.size() < 3)
                 throw std::invalid_argument("Wrong number of arguments");
-            channel.send_msg_to_channel("test", client, server);
+            channel.send_private_msg(args[2], client, Search_client_ID(args[1], channel.get_users_list()));
             break;
         case NICK:
             if (args.size() != 2)
@@ -209,7 +219,7 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
                 channel.join_request(client, args[1]);
             break;
         case CMD_ERROR:
-            channel.send_msg_to_channel(args[0], client, server);
+            channel.send_msg_to_channel(args[0], client);
     }
     return 1;
 }
@@ -233,7 +243,7 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
 #include <stdexcept>
 #include <string>
 
-int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client, Server server) {
+int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client) {
     // Check if the command starts with '/'
     if (str.empty()) {
         return 0; // Not a valid command
@@ -265,7 +275,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
     // Fetch the channel
     Channel channel = Search_channel(channels, args[1]);
     if (str[0] != '/')
-        channel.send_msg_to_channel(args[0], client, server);
+        channel.send_msg_to_channel(args[0], client);
     // Output channel details
     std::cout << "channel name: " << channel.get_channel_name() 
               << ", channel pwd: " << channel.get_password() << std::endl;
@@ -274,7 +284,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
     args.erase(args.begin() + 1); // Remove channel name from args
 
     // Process the remaining command arguments
-    switch_search_command(args, channel, client, server); // Pass channel as reference
+    switch_search_command(args, channel, client); // Pass channel as reference
 
     return 1; // Command parsed successfully
 }
