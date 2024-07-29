@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/26 15:42:46 by val              ###   ########.fr       */
+/*   Updated: 2024/07/29 10:28:22 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ enum mode{
 /*###########################################################################*/
 // Classes
 # include "Client.hpp"
-
 class Client;
 
 # include "Channel.hpp"
 class Channel;
+
 # include "Server.hpp"
 class Server;
 

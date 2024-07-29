@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:01:52 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:27:34 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,21 +122,36 @@ int Server::new_ID()
 	return client_count;
 }
 
-bool	Server::server_command()
+bool Server::server_command()
 {
 	std::string buffer;
 
+	// Set stdin to non-blocking
+	int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+	
 	std::getline(std::cin, buffer);
-	if (buffer == "/stop" && server_status == RUNNING)
-		stop();
+	std::cin.clear();
+	
 	if (buffer == "/start" && server_status == STOPPED)
 		start();
-	if (buffer == "/exit")
-	{
-		if (server_status == RUNNING)
-			stop();
+
+	if (buffer == "/stop" && server_status == RUNNING)
+		stop();
+
+	if (buffer == "/exit" && server_status == STOPPED)
 		return false;
+
+	if (buffer == "/help")
+	{
+		std::cout << BCyan;
+		std::cout << "[Server] /start : start the server if not running\n";
+		std::cout << "[Server] /stop : stop the server if running\n";
+		std::cout << "[Server] /exit : exit the program if not running\n";
+		std::cout << "[Server] /help : display this help\n";
+		std::cout << Color_Off;
 	}
+	
 	return true;
 }
 /// ---

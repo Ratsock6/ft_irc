@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:02:00 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:28:29 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ enum server_status_e
 	RUNNING
 };
 
-# define POLL_TIMEOUT 2000 // 2 seconds
+# define POLL_TIMEOUT 500 // 2 seconds
 
 class Server {
 	private :
