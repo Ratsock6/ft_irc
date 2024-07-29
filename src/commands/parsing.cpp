@@ -144,7 +144,7 @@ bool is_channel(const std::vector<Channel*>& channels, const std::string& channe
     }
     return false;
 }
-int switch_search_command(std::vector<std::string> args, Channel channel, Client client)
+int switch_search_command(std::vector<std::string> args, Channel channel, Client client , Server server)
 {
     switch (get_command(args[0])) {
         case KICK:
@@ -169,7 +169,7 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
         case MSG:
             if (args.size() < 3)
                 throw std::invalid_argument("Wrong number of arguments");
-            channel.send_msg_to_channel("test", client);
+            channel.send_msg_to_channel("test", client, server);
             break;
         case NICK:
             if (args.size() != 2)
@@ -209,7 +209,7 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
                 channel.join_request(client, args[1]);
             break;
         case CMD_ERROR:
-            throw std::invalid_argument("Command does not exist");
+            channel.send_msg_to_channel(args[0], client, server);
     }
     return 1;
 }
@@ -227,25 +227,55 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
     }
     throw std::invalid_argument("Channel not found");
 }
-int parsing_command(const std::string& str , std::vector<Channel *> channels, Client client) {
-    if (str[0] != '/')
-        return 0;
-    
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <stdexcept>
+#include <string>
+
+int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client, Server server) {
+    // Check if the command starts with '/'
+    if (str.empty()) {
+        return 0; // Not a valid command
+    }
+
+    // Split the command into arguments
     std::istringstream stream(str);
     std::vector<std::string> args;
     std::string arg;
+
     while (stream >> arg) {
         args.push_back(arg);
     }
+
+    // Check if the arguments are empty
     if (args.empty()) {
         throw std::invalid_argument("Empty command");
     }
-    if (is_channel(channels, args[1]) == false)
-        throw std::invalid_argument("Channel does not exist");
-    Channel channel = Search_channel(channels, args[1]);
-    std::cout << "channel name " << channel.get_channel_name() << " channel pwd " << channel.get_password() << std::endl;
-    args.erase(args.begin() + 1);
-    switch_search_command(args, channel, client);
+    // Check for channel name presence
+    if (args.size() < 2 || args[1].empty()) {
+        throw std::invalid_argument("No channel specified");
+    }
 
-    return 1;
+    // Check if the channel exists
+    if (!is_channel(channels, args[1])) {
+        throw std::invalid_argument("Channel does not exist");
+    }
+
+    // Fetch the channel
+    Channel channel = Search_channel(channels, args[1]);
+    if (str[0] != '/')
+        channel.send_msg_to_channel(args[0], client, server);
+    // Output channel details
+    std::cout << "channel name: " << channel.get_channel_name() 
+              << ", channel pwd: " << channel.get_password() << std::endl;
+
+    // Remove the channel name from arguments
+    args.erase(args.begin() + 1); // Remove channel name from args
+
+    // Process the remaining command arguments
+    switch_search_command(args, channel, client, server); // Pass channel as reference
+
+    return 1; // Command parsed successfully
 }
+

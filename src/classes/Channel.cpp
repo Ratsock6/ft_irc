@@ -1,8 +1,8 @@
 #include "Channel.hpp"
+#include "Client.hpp"
 
 Channel::Channel(std::string channel_name, Client &creator)
     : channel_name(channel_name), creator(creator) {
-    Channel::add_user_by_admin(creator, creator);
 	Channel::add_admin(creator, creator);
 	invite_only = false;
 	topic_autorization = true;
@@ -59,7 +59,7 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 
 void Channel::add_admin(Client user_to_add, Client user_who_add){
 
-	if (users_list[user_who_add] == true)
+	if (users_list[user_who_add] == true || user_who_add.getID() == this->creator.getID())
 	{
 		if (users_list[user_to_add] == false)
 			users_list[user_to_add] = true;
@@ -174,11 +174,11 @@ void Channel::change_user_limit(int user_limit, Client client){
 	}
 }
 
-void Channel::send_msg_to_channel(std::string msg, Client client){
-	(void)msg;
+void Channel::send_msg_to_channel(std::string msg, Client client, Server server){
+	std::cout << "sending msg to channel " << msg << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
         if (it->first.getID() != client.getID()) {
-            std::cout << "test" << std::endl;
+            send(server.get_server_socket().fd, msg.c_str(), msg.size(), 0);
         }
 	}
 }

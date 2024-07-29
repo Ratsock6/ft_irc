@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:28:29 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:08:32 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-
 # include "main.hpp"
 
 enum server_status_e
@@ -75,6 +74,7 @@ class Server {
 		std::vector<Channel *> get_channels() const;
 		void add_channel(Channel *channel);
 		void add_client(Client client);
+		pollfd get_server_socket(void) const;
 
 		/// Exceptions :
 };

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 15:08:17 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:13:20 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	Server::receive_data(int client_socket)
 		
 		// if the message is complete (ending by \r\n), interprate it
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
+			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
 		}

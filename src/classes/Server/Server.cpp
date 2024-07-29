@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 13:57:59 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:47:42 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,11 @@ void	Server::stop()
 int		Server::get_status() const
 {
 	return server_status;
+}
+
+pollfd Server::get_server_socket() const
+{
+	return all_sockets[0];
 }
 
 std::vector<Client>	Server::get_clients() const

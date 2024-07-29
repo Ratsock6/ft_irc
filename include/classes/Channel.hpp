@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include "main.hpp"
-
+class Server;
 
 class Channel{
 	private:
@@ -33,7 +33,7 @@ class Channel{
 		void unset_password(Client client);
 		void change_user_limit(int user_limit, Client client);
 		void set_invite_only(bool invite_only, Client client);
-		void send_msg_to_channel(std::string msg, Client client);
+		void send_msg_to_channel(std::string msg, Client client, Server server);
 
 		std::string get_channel_name();
 		std::string get_topic();

@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 15:24:46 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:21:57 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ int	main( int argc, char **argv )
 		return 1;
 	}
 	Server server( port , argv[2] );
-	std::cout << "hacking NASA 0%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 10%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 20%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 30%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 40%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 50%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 60%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 70%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 80%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 90%..." << std::endl;
-	sleep(1);
-	std::cout << "hacking NASA 100%..." << std::endl;
-
 	std::cout << BCyan;
 	std::cout << "[Server] /start : start the server if not running\n";
 	std::cout << "[Server] /stop : stop the server if running\n";
@@ -67,9 +45,10 @@ int	main( int argc, char **argv )
 
 
 	/**************test val *****************************/
-	// Client client("michel", 1, server.new_ID(), true);
-	// Channel channel("test", client);
 	// try{
+	// 	Server server(4242, "1234");
+	// 	Client client("michel", 1, server.new_ID(), true);
+	// 	Channel channel("test", client);
 	// 	channel.set_password("1234", client);
 	// 	std::cout << channel.get_password() << std::endl;
 	// 	server.add_channel(&channel);
@@ -77,7 +56,7 @@ int	main( int argc, char **argv )
 	// 	Channel channell = *channels[0];
 	// 	client.setAdmin(true);
 	// 	std::cout << "channel name " << channell.get_channel_name() << " channel pwd " << channell.get_password() << std::endl;
-	// 	parsing_command(argv[2], server.get_channels(), client);
+	// 	parsing_command(argv[2], server.get_channels(), client, server);
 	// }
 	// catch (std::exception &e){
 	// 	std::cerr << BRed;
