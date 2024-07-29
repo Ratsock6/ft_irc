@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 15:21:36 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:37:27 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Client{
 
 		std::string getUsername();
 		std::string getNickname();
-		int getFd();
+		int getFd() const;
 		std::string getIp();
 		bool getAdmin();
 		bool getTopicAutorization();

@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 16:21:57 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:57:33 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int	main( int argc, char **argv )
 	// try{
 	// 	Server server(4242, "1234");
 	// 	Client client("michel", 1, server.new_ID(), true);
+	// 	Client client2("jean", 2, server.new_ID(), true);
 	// 	Channel channel("test", client);
+	// 	channel.add_user_by_admin(client2, client);
 	// 	channel.set_password("1234", client);
 	// 	std::cout << channel.get_password() << std::endl;
 	// 	server.add_channel(&channel);
@@ -56,7 +58,7 @@ int	main( int argc, char **argv )
 	// 	Channel channell = *channels[0];
 	// 	client.setAdmin(true);
 	// 	std::cout << "channel name " << channell.get_channel_name() << " channel pwd " << channell.get_password() << std::endl;
-	// 	parsing_command(argv[2], server.get_channels(), client, server);
+	// 	parsing_command(argv[2], server.get_channels(), client);
 	// }
 	// catch (std::exception &e){
 	// 	std::cerr << BRed;

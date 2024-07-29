@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 16:13:20 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:40:18 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	Server::server_loop()
 				if (all_sockets[i].fd == server_socket)
 					accept_new_client();
 				else
-					;// receive_data(all_sockets[i].fd);
+					receive_data(all_sockets[i].fd);
 			}
 		}
 	}
@@ -48,10 +48,8 @@ void	Server::close_client( int client_socket )
 	std::vector<struct pollfd>::iterator	it;
 	std::vector<Client>::iterator			client_it;
 
-	// Close the socket
 	close(client_socket);
 
-	// Remove the client from the all_sockets list
 	it = all_sockets.begin();
 	while (it != all_sockets.end())
 	{
@@ -103,13 +101,11 @@ void	Server::receive_data(int client_socket)
 		close_client(client_socket);
 	}
 	else {
-		// concatenate, then interprate the message
 		message << std::string(buffer, status);
 		client.setMessageBuffer(message);
 		
-		// if the message is complete (ending by \r\n), interprate it
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
+			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
 			message.str("");
 			message.clear();
 		}
@@ -135,14 +131,12 @@ void	Server::accept_new_client()
 		}
 	}
 	else {
-		// Set the client socket to non-blocking mode
 		int flags = fcntl(client_socket, F_GETFL, 0);
 		if (flags == -1)
 			throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
 		if (fcntl(client_socket, F_SETFL, flags | O_NONBLOCK) == -1)
 			throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
 
-		// Handle the new client connection
 		new_socket.fd = client_socket;
 		new_socket.events = POLLIN;
 		all_sockets.push_back(new_socket);

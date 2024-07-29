@@ -174,14 +174,23 @@ void Channel::change_user_limit(int user_limit, Client client){
 	}
 }
 
-void Channel::send_msg_to_channel(std::string msg, Client client, Server server){
+void Channel::send_msg_to_channel(std::string msg, Client client){
 	std::cout << "sending msg to channel " << msg << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
         if (it->first.getID() != client.getID()) {
-            send(server.get_server_socket().fd, msg.c_str(), msg.size(), 0);
+            send(it->first.getFd(), msg.c_str(), msg.size(), 0);
         }
 	}
 }
+
+void Channel::send_private_msg(std::string msg , Client who_send, Client who_receive)
+{
+	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
+	std::string final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
+	std::cout << final_msg << std::endl;
+	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
+}
+
 std::string Channel::get_channel_name(){
 	return this->channel_name;
 }
