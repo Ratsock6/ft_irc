@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "main.hpp"
 
 
@@ -11,8 +12,7 @@ class Channel{
 		std::string channel_name;
 		std::string password;
 		std::string topic;
-		std::vector<Client> users_list;
-		std::vector<Client> admin_users_list;
+		std::map<Client, bool> users_list;
 		Client &creator;
 		bool invite_only;
 		bool topic_autorization;

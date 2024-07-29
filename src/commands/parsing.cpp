@@ -18,17 +18,17 @@ bool str_to_bool(std::string str)
     return false;
 }
 int get_command(const std::string& command) {
-    if (command == "/kick") return KICK;
-    if (command == "/invite") return INVITE;
-    if (command == "/topic") return TOPIC;
-    if (command == "/mode") return MODE;
-    if (command == "/msg") return MSG;
-    if (command == "/nick") return NICK;
-    if (command == "/part") return PART;
-    if (command == "/quit") return QUIT;
-    if (command == "/user") return USER;
-    if (command == "/ping") return PING;
-    if (command == "/join") return JOIN;
+    if (command == "KICK") return KICK;
+    if (command == "INVITE") return INVITE;
+    if (command == "TOPIC") return TOPIC;
+    if (command == "MODE") return MODE;
+    if (command == "MSG") return MSG;
+    if (command == "NICK") return NICK;
+    if (command == "PART") return PART;
+    if (command == "QUIT") return QUIT;
+    if (command == "USER") return USER;
+    if (command == "PING") return PING;
+    if (command == "JOIN") return JOIN;
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {

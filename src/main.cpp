@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 13:40:41 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:24:46 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,27 @@ int	main( int argc, char **argv )
 		return 1;
 	}
 	Server server( port , argv[2] );
-	
+	std::cout << "hacking NASA 0%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 10%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 20%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 30%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 40%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 50%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 60%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 70%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 80%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 90%..." << std::endl;
+	sleep(1);
+	std::cout << "hacking NASA 100%..." << std::endl;
 
 	std::cout << BCyan;
 	std::cout << "[Server] /start : start the server if not running\n";

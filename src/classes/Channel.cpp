@@ -17,7 +17,6 @@ Channel::Channel(const Channel &c)
 	this->channel_name = c.channel_name;
 	this->topic = c.topic;
 	this->users_list = c.users_list;
-	this->admin_users_list = c.admin_users_list;
 	this->creator = c.creator;
 	this->invite_only = c.invite_only;
 	this->user_limit = c.user_limit;
@@ -29,7 +28,6 @@ Channel& Channel::operator=(const Channel &c){
 	this->channel_name = c.channel_name;
 	this->topic = c.topic;
 	this->users_list = c.users_list;
-	this->admin_users_list = c.admin_users_list;
 	this->creator = c.creator;
 	this->invite_only = c.invite_only;
 	this->user_limit = c.user_limit;
@@ -39,57 +37,58 @@ Channel& Channel::operator=(const Channel &c){
 }
 
 void Channel::add_user_by_admin(Client user_to_add, Client user_who_add){
-	if (user_who_add.getAdmin() == true ){
-		for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
-			if (it->getID() == user_to_add.getID()){
-				throw std::invalid_argument("User already in the channel");
-				return;
-			}
-		}
-		this->users_list.push_back(user_to_add);
-	}
-	else{
+	if (users_list[user_who_add] == false)
 		throw std::invalid_argument("You are not an admin");
-	}
+	if (users_list.find(user_to_add) == users_list.end())
+		this->users_list[user_to_add] = false;
+	else
+		throw std::invalid_argument("User already in the channel");
 }
 
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
-	if (user_who_remove.getAdmin() == true || user_who_remove.getID() == user_to_remove.getID()){
-		for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
-			if (it->getID() == user_to_remove.getID()){
-				this->users_list.erase(it);
-				break;
-			}
-		}
-	}
+	if (users_list[user_who_remove] == false)
+		throw std::invalid_argument("You are not an admin");
+	if (user_to_remove.getID() == this->creator.getID())
+		throw std::invalid_argument("You are trying to remove the creator of the channel (its the big boss)");
+	if (users_list[user_to_remove] == true)
+		this->users_list.erase(user_to_remove);
 	else{
 		throw std::invalid_argument("You are not an admin");
 	}
 }
 
 void Channel::add_admin(Client user_to_add, Client user_who_add){
-	if (user_who_add.getAdmin() == true){
-		for (std::vector<Client>::iterator it = this->admin_users_list.begin(); it != this->admin_users_list.end(); it++){
-			if (it->getID() == user_to_add.getID()){
-				throw std::invalid_argument("User already admin in this channel");
-				return;
-			}
-		}
-		this->admin_users_list.push_back(user_to_add);
+
+	if (users_list[user_who_add] == true)
+	{
+		if (users_list[user_to_add] == false)
+			users_list[user_to_add] = true;
+		else
+			throw std::invalid_argument("User already admin in this channel");
 	}
-	else{
+	else
 		throw std::invalid_argument("You are not an admin");
-	}
+	// if (user_who_add.getAdmin() == true){
+	// 	for (std::map<Client, bool>::iterator it = this->admin_users_list.begin(); it != this->admin_users_list.end(); it++){
+	// 		if (it->first.getID() == user_to_add.getID()){
+	// 			throw std::invalid_argument("User already admin in this channel");
+	// 			return;
+	// 		}
+	// 	}
+	// 	this->admin_users_list.push_back(user_to_add);
+	// }
+	// else{
+	// 	throw std::invalid_argument("You are not an admin");
+	// }
 }
 
 void Channel::remove_admin(Client user, Client admin){
-	if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
-		for (std::vector<Client>::iterator it = this->admin_users_list.begin(); it != this->admin_users_list.end(); it++){
-			if (it->getID() == user.getID()){
-				this->admin_users_list.erase(it);
-				break;
-			}
-		}
+	//if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
+	if (users_list[admin] == true){
+		if (users_list[user] == true)
+			users_list[user] = false;
+		else
+			throw std::invalid_argument("User is not an admin");
 	}
 	else if(user.getID() == this->creator.getID()){
 		throw std::invalid_argument("you are trying to remove the creator of the channel (its the big boss)");
@@ -128,7 +127,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 	}
 	if (this->password == password || this->password.empty()){
 		std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
-		this->users_list.push_back(user_to_add);
+		this->users_list[user_to_add] = false;
 	}
 	else{
 		throw std::invalid_argument("Wrong password");
@@ -177,8 +176,10 @@ void Channel::change_user_limit(int user_limit, Client client){
 
 void Channel::send_msg_to_channel(std::string msg, Client client){
 	(void)msg;
-	for (std::vector<Client>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
-		std::cout << client.getNickname() << ": " << "replace with the send msg function" << std::endl;
+	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
+        if (it->first.getID() != client.getID()) {
+            std::cout << "test" << std::endl;
+        }
 	}
 }
 std::string Channel::get_channel_name(){
@@ -190,11 +191,21 @@ std::string Channel::get_topic(){
 }
 
 std::vector<Client> Channel::get_users_list(){
-	return this->users_list;
+	std::vector<Client> users_list;
+	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
+		users_list.push_back(it->first);
+	}
+	return users_list;
 }
 
 std::vector<Client> Channel::get_admin_users_list(){
-	return this->admin_users_list;
+	std::vector<Client> admin_list;
+	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
+		if (it->second == true){
+			admin_list.push_back(it->first);
+		}
+	}
+	return admin_list;
 }
 
 Client Channel::get_creator(){

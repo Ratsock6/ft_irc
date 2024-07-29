@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 11:06:39 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:21:36 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class Client{
 		std::string getIp();
 		bool getAdmin();
 		bool getTopicAutorization();
-		int getID();
+		int getID() const;
 		std::stringstream& getMessageBuffer();
 
 		void setAdmin(bool admin);
@@ -45,4 +45,6 @@ class Client{
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
 		void setMessageBuffer(std::stringstream &message);
+		bool operator<(const Client& other) const { return getID() < other.getID(); }
+		bool operator==(const Client& other) const { return this->getID() == other.getID(); }
 };

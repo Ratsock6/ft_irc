@@ -67,7 +67,7 @@ bool Client::getTopicAutorization(){
 	return this->topic_autorization;
 }
 
-int Client::getID(){
+int Client::getID() const{
 	return this->user_ID;
 }
 
