@@ -148,7 +148,7 @@ void accept_new_connection(int server_socket, struct pollfd **poll_fds, int *pol
     }
 }
 
-void sread_data_from_socket(int i, struct pollfd **poll_fds, int *poll_count, int server_socket)
+void read_data_from_socket(int i, struct pollfd **poll_fds, int *poll_count, int server_socket)
 {
     char buffer[BUFSIZ];
     char msg_to_send[BUFSIZ];

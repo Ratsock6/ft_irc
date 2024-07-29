@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 15:47:42 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:45:58 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void	Server::start()
 		std::cerr << BRed;
 		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
 		std::cerr << Color_Off;
+		stop();
 	}
 }
 
