@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 09:56:32 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:02:00 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class Server {
 		int 						poll_size;     // Size of the descriptor array
 		int 						poll_count;    // Current number of descriptors in the array
 		std::vector<Client>			clients; 	   // Array of clients
-		std::vector<Channel>		channels;	   // Array of channels
+		std::vector<Channel *>		channels;	   // Array of channels
 
 		
 		int			client_count; // Useless, you can use clients.size() instead
@@ -72,8 +72,8 @@ class Server {
 		/// Getters & Setters :
 		int		get_status() const;
 		std::vector<Client> get_clients() const;
-		std::vector<Channel> get_channels() const;
-		void add_channel(Channel channel);
+		std::vector<Channel *> get_channels() const;
+		void add_channel(Channel *channel);
 		void add_client(Client client);
 
 		/// Exceptions :

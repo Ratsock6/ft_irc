@@ -131,13 +131,16 @@ int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
 	return 1;
 }
 
-bool is_channel(std::vector<Channel> channels, std::string channel_name)
-{
-    channel_name.erase(0, 1);
-    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
-    {
-        if (it->get_channel_name() == channel_name)
+bool is_channel(const std::vector<Channel*>& channels, const std::string& channel_name) {
+    if (channel_name.empty() || channel_name[0] != '#') {
+        throw std::invalid_argument("Channel name does not start with #");
+    }
+
+    std::string stripped_name = channel_name.substr(1); // Retire le '#'
+    for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
+        if ((*it)->get_channel_name() == stripped_name) { // Déréférencement double pour accéder à l'objet Channel
             return true;
+        }
     }
     return false;
 }
@@ -183,22 +186,27 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
                 throw std::invalid_argument("Wrong number of arguments");
             break;
         case USER:
-            if (args.size() != 4)
+            if (args.size() != 3)
                 throw std::invalid_argument("Wrong number of arguments");
-            client.setUsername(args[3]);
+            client.setUsername(args[2]);
             client.setNickname(args[1]);
             break;
         case PING:
             if (args.size() != 1)
                 throw std::invalid_argument("Wrong number of arguments");
+            std::cout << "PONG 12 ms" << std::endl << std::endl << std::endl << std::endl;
+            std::cout << "nan je deconne ca marche pas" << std::endl;
             break;
         case JOIN:
-            if (args.size() < 2 || args.size() > 3)
+            if (args.size() < 1 || args.size() > 2)
                 throw std::invalid_argument("Wrong number of arguments");
-            if (args.size() == 2)
+            if (args.size() == 1)
+            {
+                std::cout << "test" << std::endl;
                 channel.join_request(client, "");
+            }
             else
-                channel.join_request(client, args[2]);
+                channel.join_request(client, args[1]);
             break;
         case CMD_ERROR:
             throw std::invalid_argument("Command does not exist");
@@ -206,19 +214,20 @@ int switch_search_command(std::vector<std::string> args, Channel channel, Client
     return 1;
 }
 
-Channel Search_channel(std::vector<Channel> channels, std::string channel_name)
-{
-    if (channel_name[0] != '#')
+Channel Search_channel(const std::vector<Channel*> &channels, const std::string& channel_name) {
+    if (channel_name.empty() || channel_name[0] != '#') {
         throw std::invalid_argument("Channel name does not start with #");
-    channel_name.erase(0, 1);
-    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
-    {
-        if (it->get_channel_name() == channel_name)
-            return *it;
     }
-    throw std::invalid_argument("Channel does not exist");
+
+    std::string stripped_name = channel_name.substr(1); // Retire le '#'
+    for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
+        if ((*it)->get_channel_name() == stripped_name) {
+            return **it; // Déréférencement double pour retourner l'objet Channel
+        }
+    }
+    throw std::invalid_argument("Channel not found");
 }
-int parsing_command(const std::string& str , std::vector<Channel> channels, Client client) {
+int parsing_command(const std::string& str , std::vector<Channel *> channels, Client client) {
     if (str[0] != '/')
         return 0;
     
@@ -234,6 +243,7 @@ int parsing_command(const std::string& str , std::vector<Channel> channels, Clie
     if (is_channel(channels, args[1]) == false)
         throw std::invalid_argument("Channel does not exist");
     Channel channel = Search_channel(channels, args[1]);
+    std::cout << "channel name " << channel.get_channel_name() << " channel pwd " << channel.get_password() << std::endl;
     args.erase(args.begin() + 1);
     switch_search_command(args, channel, client);
 

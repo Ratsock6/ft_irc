@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 09:56:24 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:01:52 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,12 +187,12 @@ std::vector<Client>	Server::get_clients() const
 	return clients;
 }
 
-std::vector<Channel>	Server::get_channels() const
+std::vector<Channel *>	Server::get_channels() const
 {
 	return channels;
 }
 
-void Server::add_channel(Channel channel)
+void Server::add_channel(Channel *channel)
 {
 	channels.push_back(channel);
 }

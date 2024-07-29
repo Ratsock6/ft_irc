@@ -14,9 +14,15 @@ Channel::~Channel(){
 
 Channel::Channel(const Channel &c)
     : channel_name(c.channel_name), creator(c.creator) {
+	this->channel_name = c.channel_name;
 	this->topic = c.topic;
 	this->users_list = c.users_list;
 	this->admin_users_list = c.admin_users_list;
+	this->creator = c.creator;
+	this->invite_only = c.invite_only;
+	this->user_limit = c.user_limit;
+	this->topic_autorization = c.topic_autorization;
+	this->password = c.password;
 }
 
 Channel& Channel::operator=(const Channel &c){
@@ -25,6 +31,10 @@ Channel& Channel::operator=(const Channel &c){
 	this->users_list = c.users_list;
 	this->admin_users_list = c.admin_users_list;
 	this->creator = c.creator;
+	this->invite_only = c.invite_only;
+	this->user_limit = c.user_limit;
+	this->topic_autorization = c.topic_autorization;
+	this->password = c.password;
 	return *this;
 }
 
@@ -90,8 +100,13 @@ void Channel::remove_admin(Client user, Client admin){
 
 void Channel::set_password(std::string password, Client client){
 	if (client.getAdmin() == true){
+		std::cout << "Password set" << std::endl;
 		this->password = password;
 	}
+}
+
+std::string Channel::get_password(){
+	return this->password;
 }
 
 void Channel::unset_password(Client client){
@@ -101,6 +116,7 @@ void Channel::unset_password(Client client){
 }
 
 void Channel::join_request(Client user_to_add, std::string password){
+	std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
 	if (this->users_list.size() == static_cast<size_t>(this->user_limit) && this->user_limit != 0){
 		throw std::invalid_argument("Channel is full");
 		return;
@@ -111,6 +127,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 		return;
 	}
 	if (this->password == password || this->password.empty()){
+		std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
 		this->users_list.push_back(user_to_add);
 	}
 	else{
