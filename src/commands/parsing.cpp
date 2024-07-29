@@ -243,7 +243,7 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
 #include <stdexcept>
 #include <string>
 
-int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client) {
+int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client, Server server) {
     // Check if the command starts with '/'
     if (str.empty()) {
         return 0; // Not a valid command
@@ -267,7 +267,13 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
         throw std::invalid_argument("No channel specified");
     }
 
-    // Check if the channel exists
+    if (args[0] == "JOIN" || !is_channel(channels, args[1]))
+    {
+        Channel new_channel(args[1], client);
+        server.add_channel(&new_channel);
+        channels.push_back(&new_channel);
+        std::cout << "new channel created" << std::endl;
+    }
     if (!is_channel(channels, args[1])) {
         throw std::invalid_argument("Channel does not exist");
     }

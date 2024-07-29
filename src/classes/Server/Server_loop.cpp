@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 18:11:05 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:36:14 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
+			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
 		}
@@ -156,7 +156,14 @@ void	Server::accept_new_client()
 	new_socket.events = POLLIN;
 	all_sockets.push_back(new_socket);
 	poll_count++;
-	
+
+	Client new_client("temp_name", client_socket, new_ID(), false);
+	/**************test val *****************************/
+
+	// Client test_client("test_client", 2, new_ID(), true);
+	// Channel test("test", new_client);
+	// test.send_private_msg("YOUHOUU", test_client, new_client);
+	/******************************************************/
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected : " << client_socket << "\n";
 	std::cout << Color_Off;
