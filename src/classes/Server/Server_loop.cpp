@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 18:11:05 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:27:58 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,30 +88,26 @@ void	Server::receive_data(int client_socket)
 	Client				client = get_client_by_socket(client_socket);
 	std::stringstream	message;
 	char				buffer[RECV_BUFFER_SIZE];
-	int					status;
+	int					bytes_read;
 
-	message.str() = client.getMessageBuffer().str();
-	status = recv(client_socket, buffer, RECV_BUFFER_SIZE, MSG_DONTWAIT);
-	if (status == -1) {
+	bytes_read = recv(client_socket, buffer, RECV_BUFFER_SIZE, 0);
+	if (bytes_read < 0)
 		throw std::runtime_error("recv: " + std::string(strerror(errno)));
-	}
-	else if (status == 0) {
+	if (bytes_read == 0)
 		close_client(client_socket);
-	}
-	else {
-		message << std::string(buffer, status);
-		client.setMessageBuffer(message);
-		
-		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket));
-			message.str("");
-			message.clear();
-		}
 
-		std::cout << BGreen;
-		std::cout << "[Server] Received message: " << message.str() << std::endl;
-		std::cout << Color_Off;
+	message << std::string(buffer, bytes_read);
+		
+	if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
+		parsing_command(message.str(), channels, get_client_by_socket(client_socket));
 	}
+
+	std::cout << BGreen;
+	std::cout << "[Server] Received message: " << message.str() << std::endl;
+	std::cout << Color_Off;
+
+	message.str("");
+	message.clear();
 }
 
 void	Server::accept_new_client()

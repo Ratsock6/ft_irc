@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 17:39:32 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/29 18:20:24 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ enum mode{
 	mode_error
 };
 
-# define RECV_BUFFER_SIZE 4 // small for testing purposes (should concatenate until '\r\n')
+# define RECV_BUFFER_SIZE 8192
 # define MESSAGE_END "\r\n"
 
 /*###########################################################################*/
