@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:28:22 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:48:30 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ enum mode{
 // Custom libraries
 # include "color.h"       // For color definitions
 
-# define DAILYLIB_DEF 0	  // Defines not needed
 # define DAILYLIB_C_LIB 0 // C libraries not needed
 # include "dailylib.hpp"  // For custom defines and structures
 

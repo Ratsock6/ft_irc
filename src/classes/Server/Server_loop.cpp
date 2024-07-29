@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:25:47 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:08:17 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	Server::server_loop()
 {
 	int		status;
-	int		i;
 
 	while (server_status == RUNNING)
 	{
@@ -23,23 +22,22 @@ void	Server::server_loop()
 
 		// Poll for events
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
-		if (status == -1) {
+		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
-		}
-		else if (status == 0) {
-			// std::cout << BGray << "[Server] Waiting...\n" << Color_Off;
+		else if (status == NOTHING)
 			continue;
-		}
 
 		// Check for events
-		for (i = 0; i < poll_count; i++)
+		for (int i = 0; i < poll_count; i++)
 		{
-			if (all_sockets[i].revents & POLLIN)
+			if (all_sockets[i].revents & POLLHUP)
+				close_client(all_sockets[i].fd);
+			else if (all_sockets[i].revents & POLLIN)
 			{
 				if (all_sockets[i].fd == server_socket)
 					accept_new_client();
 				else
-					receive_data(all_sockets[i].fd);
+					;// receive_data(all_sockets[i].fd);
 			}
 		}
 	}
@@ -135,15 +133,14 @@ void	Server::accept_new_client()
 		} else {
 			throw std::runtime_error("accept: " + std::string(strerror(errno)));
 		}
-	} else {
+	}
+	else {
 		// Set the client socket to non-blocking mode
 		int flags = fcntl(client_socket, F_GETFL, 0);
-		if (flags == -1) {
+		if (flags == -1)
 			throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
-		}
-		if (fcntl(client_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
+		if (fcntl(client_socket, F_SETFL, flags | O_NONBLOCK) == -1)
 			throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
-		}
 
 		// Handle the new client connection
 		new_socket.fd = client_socket;

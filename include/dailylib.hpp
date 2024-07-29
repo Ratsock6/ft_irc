@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:59:32 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/25 09:55:08 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:49:13 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 #  define WHITESPACES "\t\n\v\f\r "
 #  define YES 1
 #  define NO 0
+#  define SUCCESS 0
+#  define NOTHING 0
+#  define ERROR -1
 
 # endif
 /*###########################################################################*/

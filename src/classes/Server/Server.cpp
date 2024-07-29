@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 13:35:03 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:57:59 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,14 @@ void	Server::create_server_socket()
 		throw std::runtime_error( strerror(errno) );
 	}
 
+	// Set the server socket to non-blocking
+	int flags = fcntl(server_socket, F_GETFL, 0);
+	if (flags == -1)
+		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
+	if (fcntl(server_socket, F_SETFL, flags | O_NONBLOCK) == -1) 
+		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
+
 	// Add the server socket to the pollfd array
-	
 	poll_count = 1;
 	all_sockets[0].fd = server_socket;
 	all_sockets[0].events = POLLIN;
@@ -106,7 +112,7 @@ void	Server::create_server_socket()
 	freeaddrinfo(res);
 }
 
-Client Server::get_client_by_socket( int client_socket)
+Client Server::get_client_by_socket(int client_socket)
 {
 	for (int i = 0; i < client_count; i++)
 	{

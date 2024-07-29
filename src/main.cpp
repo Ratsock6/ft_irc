@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 10:27:20 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:40:41 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main( int argc, char **argv )
 	std::cout << "[Server] /exit : exit the program if not running\n";
 	std::cout << "[Server] /help : display this help\n";
 	std::cout << Color_Off;
-	while (server.server_command()) {};
+	while (server.server_command()) {}; // loop until exit command
 
 
 	/**************test val *****************************/
