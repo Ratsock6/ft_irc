@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 18:18:08 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:34:59 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Client{
 		std::string ip;
 		bool admin;
 		bool topic_autorization;
+		std::stringstream	messageBuffer;
 	
 	public:
 		Client(std::string username, int fd, int ID, bool admin);
