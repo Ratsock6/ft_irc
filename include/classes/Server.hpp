@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 11:21:10 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:18:23 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ class Server {
 		void	receive_data( int client_socket );
 		void	send_data( int client_socket, std::string data );
 		void	close_client( int client_socket );
-		Client	get_client_by_socket( int client_socket );
+		Client&	get_client_by_socket( int client_socket );
 
 		// Stop
 		void	close_all_clients();

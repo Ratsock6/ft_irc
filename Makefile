@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/24 16:26:20 by vsoltys          ###   ########.fr        #
+#    Updated: 2024/07/31 14:41:41 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,13 +24,19 @@ SRC		= src/main.cpp \
 		  src/classes/Server/Server_loop.cpp \
 		  src/commands/command.cpp \
 		  src/commands/parsing.cpp \
+		  src/commands/parsing_utils.cpp \
 		  src/classes/Channel.cpp #
 
 OBJ		= $(SRC:.cpp=.o)
 
 all:
-	@printf "\033[1;36m\nStarting ircserv compilation\n\e[0m"
-	@make -s redirect
+	@if [ -f $(NAME) ]; then \
+		printf "\033[1;92m\nircserv already compiled\n\033[0m"; \
+		make -s redirect; \
+	else \
+		printf "\033[1;36m\nStarting ircserv compilation\n\e[0m"; \
+		make -s redirect; \
+	fi
 
 redirect: $(NAME)
 

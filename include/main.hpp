@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/30 18:12:51 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:30:27 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,6 @@ class Server;
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
 int 		connection_setup(int port, char *password);
-int parsing_command(const std::string& str, std::vector<Channel*> channels, Client client, Server server);
+std::vector<std::string> splitCommands(const std::string& str);
+void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
+int parsing_command(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);

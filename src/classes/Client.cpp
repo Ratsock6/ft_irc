@@ -13,6 +13,10 @@ Client::~Client(){
 
 Client::Client(const Client &c){
 	this->username = c.username;
+	this->nickname = c.nickname;
+	this->ip = c.ip;
+	this->topic_autorization = c.topic_autorization;
+	this->messageBuffer.str(c.messageBuffer.str());
 	this->fd = c.fd;
 	this->admin = c.admin;
 	this->user_ID = c.user_ID;
@@ -20,8 +24,13 @@ Client::Client(const Client &c){
 
 Client& Client::operator=(const Client &c){
 	this->username = c.username;
+	this->nickname = c.nickname;
+	this->ip = c.ip;
+	this->topic_autorization = c.topic_autorization;
+	this->messageBuffer.str(c.messageBuffer.str());
 	this->fd = c.fd;
 	this->admin = c.admin;
+	this->user_ID = c.user_ID;
 	return *this;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 11:40:24 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:42:42 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	Server::create_server_socket()
 	freeaddrinfo(res);
 }
 
-Client Server::get_client_by_socket(int client_socket)
+Client& Server::get_client_by_socket(int client_socket)
 {
 	for (int i = 0; i < (int)clients.size(); i++)
 	{
@@ -196,7 +196,11 @@ bool Server::server_command()
 			std::cerr << BRed << "[Server] Cannot change port while server is running\n" << Color_Off;
 			return program_running;
 		}
-
+		if (buffer.size() < 6)
+		{
+			std::cerr << BRed << "[Server] Need a port number\n" << Color_Off;
+			return true;
+		}
 		std::stringstream ss;
 		unsigned short new_port;
 

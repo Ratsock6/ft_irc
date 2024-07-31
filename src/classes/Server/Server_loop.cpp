@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 11:47:55 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:37:55 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ void	Server::server_loop()
 		server_command();
 
 		// Poll for events
+		std::cout << "polling" << std::endl;
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)
 			continue;
-
+		std::cout << "polling done" << std::endl;
 		// Check for events
+		std::cout << "poll count: " << poll_count << std::endl;
 		for (int i = 0; i < poll_count; i++)
 		{
 			if ((all_sockets[i].revents & POLLIN) == 1)
@@ -105,7 +107,7 @@ void	Server::receive_data(int client_socket)
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
 			
-			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
+			pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
 		}
@@ -152,7 +154,7 @@ void	Server::accept_new_client()
 	all_sockets[poll_count]	= new_socket;
 	poll_count++;
 
-	Client new_client("temp_name", client_socket, new_ID(), false);
+	Client new_client("temp_name", new_socket.fd, new_ID(), false);
 	this->clients.push_back(new_client);
 	/**************test val *****************************/
 
