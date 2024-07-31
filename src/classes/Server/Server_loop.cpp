@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/30 18:14:59 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/07/31 09:41:00 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,17 @@ void	Server::server_loop()
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)
-		{
-			printf("Nothing\n");
 			continue;
-		}
-		printf("Something\n");
+
 		// Check for events
 		for (int i = 0; i < poll_count; i++)
 		{
-			printf("for > %i\n", i);
 			if ((all_sockets[i].revents & POLLIN) == 1)
 			{
-				printf("if\n");
 				if (all_sockets[i].fd == server_socket)
-				{
-					printf("GO ACCEPT\n");
 					accept_new_client();
-				}
 				else
-				{
-					printf("GO REC\n");
 					receive_data(all_sockets[i].fd);
-				}
 			}
 		}
 	}
@@ -116,7 +105,7 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			std::cout << "test ofjaofj" << std::endl;
+			std::cout << "Parsing ..." << std::endl;
 			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
@@ -135,11 +124,10 @@ void	Server::accept_new_client()
 
 	client_socket = accept(server_socket, NULL, NULL);
 	if (client_socket == -1) {
-		if (errno == EWOULDBLOCK || errno == EAGAIN) {
+		if (errno == EWOULDBLOCK || errno == EAGAIN)
 			return ;
-		} else {
+		else
 			throw std::runtime_error("accept: " + std::string(strerror(errno)));
-		}
 	}
 
 	// Set the client socket to non-blocking mode
