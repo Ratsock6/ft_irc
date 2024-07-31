@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/30 15:31:31 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:14:59 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,35 @@ void	Server::server_loop()
 	{
 		server_command();
 
+		printf("Polling...\n");
 		// Poll for events
-		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
+		std::cout << poll_count << std::endl;
+		status = poll(all_sockets.data(), poll_count, -1);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)
+		{
+			printf("Nothing\n");
 			continue;
-
+		}
+		printf("Something\n");
 		// Check for events
 		for (int i = 0; i < poll_count; i++)
 		{
+			printf("for > %i\n", i);
 			if ((all_sockets[i].revents & POLLIN) == 1)
 			{
+				printf("if\n");
 				if (all_sockets[i].fd == server_socket)
+				{
+					printf("GO ACCEPT\n");
 					accept_new_client();
+				}
 				else
+				{
+					printf("GO REC\n");
 					receive_data(all_sockets[i].fd);
+				}
 			}
 		}
 	}
@@ -103,6 +116,7 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
+			std::cout << "test ofjaofj" << std::endl;
 			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
@@ -154,10 +168,11 @@ void	Server::accept_new_client()
 
 	new_socket.fd = client_socket;
 	new_socket.events = POLLIN;
-	all_sockets.push_back(new_socket);
+	all_sockets[poll_count]	= new_socket;
 	poll_count++;
 
 	Client new_client("temp_name", client_socket, new_ID(), false);
+	this->clients.push_back(new_client);
 	/**************test val *****************************/
 
 	// Client test_client("test_client", 2, new_ID(), true);

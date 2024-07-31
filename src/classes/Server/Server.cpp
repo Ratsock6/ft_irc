@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/30 15:31:25 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:08:38 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	Server::create_server_socket()
 
 Client Server::get_client_by_socket(int client_socket)
 {
+	std::cout << "client count : " << client_count << std::endl;
 	for (int i = 0; i < client_count; i++)
 	{
 		if (clients[i].getFd() == client_socket)
@@ -133,6 +134,7 @@ bool Server::server_command()
 	static bool	program_running = true;
 	std::string buffer;
 
+	//printf("Try server command\n");
 	if (!program_running)
 		return program_running;
 
