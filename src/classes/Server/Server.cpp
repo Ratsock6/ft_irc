@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:38:55 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:50:03 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,10 @@ int Server::new_ID()
 
 bool Server::server_command()
 {
-	static bool first_run = true;
-	static bool	program_running = true;
-	std::string buffer;
+	static bool		first_run = true;
+	static bool		program_running = true;
+	std::string		buffer;
 
-	//printf("Try server command\n");
 	if (!program_running)
 		return program_running;
 
@@ -158,13 +157,19 @@ bool Server::server_command()
 			std::cerr << BRed << "[Server] Cannot change port while server is running\n" << Color_Off;
 			return program_running;
 		}
+
 		std::stringstream ss;
+		unsigned short new_port;
+
 		ss << buffer.substr(6);
-		ss >> port;
+		ss >> new_port;
 		if (ss.fail())
 			std::cerr << BRed << "[Server] Port must be a number\n" << Color_Off;
 		else
+		{
+			port = new_port;
 			std::cout << BWhite << "[Server] Port changed to " << port << std::endl << Color_Off;
+		}
 	}
 
 	if (buffer == "/exit")
