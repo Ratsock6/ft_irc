@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 11:41:12 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:47:55 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,11 @@ void	Server::receive_data(int client_socket)
 		message << std::string(buffer, status);
 		client.setMessageBuffer(message);
 		
+		std::cout << BGreen;
+		std::cout << "[Server] Received message: " << message.str() << std::endl;
+		std::cout << Color_Off;
+		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			std::cout << BGreen;
-			std::cout << "[Server] Received message: " << message.str() << std::endl;
-			std::cout << Color_Off;
 			
 			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
