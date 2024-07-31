@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:27:19 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:35:26 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main( int argc, char **argv )
 		std::cerr << Color_Off;
 		return 1;
 	}
+	
 	Server server( port , argv[2] );
 	while (server.server_command()) {}; // loop until exit command
 

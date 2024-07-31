@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:29:00 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:38:55 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,11 @@ bool Server::server_command()
 
 	if (buffer.substr(0, 5) == "/port")
 	{
+		if (server_status == RUNNING)
+		{
+			std::cerr << BRed << "[Server] Cannot change port while server is running\n" << Color_Off;
+			return program_running;
+		}
 		std::stringstream ss;
 		ss << buffer.substr(6);
 		ss >> port;
