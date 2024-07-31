@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 16:08:32 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/31 11:21:10 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ class Server {
 		std::vector<Client>			clients; 	   // Array of clients
 		std::vector<Channel *>		channels;	   // Array of channels
 
-		
-		int			client_count; // Useless, you can use clients.size() instead
-
 		/// Private Functions :
 		// Start
 		void	signal_handler();
@@ -55,7 +52,6 @@ class Server {
 
 		// Stop
 		void	close_all_clients();
-		void	close_server_socket();
 	
 	public :
 		/// Constructors & Destructor :
@@ -76,5 +72,4 @@ class Server {
 		void add_client(Client client);
 		pollfd get_server_socket(void) const;
 
-		/// Exceptions :
 };

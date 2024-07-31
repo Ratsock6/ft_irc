@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:50:03 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:40:24 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ Server::Server( const int port, std::string password )
 	this->server_status = STOPPED;
 	this->poll_size = 1;
 	this->poll_count = 0;
-	this->client_count = 0;
 	this->all_sockets = std::vector<struct pollfd>(max_clients);
 
 	std::cout << BWhite;
@@ -93,16 +92,14 @@ void	Server::create_server_socket()
 	}
 
 	// Set the server socket to non-blocking
-	int flags = fcntl(server_socket, F_GETFL, 0);
-	if (flags == -1)
-		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
-	if (fcntl(server_socket, F_SETFL, flags | O_NONBLOCK) == -1) 
+	if (fcntl(server_socket, F_SETFL, O_NONBLOCK) == -1) 
 		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
 
 	// Add the server socket to the pollfd array
 	poll_count = 1;
 	all_sockets[0].fd = server_socket;
 	all_sockets[0].events = POLLIN;
+	all_sockets[0].revents = 0;
 
 	std::cout << BWhite;
 	std::cout << "[Server] Ready " << std::endl;
@@ -114,7 +111,7 @@ void	Server::create_server_socket()
 
 Client Server::get_client_by_socket(int client_socket)
 {
-	for (int i = 0; i < client_count; i++)
+	for (int i = 0; i < (int)clients.size(); i++)
 	{
 		if (clients[i].getFd() == client_socket)
 			return clients[i];
@@ -124,8 +121,50 @@ Client Server::get_client_by_socket(int client_socket)
 
 int Server::new_ID()
 {
-	client_count++;
-	return client_count;
+	return clients.size() + 1;
+}
+
+void	Server::close_all_clients()
+{
+	for (int i = 1; i < poll_count; i++)
+		close(all_sockets[i].fd);
+	
+	clients.clear();
+	channels.clear();
+	poll_count = 0;
+}
+/// ---
+
+
+
+/// Public Functions :
+void	Server::start()
+{
+	signal_handler();
+	try
+	{
+		create_server_socket();
+		server_status = RUNNING;
+		server_loop();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << BRed;
+		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
+		std::cerr << Color_Off;
+		stop();
+	}
+}
+
+void	Server::stop()
+{
+	server_status = STOPPED;
+	close_all_clients();
+	close(server_socket);
+
+	std::cout << BWhite;
+	std::cout << "[Server] Server stopped\n";
+	std::cout << Color_Off;
 }
 
 bool Server::server_command()
@@ -138,8 +177,8 @@ bool Server::server_command()
 		return program_running;
 
 	// Set stdin to non-blocking
-	int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+	if (fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK) == -1)
+		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
 	
 	std::getline(std::cin, buffer);
 	std::cin.clear();
@@ -199,40 +238,6 @@ bool Server::server_command()
 
 
 
-/// Public Functions :
-void	Server::start()
-{
-	signal_handler();
-	try
-	{
-		create_server_socket();
-		server_status = RUNNING;
-		server_loop();
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << BRed;
-		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
-		std::cerr << Color_Off;
-		stop();
-	}
-}
-
-void	Server::stop()
-{
-	server_status = STOPPED;
-	// close_all_clients();
-	// close_server_socket();
-	close(server_socket);
-
-	std::cout << BWhite;
-	std::cout << "[Server] Server stopped\n";
-	std::cout << Color_Off;
-}
-/// ---
-
-
-
 /// Getters & Setters :
 int		Server::get_status() const
 {
@@ -263,9 +268,4 @@ void Server::add_client(Client client)
 {
 	clients.push_back(client);
 }
-/// ---
-
-
-
-/// Exceptions :
 /// ---

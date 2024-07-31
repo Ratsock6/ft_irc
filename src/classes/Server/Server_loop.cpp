@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:30:13 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:41:12 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ void	Server::close_client( int client_socket )
 		else
 			client_it++;
 	}
-
-	if (it == all_sockets.end() || client_it == clients.end())
-		throw std::runtime_error("Client not found in the list");
 	
 	std::cout << BGreen;
 	std::cout << "[Server] Client disconnected : " << client_socket << "\n";
@@ -128,10 +125,7 @@ void	Server::accept_new_client()
 	}
 
 	// Set the client socket to non-blocking mode
-	int flags = fcntl(client_socket, F_GETFL, 0);
-	if (flags == -1)
-		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
-	if (fcntl(client_socket, F_SETFL, flags | O_NONBLOCK) == -1)
+	if (fcntl(client_socket, F_SETFL, O_NONBLOCK) == -1)
 		throw std::runtime_error("fcntl: " + std::string(strerror(errno)));
 	
 	// Handle the new client connection
@@ -153,6 +147,7 @@ void	Server::accept_new_client()
 
 	new_socket.fd = client_socket;
 	new_socket.events = POLLIN;
+	new_socket.revents = 0;
 	all_sockets[poll_count]	= new_socket;
 	poll_count++;
 
