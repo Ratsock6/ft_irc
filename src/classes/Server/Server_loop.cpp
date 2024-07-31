@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 09:43:40 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:30:13 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	Server::server_loop()
 		server_command();
 
 		// Poll for events
-		status = poll(all_sockets.data(), poll_count, -1);
+		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)
@@ -103,15 +103,14 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
-			std::cout << "Parsing ..." << std::endl;
+			std::cout << BGreen;
+			std::cout << "[Server] Received message: " << message.str() << std::endl;
+			std::cout << Color_Off;
+			
 			parsing_command(message.str(), channels, get_client_by_socket(client_socket), *this);
 			message.str("");
 			message.clear();
 		}
-
-		std::cout << BGreen;
-		std::cout << "[Server] Received message: " << message.str() << std::endl;
-		std::cout << Color_Off;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 09:47:04 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:29:00 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int Server::new_ID()
 
 bool Server::server_command()
 {
+	static bool first_run = true;
 	static bool	program_running = true;
 	std::string buffer;
 
@@ -150,6 +151,17 @@ bool Server::server_command()
 	if (buffer == "/stop" && server_status == RUNNING)
 		stop();
 
+	if (buffer.substr(0, 5) == "/port")
+	{
+		std::stringstream ss;
+		ss << buffer.substr(6);
+		ss >> port;
+		if (ss.fail())
+			std::cerr << BRed << "[Server] Port must be a number\n" << Color_Off;
+		else
+			std::cout << BWhite << "[Server] Port changed to " << port << std::endl << Color_Off;
+	}
+
 	if (buffer == "/exit")
 	{
 		if (server_status == RUNNING)
@@ -157,11 +169,15 @@ bool Server::server_command()
 		program_running = false;
 	}
 
-	if (buffer == "/help")
+	if (buffer == "/help" || first_run)
 	{
+		if (first_run)
+			first_run = false;
+			
 		std::cout << BCyan;
 		std::cout << "[Server] /start : start the server if not running\n";
 		std::cout << "[Server] /stop : stop the server if running\n";
+		std::cout << "[Server] /port <port> : change the port of the server\n";
 		std::cout << "[Server] /exit : exit the program\n";
 		std::cout << "[Server] /help : display this help\n";
 		std::cout << Color_Off;

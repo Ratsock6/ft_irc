@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/29 17:57:33 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/07/31 10:27:19 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ int	main( int argc, char **argv )
 		return 1;
 	}
 	Server server( port , argv[2] );
-	std::cout << BCyan;
-	std::cout << "[Server] /start : start the server if not running\n";
-	std::cout << "[Server] /stop : stop the server if running\n";
-	std::cout << "[Server] /exit : exit the program if not running\n";
-	std::cout << "[Server] /help : display this help\n";
-	std::cout << Color_Off;
 	while (server.server_command()) {}; // loop until exit command
 
 
