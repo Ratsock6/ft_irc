@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 09:41:00 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/07/31 09:43:40 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	Server::server_loop()
 	{
 		server_command();
 
-		printf("Polling...\n");
 		// Poll for events
-		std::cout << poll_count << std::endl;
 		status = poll(all_sockets.data(), poll_count, -1);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
