@@ -36,11 +36,11 @@ Client& Client::operator=(const Client &c){
 
 /************************geter & seter******************************/
 
-std::string Client::getUsername(){
+std::string Client::getUsername() const{
 	return this->username;
 }
 
-std::string Client::getNickname(){
+std::string Client::getNickname() const{
 	return this->nickname;
 }
 

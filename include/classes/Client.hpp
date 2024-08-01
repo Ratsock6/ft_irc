@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/30 15:34:59 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/01 19:11:25 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class Client{
 		Client(const Client &c);
 		Client& operator=(const Client &c);
 
-		std::string getUsername();
-		std::string getNickname();
+		std::string getUsername() const;
+		std::string getNickname() const;
 		int getFd() const;
 		std::string getIp();
 		bool getAdmin();

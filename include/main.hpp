@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 15:46:08 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/01 19:57:17 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,4 @@ int 		connection_setup(int port, char *password);
 std::vector<std::string> splitCommands(const std::string& str);
 void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
 int parsing_command(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
-void send_RPL_message(int RPL_number ,Server server, Client client, Channel channel);
+void send_RPL_message(int RPL_number ,Server server, Client client, Channel channel, std::string msg_utils);

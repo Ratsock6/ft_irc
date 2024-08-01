@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 18:17:27 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/01 19:58:20 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,14 @@ void	Server::receive_data(int client_socket)
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
 			
-			pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
+			try{
+				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
+			}
+			catch (std::exception &e){
+				std::cerr << BRed;
+				std::cerr << e.what() << std::endl;
+				std::cerr << Color_Off;
+			}
 			message.str("");
 			message.clear();
 		}
@@ -166,11 +173,11 @@ void	Server::accept_new_client()
 	// test.send_private_msg("YOUHOUU", test_client, new_client);
 	/******************************************************/
 	Channel dummy("dummy", new_client);
-	send_RPL_message(1, *this, new_client, dummy);
-	send_RPL_message(2, *this, new_client, dummy);
-	send_RPL_message(3, *this, new_client, dummy);
-	send_RPL_message(4, *this, new_client, dummy);
-	send_RPL_message(5, *this, new_client, dummy);
+	send_RPL_message(1, *this, new_client, dummy, "");
+	send_RPL_message(2, *this, new_client, dummy, "");
+	send_RPL_message(3, *this, new_client, dummy, "");
+	send_RPL_message(4, *this, new_client, dummy, "");
+	send_RPL_message(5, *this, new_client, dummy, "");
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected : " << client_socket << "\n";
 	std::cout << Color_Off;
