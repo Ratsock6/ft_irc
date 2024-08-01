@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:42 by val              ###   ########.fr       */
+/*   Updated: 2024/08/01 18:34:10 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	Server::start()
 	{
 		create_server_socket();
 		server_status = RUNNING;
+		time = std::time(NULL);
 		server_loop();
 	}
 	catch(const std::exception& e)
@@ -152,7 +153,7 @@ void	Server::start()
 		std::cerr << BRed;
 		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
 		std::cerr << Color_Off;
-		stop();
+		//stop();
 	}
 }
 

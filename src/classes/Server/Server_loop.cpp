@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 15:37:55 by val              ###   ########.fr       */
+/*   Updated: 2024/08/01 18:17:27 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	Server::receive_data(int client_socket)
 	char				buffer[RECV_BUFFER_SIZE];
 	int					status;
 
+	if (client_socket == this->get_server_socket().fd)
+		return ;
 	message.str() = client.getMessageBuffer().str();
 	status = recv(client_socket, buffer, RECV_BUFFER_SIZE, MSG_DONTWAIT);
 	if (status == -1) {
@@ -155,6 +157,7 @@ void	Server::accept_new_client()
 	poll_count++;
 
 	Client new_client("temp_name", new_socket.fd, new_ID(), false);
+	new_client.setNickname("temp_nick");
 	this->clients.push_back(new_client);
 	/**************test val *****************************/
 
@@ -162,6 +165,12 @@ void	Server::accept_new_client()
 	// Channel test("test", new_client);
 	// test.send_private_msg("YOUHOUU", test_client, new_client);
 	/******************************************************/
+	Channel dummy("dummy", new_client);
+	send_RPL_message(1, *this, new_client, dummy);
+	send_RPL_message(2, *this, new_client, dummy);
+	send_RPL_message(3, *this, new_client, dummy);
+	send_RPL_message(4, *this, new_client, dummy);
+	send_RPL_message(5, *this, new_client, dummy);
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected : " << client_socket << "\n";
 	std::cout << Color_Off;

@@ -72,11 +72,22 @@ Client Search_client_by_name(std::string str, std::vector<Client> users_list)
     throw std::invalid_argument("User does not exist");
 }
 
-int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
+int parsing_mode(std::vector<std::string> args, Channel &channel, Client &client)
 {
     std::stringstream test;
 	int num;
-	switch(get_mode(args[1]))
+    for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+    {
+        std::cout << "args: " << *it << std::endl;
+    }
+    int mode_temp;
+    for (size_t i  =0; i < args.size(); i++)
+    {
+        mode_temp = get_mode(args[i]);
+        if (mode_temp != mode_error)
+            break;
+    }
+	switch(mode_temp)
 	{
 		case minus_i:
             if (args.size() != 2)
@@ -84,7 +95,7 @@ int parsing_mode(std::vector<std::string> args, Channel channel, Client client)
             channel.set_invite_only(false, client);
 			break;
         case plus_i:
-            if (args.size() != 2)
+            if (args.size() != 3)
                 throw std::invalid_argument("wrong number of arguments");
             channel.set_invite_only(true, client);
             break;
@@ -218,10 +229,9 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             client.setNickname(args[1]);
             break;
         case PING:
-            if (args.size() != 1)
+            if (args.size() != 2)
                 throw std::invalid_argument("Wrong number of arguments");
-            std::cout << "PONG 12 ms" << std::endl << std::endl << std::endl << std::endl;
-            std::cout << "nan je deconne ca marche pas" << std::endl;
+            
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/07/31 14:41:41 by val              ###   ########.fr        #
+#    Updated: 2024/08/01 15:48:27 by vsoltys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC		= src/main.cpp \
 		  src/commands/command.cpp \
 		  src/commands/parsing.cpp \
 		  src/commands/parsing_utils.cpp \
-		  src/classes/Channel.cpp #
+		  src/classes/Channel.cpp \
+		  src/commands/RPL_message.cpp #
 
 OBJ		= $(SRC:.cpp=.o)
 
