@@ -169,11 +169,10 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
         Channel temp_channel("temp", temp_client);
         return temp_channel;
     }
-
-    std::string stripped_name = channel_name.substr(1); // Retire le '#'
-    for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
-        std::cout << "Channel name: " << (*it)->get_channel_name() << std::endl;
+    if (channels.empty()) {
+        throw std::invalid_argument("No channels available");
     }
+    std::string stripped_name = channel_name.substr(1); // Retire le '#'
     for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
         if ((*it)->get_channel_name() == stripped_name) {
             return **it; // Déréférencement double pour retourner l'objet Channel
@@ -249,7 +248,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 channel.join_request(client, args[1]);
             break;
         case CMD_ERROR:
-            channel.send_msg_to_channel(args[1], client);
+            client.getCurrentChannel().send_msg_to_channel(args[1], client);
     }
     return 1;
 }
@@ -290,7 +289,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
         send_RPL_message(461, server, client , Channel("temp", client), "wrong arguments");
     }
 
-    if (args[0] == "JOIN" || !is_channel(channels, args[1]))
+    if (args[0] == "JOIN" && !is_channel(channels, args[1]))
     {
         Channel new_channel(args[1], client);
         server.add_channel(&new_channel);

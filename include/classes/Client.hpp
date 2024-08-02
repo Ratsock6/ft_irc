@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 19:11:25 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:43:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 #include "main.hpp"
 
+class Channel;
+
 class Client{
 	private:
 		std::string username;
 		std::string nickname;
+		Channel *current_channel;
 		int user_ID;
 		int fd;
 		std::string ip;
@@ -34,6 +37,8 @@ class Client{
 		std::string getUsername() const;
 		std::string getNickname() const;
 		int getFd() const;
+		Channel getCurrentChannel() const;
+		void setCurrentChannel(Channel *channel);
 		std::string getIp();
 		bool getAdmin();
 		bool getTopicAutorization();

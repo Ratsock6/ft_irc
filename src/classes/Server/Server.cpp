@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 18:34:10 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:20:42 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ Server::Server( const int port, std::string password )
 
 Server::~Server()
 {
+	
 	std::cout << BWhite;
 	std::cout << "[Server] Server destroyed\n";
 	std::cout << Color_Off;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 19:58:20 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:27:58 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	Server::accept_new_client()
 	all_sockets[poll_count]	= new_socket;
 	poll_count++;
 
-	Client new_client("temp_name", new_socket.fd, new_ID(), false);
+	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
 	new_client.setNickname("temp_nick");
 	this->clients.push_back(new_client);
 	/**************test val *****************************/
