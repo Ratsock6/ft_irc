@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 15:31:33 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/05 14:58:46 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ class Server {
 	public :
 		/// Constructors & Destructor :
 		std::time_t time;
+		bool new_client;
 		Server( int port , std::string password );
 		~Server();
 

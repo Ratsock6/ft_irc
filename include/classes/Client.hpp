@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/02 03:43:39 by val              ###   ########.fr       */
+/*   Updated: 2024/08/05 15:26:31 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class Channel;
 class Client{
 	private:
 		std::string username;
+		std::string realname;
 		std::string nickname;
 		Channel *current_channel;
 		int user_ID;
@@ -35,7 +36,10 @@ class Client{
 		Client& operator=(const Client &c);
 
 		std::string getUsername() const;
+		std::string getUsername() ;
 		std::string getNickname() const;
+		std::string getRealname() const;
+		void setRealname(std::string realname);
 		int getFd() const;
 		Channel getCurrentChannel() const;
 		void setCurrentChannel(Channel *channel);

@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/05 10:39:29 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/05 15:30:23 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	Server::server_loop()
 
 		// Poll for events
 		std::cout << "polling" << std::endl;
+		for(std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
+		{
+			std::cout << BCyan <<"Client: "<< it->getID()<< " : " << it->getUsername() << " nick : " << it->getNickname() <<Color_Off <<std::endl;
+		}
 		for(std::vector<Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
 		{
 			std::cout << BCyan <<"Channel: " << (*it)->get_channel_name() << Color_Off <<std::endl;
@@ -121,6 +125,16 @@ void	Server::receive_data(int client_socket)
 				std::cerr << e.what() << std::endl;
 				std::cerr << Color_Off;
 			}
+			if (this->new_client == true)
+			{
+				Channel dummy("dummy", get_client_by_socket(client_socket));
+				send_RPL_message(1, *this, get_client_by_socket(client_socket), dummy, "");
+				send_RPL_message(2, *this, get_client_by_socket(client_socket), dummy, "");
+				send_RPL_message(3, *this, get_client_by_socket(client_socket), dummy, "");
+				send_RPL_message(4, *this, get_client_by_socket(client_socket), dummy, "");
+				send_RPL_message(5, *this, get_client_by_socket(client_socket), dummy, "");
+				this->new_client = false;
+				}
 			message.str("");
 			message.clear();
 		}
@@ -169,6 +183,7 @@ void	Server::accept_new_client()
 
 	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
 	new_client.setNickname("temp_nick");
+	//new_client.setRealname("temp_realname");
 	this->clients.push_back(new_client);
 	for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
 	{
@@ -180,13 +195,9 @@ void	Server::accept_new_client()
 	// Channel test("test", new_client);
 	// test.send_private_msg("YOUHOUU", test_client, new_client);
 	/******************************************************/
-	Channel dummy("dummy", new_client);
-	send_RPL_message(1, *this, new_client, dummy, "");
-	send_RPL_message(2, *this, new_client, dummy, "");
-	send_RPL_message(3, *this, new_client, dummy, "");
-	send_RPL_message(4, *this, new_client, dummy, "");
-	send_RPL_message(5, *this, new_client, dummy, "");
+	
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected : " << client_socket << "\n";
 	std::cout << Color_Off;
+	this->new_client = true;
 }

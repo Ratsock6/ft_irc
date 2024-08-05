@@ -19,7 +19,7 @@ int get_command(const std::string& command) {
     if (command == "INVITE") return INVITE;
     if (command == "TOPIC") return TOPIC;
     if (command == "MODE") return MODE;
-    if (command == "MSG") return MSG;
+    if (command == "PRIVMSG") return MSG;
     if (command == "NICK") return NICK;
     if (command == "PART") return PART;
     if (command == "QUIT") return QUIT;
@@ -163,18 +163,18 @@ bool is_channel(const std::vector<Channel*>& channels, const std::string& channe
     return false;
 }
 
-Channel Search_channel(const std::vector<Channel*> &channels, const std::string& channel_name) {
-    if (channel_name.empty() || channel_name[0] != '#') {
-        Client temp_client("temp", 0, 0, false);
-        Channel temp_channel("temp", temp_client);
-        return temp_channel;
-    }
+Channel *Search_channel(const std::vector<Channel*> &channels, const std::string& channel_name) {
+    // if (channel_name.empty() || channel_name[0] != '#') {
+    //     Client temp_client("temp", 0, 0, false);
+    //     Channel temp_channel("temp", temp_client);
+    //     return temp_channel;
+    // }
     if (channels.empty()) {
         throw std::invalid_argument("No channels available");
     }
     for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
         if ((*it)->get_channel_name() == channel_name) {
-            return **it; // Déréférencement double pour retourner l'objet Channel
+            return *it; 
         }
     }
     throw std::invalid_argument("Channel not found");
@@ -183,56 +183,85 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
 
 int switch_search_command(std::vector<std::string> args , const std::vector<Channel*> &channels,Client &client, Server &server)
 {
-    Channel channel = Search_channel(channels, args[1]);
+    Channel *channel = Search_channel(channels, args[1]);
+    std::vector<Client> users_list = server.get_clients();
+    std::string tmp;
     switch (get_command(args[0])) {
         case KICK:
             if (args.size() != 3)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.remove_user(Search_client_ID(args[1], channel.get_users_list()), client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->remove_user(Search_client_ID(args[1], channel->get_users_list()), client);
             break;
         case INVITE:
             if (args.size() != 3)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.add_user_by_admin(Search_client_ID(args[2], channel.get_users_list()), client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->add_user_by_admin(Search_client_ID(args[2], channel->get_users_list()), client);
             break;
         case TOPIC:
             if (args.size() != 3)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.change_topic(args[2], client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->change_topic(args[2], client);
             break;
         case MODE:
             if (args.size() < 3)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            return parsing_mode(args, channel, client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            return parsing_mode(args, *channel, client);
         case MSG:
-            if (args.size() < 4)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.send_private_msg(args[3], client, Search_client_ID(args[2], channel.get_users_list()));
+            if (args.size() < 3)
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->send_msg_to_channel(args[2], client);
             break;
         case NICK:
             if (args.size() != 2)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            for (size_t i = 0 ; i < users_list.size(); i++)
+            {
+                if (users_list[i].getUsername() == args[2])
+                {
+                    args[1] += "_";
+                    break;
+                }
+            }
             client.setNickname(args[1]);
             break;
         case PART:
             if (args.size() != 2)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.remove_user(client, client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->remove_user(client, client);
             break;
         case QUIT:
             if (args.size() != 2)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
             break;
         case USER:
             if (args.size() <= 3)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            std::cout << "args[2] numero 1: " << args[1] << std::endl;
+            std::cout << "args[2] numero 2: " << args[2] << std::endl;
+            for (size_t i = 0 ; i < users_list.size(); i++)
+            {
+                if (users_list[i].getUsername() == args[2])
+                {
+                    args[2] += "_";
+                    break;
+                }
+            }
             client.setUsername(args[2]);
-            client.setNickname(args[1]);
+            for (size_t i = 0 ; i < users_list.size(); i++)
+            {
+                if (users_list[i].getRealname() == args[1])
+                {
+                    std::cout << "getnick = " << users_list[i].getRealname() << "args[1] = " << args[1] << std::endl;
+                    args[1] += "_";
+                    break;
+                }
+            }
+            client.setRealname(args[1]);
             break;
         case PING:
             if (args.size() != 2)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            channel.send_private_msg("PONG " + args[1], client, client);
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            channel->send_private_msg("PONG " + args[1], client, client);
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
@@ -240,15 +269,16 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() == 1)
             {
                 std::cout << "test" << std::endl;
-                channel.join_request(client, "");
+                channel->join_request(client, "");
             }
             else
-                channel.join_request(client, args[1]);
+                channel->join_request(client, args[1]);
+                
             break;
         case WHOIS:
             if (args.size() != 2)
-                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            Client target = Search_client_ID(args[1], channel.get_users_list());
+                send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            Client target = Search_client_ID(args[1], channel->get_users_list());
             std::string msg = target.getUsername() + "@42.fr";
             send(target.getFd(), msg.c_str(), msg.size(), 0);
             break;

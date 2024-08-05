@@ -2,6 +2,7 @@
 /**********************Canonic form(useless)***************************/
 Client::Client(std::string username, int fd,int ID, bool admin){
 	this->username = username;
+	this->nickname = "default";
 	this->fd = fd;
 	this->admin = admin;
 	this->user_ID = ID;
@@ -12,6 +13,7 @@ Client::~Client(){
 }
 
 Client::Client(const Client &c){
+	this->realname = c.realname;
 	this->username = c.username;
 	this->nickname = c.nickname;
 	this->ip = c.ip;
@@ -24,6 +26,7 @@ Client::Client(const Client &c){
 }
 
 Client& Client::operator=(const Client &c){
+	this->realname = c.realname;
 	this->username = c.username;
 	this->nickname = c.nickname;
 	this->ip = c.ip;
@@ -39,6 +42,10 @@ Client& Client::operator=(const Client &c){
 /************************geter & seter******************************/
 
 std::string Client::getUsername() const{
+	return this->username;
+
+}
+std::string Client::getUsername() {
 	return this->username;
 }
 
@@ -62,6 +69,14 @@ void Client::setNickname(std::string nickname){
 
 void Client::setUsername(std::string username){
 	this->username = username;
+	std::cout << "Username : " << this->username << std::endl;
+}
+void Client::setRealname(std::string realname){
+	this->realname = realname;
+}
+
+std::string Client::getRealname() const{
+	return this->realname;
 }
 
 int Client::getFd() const{

@@ -7,6 +7,7 @@ Channel::Channel(std::string channel_name, Client &creator)
 	invite_only = false;
 	topic_autorization = true;
 	user_limit = 20;
+	users_list.insert(std::pair<Client, bool>(creator, true));
 }
 
 Channel::~Channel(){
@@ -127,7 +128,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 	}
 	if (this->password == password || this->password.empty()){
 		std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
-		this->users_list[user_to_add] = false;
+		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
 		throw std::invalid_argument("Wrong password");
@@ -176,10 +177,14 @@ void Channel::change_user_limit(int user_limit, Client client){
 
 void Channel::send_msg_to_channel(std::string msg, Client client){
 	std::cout << "sending msg to channel " << msg << std::endl;
+	std::string temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
+	std::cout << "user list size :" << this->users_list.size() << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
-        if (it->first.getID() != client.getID()) {
-            send(it->first.getFd(), msg.c_str(), msg.size(), 0);
-        }
+		if (it->first.getFd() != client.getFd())
+		{
+            send(it->first.getFd(), temp.c_str(), temp.size(), 0);
+			std::cout << "fd: "<< it->first.getFd() << std::endl;
+		}
 	}
 }
 
