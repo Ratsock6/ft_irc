@@ -164,11 +164,9 @@ bool is_channel(const std::vector<Channel*>& channels, const std::string& channe
 }
 
 Channel *Search_channel(const std::vector<Channel*> &channels, const std::string& channel_name) {
-    // if (channel_name.empty() || channel_name[0] != '#') {
-    //     Client temp_client("temp", 0, 0, false);
-    //     Channel temp_channel("temp", temp_client);
-    //     return temp_channel;
-    // }
+    if (channel_name.empty() || channel_name[0] != '#') {
+        return NULL;
+    }
     if (channels.empty()) {
         throw std::invalid_argument("No channels available");
     }
