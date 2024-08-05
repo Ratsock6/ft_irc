@@ -26,6 +26,7 @@ int get_command(const std::string& command) {
     if (command == "USER") return USER;
     if (command == "PING") return PING;
     if (command == "JOIN") return JOIN;
+    if (command == "WHOIS") return WHOIS;
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {
@@ -81,7 +82,7 @@ int parsing_mode(std::vector<std::string> args, Channel &channel, Client &client
         std::cout << "args: " << *it << std::endl;
     }
     int mode_temp;
-    for (size_t i  =0; i < args.size(); i++)
+    for (size_t i = 0; i < args.size(); i++)
     {
         mode_temp = get_mode(args[i]);
         if (mode_temp != mode_error)
@@ -225,15 +226,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case USER:
             if (args.size() <= 3)
                 send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            for (std::vector<Client>::iterator it = server.get_clients().begin(); it != server.get_clients().end(); ++it)
-            {
-                if (it->getUsername() == args[2])
-                {}
-                    args[2] += "_";
-                if (it->getNickname() == args[1])
-                    args[1] += "_";
-
-            }
             client.setUsername(args[2]);
             client.setNickname(args[1]);
             break;
@@ -252,6 +244,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             }
             else
                 channel.join_request(client, args[1]);
+            break;
+        case WHOIS:
+            if (args.size() != 2)
+                send_RPL_message(461, server, client, channel, "Wrong number of arguments");
+            Client target = Search_client_ID(args[1], channel.get_users_list());
+            std::string msg = target.getUsername() + "@42.fr";
+            send(target.getFd(), msg.c_str(), msg.size(), 0);
             break;
         //case CMD_ERROR:
             //client.getCurrentChannel().send_msg_to_channel(args[1], client);

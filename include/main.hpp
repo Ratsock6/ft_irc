@@ -30,6 +30,7 @@ enum command
 	USER,
 	PING,
 	JOIN,
+	WHOIS,
 	CMD_ERROR
 };
 enum mode{
