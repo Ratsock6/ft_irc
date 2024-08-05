@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/02 03:27:58 by val              ###   ########.fr       */
+/*   Updated: 2024/08/05 10:39:29 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	Server::server_loop()
 
 		// Poll for events
 		std::cout << "polling" << std::endl;
+		for(std::vector<Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
+		{
+			std::cout << BCyan <<"Channel: " << (*it)->get_channel_name() << Color_Off <<std::endl;
+		}
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
@@ -166,6 +170,10 @@ void	Server::accept_new_client()
 	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
 	new_client.setNickname("temp_nick");
 	this->clients.push_back(new_client);
+	for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
+	{
+		std::cout << "Client: " << it->getNickname() << std::endl;
+	}
 	/**************test val *****************************/
 
 	// Client test_client("test_client", 2, new_ID(), true);

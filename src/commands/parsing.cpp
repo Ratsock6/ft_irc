@@ -154,9 +154,8 @@ bool is_channel(const std::vector<Channel*>& channels, const std::string& channe
        return false;
     }
 
-    std::string stripped_name = channel_name.substr(1); // Retire le '#'
     for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
-        if ((*it)->get_channel_name() == stripped_name) { // Déréférencement double pour accéder à l'objet Channel
+        if ((*it)->get_channel_name() == channel_name) {
             return true;
         }
     }
@@ -172,9 +171,8 @@ Channel Search_channel(const std::vector<Channel*> &channels, const std::string&
     if (channels.empty()) {
         throw std::invalid_argument("No channels available");
     }
-    std::string stripped_name = channel_name.substr(1); // Retire le '#'
     for (std::vector<Channel*>::const_iterator it = channels.begin(); it != channels.end(); ++it) {
-        if ((*it)->get_channel_name() == stripped_name) {
+        if ((*it)->get_channel_name() == channel_name) {
             return **it; // Déréférencement double pour retourner l'objet Channel
         }
     }
@@ -213,7 +211,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case NICK:
             if (args.size() != 2)
                 send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            //FAUT GERER NICKNAME DEJA PRIS
             client.setNickname(args[1]);
             break;
         case PART:
@@ -228,13 +225,22 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case USER:
             if (args.size() <= 3)
                 send_RPL_message(461, server, client, channel, "Wrong number of arguments");
+            for (std::vector<Client>::iterator it = server.get_clients().begin(); it != server.get_clients().end(); ++it)
+            {
+                if (it->getUsername() == args[2])
+                {}
+                    args[2] += "_";
+                if (it->getNickname() == args[1])
+                    args[1] += "_";
+
+            }
             client.setUsername(args[2]);
             client.setNickname(args[1]);
             break;
         case PING:
             if (args.size() != 2)
                 send_RPL_message(461, server, client, channel, "Wrong number of arguments");
-            
+            channel.send_private_msg("PONG " + args[1], client, client);
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
@@ -247,13 +253,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             else
                 channel.join_request(client, args[1]);
             break;
-        case CMD_ERROR:
-            client.getCurrentChannel().send_msg_to_channel(args[1], client);
+        //case CMD_ERROR:
+            //client.getCurrentChannel().send_msg_to_channel(args[1], client);
     }
     return 1;
 }
-
-
 
 
 int parsing_command(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server) {
@@ -291,9 +295,9 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 
     if (args[0] == "JOIN" && !is_channel(channels, args[1]))
     {
-        Channel new_channel(args[1], client);
-        server.add_channel(&new_channel);
-        channels.push_back(&new_channel);
+        Channel *new_channel = new Channel(args[1], client);
+        server.add_channel(new_channel);
+        channels.push_back(new_channel);
         std::cout << "new channel created" << std::endl;
     }
 
@@ -312,7 +316,6 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
         std::cout << "command: " << *it << std::endl;
         parsing_command(*it, channels, client, server);
     }
-    std::cout << "client Nick : " << client.getNickname() << " client user : " << client.getUsername() << std::endl;
     std::vector<Client> users_list = server.get_clients();
     for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
     {
