@@ -1,6 +1,8 @@
 #include "Client.hpp"
 /**********************Canonic form(useless)***************************/
 Client::Client(std::string username, int fd,int ID, bool admin){
+	if (username.length() > 30)
+		username.resize(30);
 	this->username = username;
 	this->nickname = "default";
 	this->fd = fd;
@@ -64,10 +66,14 @@ void Client::setCurrentChannel(Channel *channel){
 }
 
 void Client::setNickname(std::string nickname){
+	if (nickname.length() > 30)
+		nickname.resize(30);
 	this->nickname = nickname;
 }
 
 void Client::setUsername(std::string username){
+	if (username.length() > 30)
+		username.resize(30);
 	this->username = username;
 	std::cout << "Username : " << this->username << std::endl;
 }
