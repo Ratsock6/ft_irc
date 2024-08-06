@@ -64,8 +64,11 @@ void send_RPL_message(int RPL_number ,Server &server, Client client, Channel cha
 			message = base_msg + msg_utils + " :Not enough parameters\r\n";
 			break;
 		case 462:
+		{
 			message = base_msg + " :You may not reregister\r\n";
+			throww = false;
 			break;
+		}
 		case 464:
 			message = base_msg + " :Password incorrect\r\n";
 			break;

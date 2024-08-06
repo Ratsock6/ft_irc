@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 17:26:25 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 18:23:33 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Client{
 		std::string nickname;
 		Channel *current_channel;
 		int user_ID;
+		bool put_pwd;
 		int fd;
 		std::string ip;
 		bool admin;
@@ -46,6 +47,8 @@ class Client{
 		std::string getIp();
 		bool getAdmin();
 		bool getTopicAutorization();
+		bool getput_pwd() const;
+		void setput_pwd(bool put_pwd);
 		int getID() const;
 		std::stringstream& getMessageBuffer();
 

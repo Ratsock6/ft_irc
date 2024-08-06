@@ -189,8 +189,10 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-                server.close_client(client.getFd());
+                
                 send_RPL_message(464, server, client, *channels[0], "Wrong password");
+                server.close_client(client.getFd());
+                throw std::invalid_argument("Wrong password");
             }
             break;
         case KICK:
@@ -346,25 +348,31 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server)
 {
     std::vector<std::string> commands = splitCommands(str);
-    bool pwd_state = false;
-    if (server.get_password() != "")
+    if (client.getput_pwd() == false)
     {
-        for (size_t i = 0; i < commands.size(); i++)
+        bool pwd_state = false;
+        if (server.get_password() != "")
         {
-            if (commands[i].find("PASS") != std::string::npos)
+            for (size_t i = 0; i < commands.size(); i++)
             {
-                pwd_state = true;
-                break;
+                if (commands[i].find("PASS") != std::string::npos)
+                {
+                    pwd_state = true;
+                    client.setput_pwd(true);
+                    break;
+                }
             }
         }
+        if (pwd_state == false)
+        {
+            Server temp(0, "password");
+            Channel temp_channel("temp", client);
+            send_RPL_message(464, temp, client, temp_channel, "Wrong password");
+            server.close_client(client.getFd());
+            throw std::invalid_argument("Wrong password");
+        }
     }
-    if (pwd_state == false)
-    {
-        Server temp(0, "password");
-        Channel temp_channel("temp", client);
-        server.close_client(client.getFd());
-        send_RPL_message(464, temp, client, temp_channel, "Wrong password");
-    }
+    
     
     for (std::vector<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
     {

@@ -8,6 +8,7 @@ Client::Client(std::string username, int fd,int ID, bool admin){
 	this->fd = fd;
 	this->admin = admin;
 	this->user_ID = ID;
+	this->put_pwd = false;
 	this->topic_autorization = false;
 }
 
@@ -42,6 +43,13 @@ Client& Client::operator=(const Client &c){
 }
 
 /************************geter & seter******************************/
+bool Client::getput_pwd() const{
+	return this->put_pwd;
+}
+
+void Client::setput_pwd(bool put_pwd){
+	this->put_pwd = put_pwd;
+}
 
 std::string Client::getUsername() const{
 	return this->username;
