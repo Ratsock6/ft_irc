@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 14:24:51 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:32:54 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@ void	Server::server_loop()
 		server_command();
 
 		// Poll for events
-		for(std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
-		{
-			std::cout << BCyan <<"Client: "<< it->getID()<< " : " << it->getUsername() << " nick : " << it->getNickname() <<Color_Off <<std::endl;
-		}
-		for(std::vector<Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
-		{
-			std::cout << BCyan <<"Channel: " << (*it)->get_channel_name() << Color_Off <<std::endl;
-		}
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
