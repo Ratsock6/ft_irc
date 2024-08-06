@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/05 15:30:23 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 14:24:51 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	Server::server_loop()
 		server_command();
 
 		// Poll for events
-		std::cout << "polling" << std::endl;
 		for(std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
 		{
 			std::cout << BCyan <<"Client: "<< it->getID()<< " : " << it->getUsername() << " nick : " << it->getNickname() <<Color_Off <<std::endl;
@@ -35,7 +34,6 @@ void	Server::server_loop()
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)
 			continue;
-		std::cout << "polling done" << std::endl;
 		// Check for events
 		std::cout << "poll count: " << poll_count << std::endl;
 		for (int i = 0; i < poll_count; i++)
