@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 16:28:39 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:30:13 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Server::Server( const int port, std::string password )
 	this->all_sockets = std::vector<struct pollfd>(max_clients);
 
 	std::cout << BWhite;
-	std::cout << "[Server] Server initialized\n";
+	std::cout << "[Server] Server initialized, password\n";
 	std::cout << Color_Off;
 }
 

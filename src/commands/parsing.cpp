@@ -189,11 +189,10 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-                Server temp(0, "password");
-                Channel temp_channel("temp", client);
-                send_RPL_message(464, temp, client, temp_channel, "Wrong password");
                 server.close_client(client.getFd());
+                send_RPL_message(464, server, client, *channels[0], "Wrong password");
             }
+            break;
         case KICK:
             if (args.size() != 3)
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
@@ -223,7 +222,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
             for (size_t i = 0 ; i < users_list.size(); i++)
             {
-                if (users_list[i].getUsername() == args[2])
+                if (users_list[i].getNickname() == args[2])
                 {
                     args[1] += "_";
                     break;

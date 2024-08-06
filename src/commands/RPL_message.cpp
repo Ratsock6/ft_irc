@@ -8,7 +8,7 @@ std::string int_to_string(int number)
 	ss >> result;
 	return result;
 }
-void send_RPL_message(int RPL_number ,Server server, Client client, Channel channel ,std::string msg_utils = "")
+void send_RPL_message(int RPL_number ,Server &server, Client client, Channel channel ,std::string msg_utils = "")
 {	
 	std::string message = "wrong RPL number";
 	std::cout << "RPL_number: " << RPL_number << std::endl;

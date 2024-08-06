@@ -19,7 +19,7 @@ class Channel{
 	public:
 		Channel(std::string channel_name, Client &creator);
 		~Channel();
-		Channel(const Channel &c);
+		//Channel(const Channel &c);
 		Channel& operator=(const Channel &c);
 
 		void add_user_by_admin(Client user_to_add, Client user_who_add);

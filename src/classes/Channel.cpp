@@ -15,18 +15,18 @@ Channel::Channel(std::string channel_name, Client &creator)
 Channel::~Channel(){
 }
 
-Channel::Channel(const Channel &c)
-    : 
-	  user_limit(c.user_limit),
-	  channel_name(c.channel_name),
-      password(c.password) ,
-	  topic(c.topic),
-	  users_list(c.users_list),
-	  creator(c.creator),
-	  invite_only(c.invite_only),
-	  topic_autorization(c.topic_autorization){
-    // No need for further assignments as they are handled in the initializer list
-}
+// Channel::Channel(const Channel &c)
+//     : 
+// 	  user_limit(c.user_limit),
+// 	  channel_name(c.channel_name),
+//       password(c.password) ,
+// 	  topic(c.topic),
+// 	  users_list(c.users_list),
+// 	  creator(c.creator),
+// 	  invite_only(c.invite_only),
+// 	  topic_autorization(c.topic_autorization){
+//     // No need for further assignments as they are handled in the initializer list
+// }
 
 Channel& Channel::operator=(const Channel &c){
 	this->channel_name = c.channel_name;
