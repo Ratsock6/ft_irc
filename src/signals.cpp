@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:27:01 by mgallais          #+#    #+#             */
-/*   Updated: 2024/07/31 10:57:46 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:58:23 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,4 @@ void Server::signal_handler()
 	signal(SIGTERM, signal_callback_handler);
 	signal(SIGQUIT, signal_callback_handler);
 	signal(SIGTSTP, signal_callback_handler);
-	signal(SIGPIPE, signal_callback_handler);
 }
