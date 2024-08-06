@@ -5,6 +5,8 @@ Channel::Channel(std::string channel_name, Client &creator)
     : channel_name(channel_name), creator(creator) {
 	Channel::add_admin(creator, creator);
 	invite_only = false;
+	topic = "No topic";
+	password = "";
 	topic_autorization = true;
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
@@ -14,15 +16,16 @@ Channel::~Channel(){
 }
 
 Channel::Channel(const Channel &c)
-    : channel_name(c.channel_name), creator(c.creator) {
-	this->channel_name = c.channel_name;
-	this->topic = c.topic;
-	this->users_list = c.users_list;
-	this->creator = c.creator;
-	this->invite_only = c.invite_only;
-	this->user_limit = c.user_limit;
-	this->topic_autorization = c.topic_autorization;
-	this->password = c.password;
+    : 
+	  user_limit(c.user_limit),
+	  channel_name(c.channel_name),
+      password(c.password) ,
+	  topic(c.topic),
+	  users_list(c.users_list),
+	  creator(c.creator),
+	  invite_only(c.invite_only),
+	  topic_autorization(c.topic_autorization){
+    // No need for further assignments as they are handled in the initializer list
 }
 
 Channel& Channel::operator=(const Channel &c){

@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 15:13:41 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:28:39 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ Server::Server( const int port, std::string password )
 
 Server::~Server()
 {
-	
 	std::cout << BWhite;
 	std::cout << "[Server] Server destroyed\n";
 	std::cout << Color_Off;
@@ -39,6 +38,19 @@ Server::~Server()
 
 
 /// Private Functions :
+
+void Server::remove_user(Client client)
+{
+	for (int i = 0; i < (int)clients.size(); i++)
+	{
+		if (clients[i].getID() == client.getID())
+		{
+			close_client(clients[i].getFd());
+			clients.erase(clients.begin() + i);
+			break;
+		}
+	}
+}
 std::string Server::get_password() const
 {
 	return password;
