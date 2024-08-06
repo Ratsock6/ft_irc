@@ -3,9 +3,14 @@
 std::string int_to_string(int number)
 {
 	std::string result;
+	
 	std::stringstream ss;
 	ss << number;
 	ss >> result;
+	if (number < 6)
+	{
+		result = "00" + result;
+	}
 	return result;
 }
 void send_RPL_message(int RPL_number ,Server &server, Client client, Channel channel ,std::string msg_utils = "")
