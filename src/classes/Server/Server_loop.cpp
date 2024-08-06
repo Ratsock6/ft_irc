@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 15:51:57 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:09:16 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,12 @@ void	Server::receive_data(int client_socket)
 	char				buffer[RECV_BUFFER_SIZE];
 	int					status;
 
-	if (client_socket == this->get_server_socket().fd)
-		return ;
 	message.str() = client.getMessageBuffer().str();
 	status = recv(client_socket, buffer, RECV_BUFFER_SIZE, MSG_DONTWAIT);
 	if (status == -1) {
 		throw std::runtime_error("recv: " + std::string(strerror(errno)));
 	}
-	else if (status == 0) {
+	else if (status == 0) { // Client disconnected
 		close_client(client_socket);
 	}
 	else {
