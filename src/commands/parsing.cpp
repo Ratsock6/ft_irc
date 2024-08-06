@@ -306,7 +306,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
         std::ostringstream oss;
         oss << server.get_server_socket().fd;
         std::string str = oss.str();
-        temp_channel.send_private_msg((":" + str + " CAP * LS :none"), temp_client ,client);
+        temp_channel.send_private_msg((":" + str + " CAP * LS :none\r\n"), temp_client ,client);
         return 0;
     }
     // Split the command into arguments
@@ -346,6 +346,25 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server)
 {
     std::vector<std::string> commands = splitCommands(str);
+    bool pwd_state = false;
+    if (server.get_password() != "")
+    {
+        for (size_t i = 0; i < commands.size(); i++)
+        {
+            if (commands[i].find("PASS") != std::string::npos)
+            {
+                pwd_state = true;
+                break;
+            }
+        }
+    }
+    if (pwd_state == false)
+    {
+        Server temp(0, "password");
+        Channel temp_channel("temp", client);
+        send_RPL_message(464, temp, client, temp_channel, "Wrong password");
+    }
+    
     for (std::vector<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
     {
         std::cout << "command: " << *it << std::endl;
