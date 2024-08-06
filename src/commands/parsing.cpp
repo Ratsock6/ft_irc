@@ -192,6 +192,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 Server temp(0, "password");
                 Channel temp_channel("temp", client);
                 send_RPL_message(464, temp, client, temp_channel, "Wrong password");
+                server.close_client(client.getFd());
             }
         case KICK:
             if (args.size() != 3)
@@ -362,6 +363,7 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
     {
         Server temp(0, "password");
         Channel temp_channel("temp", client);
+        server.close_client(client.getFd());
         send_RPL_message(464, temp, client, temp_channel, "Wrong password");
     }
     

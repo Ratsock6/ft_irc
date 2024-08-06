@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 15:13:07 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:25:58 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ class Server {
 		void	accept_new_client();
 		void	receive_data( int client_socket );
 		void	send_data( int client_socket, std::string data );
-		void	close_client( int client_socket );
 		Client&	get_client_by_socket( int client_socket );
 
 		// Stop
@@ -62,11 +61,13 @@ class Server {
 
 		/// Public Functions :
 		void	start();
+		void	close_client( int client_socket );
 		void	stop();
 		bool	server_command();
 		int new_ID();
 
 		/// Getters & Setters :
+		void remove_user(Client client);
 		std::string get_password() const;
 		int		get_status() const;
 		std::vector<Client> get_clients() const;
