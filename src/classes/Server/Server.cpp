@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 17:30:13 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 18:25:08 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,19 @@ bool Server::server_command()
 		}
 	}
 
+	if (buffer.substr(0, 4) == "/pwd")
+	{
+		if (server_status == RUNNING)
+		{
+			std::cerr << BRed << "[Server] Cannot change password while server is running\n" << Color_Off;
+			return program_running;
+		}
+
+		std::string new_pwd(buffer.substr(6));
+		password = new_pwd;
+		std::cout << BWhite << "[Server] Password changed to " << password << std::endl << Color_Off;
+	}
+
 	if (buffer == "/exit")
 	{
 		if (server_status == RUNNING)
@@ -249,6 +262,7 @@ bool Server::server_command()
 		std::cout << "[Server] /stop : stop the server if running\n";
 		std::cout << "[Server] /port <port> : change the port of the server\n";
 		std::cout << "[Server] /exit : exit the program\n";
+		std::cout << "[Server] /pwd <new password>: Change password\n";
 		std::cout << "[Server] /help : display this help\n";
 		std::cout << Color_Off;
 	}
