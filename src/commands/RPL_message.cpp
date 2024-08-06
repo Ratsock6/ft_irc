@@ -9,12 +9,12 @@ std::string int_to_string(int number)
 	return result;
 }
 void send_RPL_message(int RPL_number ,Server server, Client client, Channel channel ,std::string msg_utils = "")
-{
+{	
 	std::string message = "wrong RPL number";
 	std::cout << "RPL_number: " << RPL_number << std::endl;
 	bool throww = true;
 	std::string server_name = "IRC_server";
-	std::string base_msg = ":" + server_name + " 001 " + client.getNickname();
+	std::string base_msg = ":" + server_name + " " + int_to_string(RPL_number) + " " + client.getNickname();
 	#define PONG 6
 	switch(RPL_number)
 	{
@@ -125,9 +125,9 @@ void send_RPL_message(int RPL_number ,Server server, Client client, Channel chan
 			message = base_msg + msg_utils + " :is unknown mode char to me\r\n";
 			break;
 	}
-	if (throww == true)
-		throw std::invalid_argument(message);
 	std::cout << "Message: " << message << "fd :"<< client.getFd() <<std::endl;
 	send(client.getFd(), message.c_str(), message.size(), MSG_NOSIGNAL);
+	if (throww == true)
+		throw std::invalid_argument(message);
 
 }

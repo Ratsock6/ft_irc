@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 14:32:54 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:19:02 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,22 +109,23 @@ void	Server::receive_data(int client_socket)
 			
 			try{
 				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
+				if (this->new_client == true)
+				{
+				Channel dummy("dummy", get_client_by_socket(client_socket));
+					send_RPL_message(1, *this, get_client_by_socket(client_socket), dummy, "");
+					send_RPL_message(2, *this, get_client_by_socket(client_socket), dummy, "");
+					send_RPL_message(3, *this, get_client_by_socket(client_socket), dummy, "");
+					send_RPL_message(4, *this, get_client_by_socket(client_socket), dummy, "");
+					send_RPL_message(5, *this, get_client_by_socket(client_socket), dummy, "");
+					this->new_client = false;
+				}
 			}
 			catch (std::exception &e){
 				std::cerr << BRed;
 				std::cerr << e.what() << std::endl;
 				std::cerr << Color_Off;
 			}
-			if (this->new_client == true)
-			{
-				Channel dummy("dummy", get_client_by_socket(client_socket));
-				send_RPL_message(1, *this, get_client_by_socket(client_socket), dummy, "");
-				send_RPL_message(2, *this, get_client_by_socket(client_socket), dummy, "");
-				send_RPL_message(3, *this, get_client_by_socket(client_socket), dummy, "");
-				send_RPL_message(4, *this, get_client_by_socket(client_socket), dummy, "");
-				send_RPL_message(5, *this, get_client_by_socket(client_socket), dummy, "");
-				this->new_client = false;
-				}
+			
 			message.str("");
 			message.clear();
 		}

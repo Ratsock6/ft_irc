@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/05 14:58:46 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 15:13:07 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ class Server {
 		int new_ID();
 
 		/// Getters & Setters :
+		std::string get_password() const;
 		int		get_status() const;
 		std::vector<Client> get_clients() const;
 		std::vector<Channel *> get_channels() const;

@@ -27,6 +27,7 @@ int get_command(const std::string& command) {
     if (command == "PING") return PING;
     if (command == "JOIN") return JOIN;
     if (command == "WHOIS") return WHOIS;
+    if (command == "PASS") return PASS;
     return CMD_ERROR;
 }
 int get_mode(const std::string& command) {
@@ -185,6 +186,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
     std::vector<Client> users_list = server.get_clients();
     std::string tmp;
     switch (get_command(args[0])) {
+        case PASS:
+            if (args[1] != server.get_password())
+            {
+                Server temp(0, "password");
+                Channel temp_channel("temp", client);
+                send_RPL_message(464, temp, client, temp_channel, "Wrong password");
+            }
         case KICK:
             if (args.size() != 3)
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/02 03:20:42 by val              ###   ########.fr       */
+/*   Updated: 2024/08/06 15:13:41 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ Server::~Server()
 
 
 /// Private Functions :
-
+std::string Server::get_password() const
+{
+	return password;
+}
 // Create the server socket, and bind it
 void	Server::create_server_socket()
 {

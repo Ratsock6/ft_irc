@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/01 19:57:17 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 15:11:15 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ enum command
 	USER,
 	PING,
 	JOIN,
+	PASS,
 	WHOIS,
 	CMD_ERROR
 };
