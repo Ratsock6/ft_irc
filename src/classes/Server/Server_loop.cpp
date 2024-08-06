@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 15:19:02 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:49:17 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,12 @@ void	Server::receive_data(int client_socket)
 	char				buffer[RECV_BUFFER_SIZE];
 	int					status;
 
-	if (client_socket == this->get_server_socket().fd)
-		return ;
 	message.str() = client.getMessageBuffer().str();
 	status = recv(client_socket, buffer, RECV_BUFFER_SIZE, MSG_DONTWAIT);
 	if (status == -1) {
 		throw std::runtime_error("recv: " + std::string(strerror(errno)));
 	}
-	else if (status == 0) {
+	else if (status == 0) { // Client disconnected
 		close_client(client_socket);
 	}
 	else {
@@ -111,7 +109,7 @@ void	Server::receive_data(int client_socket)
 				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
 				if (this->new_client == true)
 				{
-				Channel dummy("dummy", get_client_by_socket(client_socket));
+					Channel dummy("dummy", get_client_by_socket(client_socket));
 					send_RPL_message(1, *this, get_client_by_socket(client_socket), dummy, "");
 					send_RPL_message(2, *this, get_client_by_socket(client_socket), dummy, "");
 					send_RPL_message(3, *this, get_client_by_socket(client_socket), dummy, "");
