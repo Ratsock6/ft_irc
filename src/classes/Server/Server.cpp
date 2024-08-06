@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 18:25:08 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:42:14 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,10 +239,26 @@ bool Server::server_command()
 			std::cerr << BRed << "[Server] Cannot change password while server is running\n" << Color_Off;
 			return program_running;
 		}
-
-		std::string new_pwd(buffer.substr(6));
+		if (buffer.size() < 6)
+		{
+			std::cerr << BRed << "[Server] Need a new password\n" << Color_Off;
+			return true;
+		}
+		int i = 5;
+		while (buffer[i])
+		{
+			if (std::isspace(buffer[i]))
+			{
+				std::cerr << BRed << "[Server] There are space is the password\n" << Color_Off;
+				return program_running;
+			}
+			else
+				i++;
+		}
+		
+		std::string new_pwd(buffer.substr(5));
 		password = new_pwd;
-		std::cout << BWhite << "[Server] Password changed to " << password << std::endl << Color_Off;
+		std::cout << BWhite << "[Server] Password changed to " << password << "" << std::endl << Color_Off;
 	}
 
 	if (buffer == "/exit")
