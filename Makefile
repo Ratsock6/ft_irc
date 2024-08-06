@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+         #
+#    By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 11:27:37 by mgallais          #+#    #+#              #
-#    Updated: 2024/08/01 15:48:27 by vsoltys          ###   ########.fr        #
+#    Updated: 2024/08/06 14:34:07 by mgallais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRC		= src/main.cpp \
 		  src/classes/Client.cpp \
 		  src/classes/Server/Server.cpp \
 		  src/classes/Server/Server_loop.cpp \
-		  src/commands/command.cpp \
 		  src/commands/parsing.cpp \
 		  src/commands/parsing_utils.cpp \
 		  src/classes/Channel.cpp \
