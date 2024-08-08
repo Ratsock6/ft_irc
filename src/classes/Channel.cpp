@@ -209,6 +209,8 @@ std::string Channel::get_topic(){
 
 std::vector<Client> Channel::get_users_list(){
 	std::vector<Client> users_list;
+	if (this->users_list.empty())
+		return users_list;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
 		users_list.push_back(it->first);
 	}
