@@ -6,7 +6,6 @@ Channel::Channel(std::string channel_name, Client &creator)
 	Channel::add_admin(creator, creator);
 	invite_only = false;
 	topic = "No topic";
-	password = "";
 	topic_autorization = true;
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
@@ -134,7 +133,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
-		throw std::invalid_argument("Wrong password");
+		throw std::invalid_argument("Wrong password 2");
 	}
 }
 

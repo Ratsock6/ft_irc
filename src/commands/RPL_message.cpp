@@ -71,6 +71,7 @@ void send_RPL_message(int RPL_number ,Server &server, Client client, Channel cha
 		}
 		case 464:
 			message = base_msg + " :Password incorrect\r\n";
+			throww = false;
 			break;
 		case 431:
 			message = base_msg + " :No nickname given\r\n";

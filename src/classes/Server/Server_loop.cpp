@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 17:09:16 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/08 02:56:28 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	Server::server_loop()
 		server_command();
 
 		// Poll for events
-		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
+		status = poll(all_sockets.data(), poll_count, 10);
 		if (status == ERROR)
 			throw std::runtime_error( strerror(errno) );
 		else if (status == NOTHING)

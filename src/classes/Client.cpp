@@ -24,6 +24,7 @@ Client::Client(const Client &c){
 	this->messageBuffer.str(c.messageBuffer.str());
 	this->fd = c.fd;
 	this->admin = c.admin;
+	this->put_pwd = c.put_pwd;
 	this->user_ID = c.user_ID;
 	this->current_channel = c.current_channel;
 }
@@ -32,6 +33,7 @@ Client& Client::operator=(const Client &c){
 	this->realname = c.realname;
 	this->username = c.username;
 	this->nickname = c.nickname;
+	this->put_pwd = c.put_pwd;
 	this->ip = c.ip;
 	this->topic_autorization = c.topic_autorization;
 	this->messageBuffer.str(c.messageBuffer.str());

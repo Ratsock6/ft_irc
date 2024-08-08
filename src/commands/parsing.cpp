@@ -185,20 +185,34 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
     Channel *channel = Search_channel(channels, args[1]);
     std::vector<Client> users_list = server.get_clients();
     std::string tmp;
+    
     switch (get_command(args[0])) {
         case PASS:
             if (args[1] != server.get_password())
             {
-                
+                std::cout << "la"   << std::endl;
                 send_RPL_message(464, server, client, *channels[0], "Wrong password");
                 server.close_client(client.getFd());
-                throw std::invalid_argument("Wrong password");
+                throw std::invalid_argument("Wrong password 1");
             }
             break;
         case KICK:
-            if (args.size() != 3)
+            if (args.size() <= 3)
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
             channel->remove_user(Search_client_ID(args[1], channel->get_users_list()), client);
+            if (args.size() < 4)
+            {
+                for (size_t i = 3; i < args.size(); i++)
+                {
+                    tmp += args[i];
+                    if (i != args.size() - 1)
+                        tmp += " ";
+                }
+                channel->send_private_msg("KICK " + args[1] + " " + args[2] + " :" + tmp, client, client);
+            }
+            else
+                channel->send_private_msg("KICK " + args[1] + " " + args[2], client, client);
+
             break;
         case INVITE:
             if (args.size() != 3)
@@ -211,12 +225,14 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             channel->change_topic(args[2], client);
             break;
         case MODE:
-            if (args.size() < 3)
+            if (args.size() <= 3)
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
             return parsing_mode(args, *channel, client);
         case MSG:
             if (args.size() < 3)
                 send_RPL_message(461, server, client, *channel, "Wrong number of arguments");
+            if (args[2][0] == ':')
+                args[2].erase(args[2].begin());
             channel->send_msg_to_channel(args[2], client);
             break;
         case NICK:
@@ -367,9 +383,10 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
         {
             Server temp(0, "password");
             Channel temp_channel("temp", client);
+            std::cout << "ici" << std::endl;
             send_RPL_message(464, temp, client, temp_channel, "Wrong password");
             server.close_client(client.getFd());
-            throw std::invalid_argument("Wrong password");
+            throw std::invalid_argument("Wrong password 3");
         }
     }
     
