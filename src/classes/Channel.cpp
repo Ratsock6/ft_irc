@@ -5,7 +5,7 @@ Channel::Channel(std::string channel_name, Client &creator)
     : channel_name(channel_name), creator(creator) {
 	Channel::add_admin(creator, creator);
 	invite_only = false;
-	topic = "No topic";
+	topic = "No topic is set";
 	topic_autorization = true;
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
@@ -84,7 +84,6 @@ void Channel::add_admin(Client user_to_add, Client user_who_add){
 	// 	throw std::invalid_argument("You are not an admin");
 	// }
 }
-
 void Channel::remove_admin(Client user, Client admin){
 	//if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
 	if (users_list[admin] == true){
@@ -179,7 +178,9 @@ void Channel::change_user_limit(int user_limit, Client client){
 
 void Channel::send_msg_to_channel(std::string msg, Client client){
 	std::cout << "sending msg to channel " << msg << std::endl;
+	
 	std::string temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
+	std::cout << temp << std::endl;
 	std::cout << "user list size :" << this->users_list.size() << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
 		if (it->first.getFd() != client.getFd())

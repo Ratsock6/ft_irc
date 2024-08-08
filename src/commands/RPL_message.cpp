@@ -13,7 +13,7 @@ std::string int_to_string(int number)
 	}
 	return result;
 }
-void send_RPL_message(int RPL_number ,Server &server, Client client, Channel *channel ,std::string msg_utils = "")
+void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *channel ,std::string msg_utils = "")
 {	
 	if (channel == NULL)
 	{
@@ -42,14 +42,14 @@ void send_RPL_message(int RPL_number ,Server &server, Client client, Channel *ch
 		}
 		case 3:
 		{
-			std::tm* now = std::localtime(&server.time);
+			std::tm* now = std::localtime(&server->time);
 			message = base_msg + " :This server was created " + int_to_string((now->tm_year + 1900)) + "/" + int_to_string((now->tm_mon + 1)) + "/" + int_to_string(now->tm_mday) + " " + int_to_string(now->tm_hour) + ":" + int_to_string(now->tm_min) + ":" + int_to_string(now->tm_sec) + "\r\n";
 			throww = false;
 			break;
 		}
 		case 4:
 		{
-			message = base_msg + " :There are " + int_to_string(server.get_clients().size()) + " users connected\r\n";
+			message = base_msg + " :There are " + int_to_string(server->get_clients().size()) + " users connected\r\n";
 			throww = false;
 			break;
 		}
@@ -94,10 +94,27 @@ void send_RPL_message(int RPL_number ,Server &server, Client client, Channel *ch
 			message = base_msg + server_name + " :No such server\r\n";
 			break;
 		case 332:
+			throww = false;
 			if (channel->get_topic().empty())
-				message = base_msg + channel->get_channel_name() + " :No topic is set\r\n";
+				message = base_msg + " " + channel->get_channel_name() + " :No topic is set\r\n";
 			else
-				message = base_msg + channel->get_channel_name() + " :" + channel->get_topic() + "\r\n";
+				message = base_msg + " " + channel->get_channel_name() + " :" + channel->get_topic() + "\r\n";
+			break;
+		case 353:
+		{
+			throww = false;
+			message = base_msg + " = " + channel->get_channel_name() + " :";
+			std::vector<Client> tmp_vector = channel->get_users_list();
+			for (std::vector<Client>::iterator it = tmp_vector.begin(); it != tmp_vector.end(); it++)
+			{
+				message += it->getNickname() + " ";
+			}
+			message += "\r\n";
+			break;
+		}
+		case 366:
+			throww = false;
+			message = base_msg + " " + channel->get_channel_name() + " :End of /NAMES list\r\n";
 			break;
 		case 475:
 			message = base_msg + channel->get_channel_name() + " :Cannot join channel (+k)\r\n";
