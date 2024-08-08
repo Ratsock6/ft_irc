@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/08 16:39:34 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/08 17:29:59 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,19 +232,19 @@ bool Server::server_command()
 		}
 	}
 
-	if (buffer.substr(0, 4) == "/pwd")
+	if (buffer.substr(0, 6) == "/passw")
 	{
 		if (server_status == RUNNING)
 		{
 			std::cerr << BRed << "[Server] Cannot change password while server is running\n" << Color_Off;
 			return program_running;
 		}
-		if (buffer.size() < 6)
+		if (buffer.size() < 8)
 		{
 			std::cerr << BRed << "[Server] Need a new password\n" << Color_Off;
 			return true;
 		}
-		int i = 5;
+		int i = 7;
 		while (buffer[i])
 		{
 			if (std::isspace(buffer[i]))
@@ -256,7 +256,7 @@ bool Server::server_command()
 				i++;
 		}
 		
-		std::string new_pwd(buffer.substr(5));
+		std::string new_pwd(buffer.substr(7));
 		password = new_pwd;
 		std::cout << BWhite << "[Server] Password changed to " << password << "" << std::endl << Color_Off;
 	}
@@ -277,8 +277,8 @@ bool Server::server_command()
 		std::cout << "[Server] /start : start the server if not running\n";
 		std::cout << "[Server] /stop : stop the server if running\n";
 		std::cout << "[Server] /port <port> : change the port of the server\n";
+		std::cout << "[Server] /passw <password>: Change password\n";
 		std::cout << "[Server] /exit : exit the program\n";
-		std::cout << "[Server] /pwd <new password>: Change password\n";
 		std::cout << "[Server] /help : display this help\n";
 		std::cout << Color_Off;
 	}
