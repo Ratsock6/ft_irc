@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/08 02:56:28 by val              ###   ########.fr       */
+/*   Updated: 2024/08/08 14:06:26 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,7 @@ void	Server::accept_new_client()
 
 	client_socket = accept(server_socket, NULL, NULL);
 	if (client_socket == -1) {
-		if (errno == EWOULDBLOCK || errno == EAGAIN)
-			return ;
-		else
-			throw std::runtime_error("accept: " + std::string(strerror(errno)));
+		throw std::runtime_error("accept: " + std::string(strerror(errno)));
 	}
 
 	// Set the client socket to non-blocking mode
