@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/08 14:06:26 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:40:14 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,11 @@ void	Server::receive_data(int client_socket)
 				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
 				if (this->new_client == true)
 				{
-					Channel dummy("dummy", get_client_by_socket(client_socket));
-					send_RPL_message(1, *this, get_client_by_socket(client_socket), dummy, "");
-					send_RPL_message(2, *this, get_client_by_socket(client_socket), dummy, "");
-					send_RPL_message(3, *this, get_client_by_socket(client_socket), dummy, "");
-					send_RPL_message(4, *this, get_client_by_socket(client_socket), dummy, "");
-					send_RPL_message(5, *this, get_client_by_socket(client_socket), dummy, "");
+					send_RPL_message(1, *this, get_client_by_socket(client_socket), NULL, "");
+					send_RPL_message(2, *this, get_client_by_socket(client_socket), NULL, "");
+					send_RPL_message(3, *this, get_client_by_socket(client_socket), NULL, "");
+					send_RPL_message(4, *this, get_client_by_socket(client_socket), NULL, "");
+					send_RPL_message(5, *this, get_client_by_socket(client_socket), NULL, "");
 					this->new_client = false;
 				}
 			}
