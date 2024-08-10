@@ -104,13 +104,12 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 		{
 			throww = false;
 			message = base_msg + " = " + channel->get_channel_name() + " :";
-			std::vector<Client> tmp_vector = channel->get_users_list();
-			for (std::vector<Client>::iterator it = tmp_vector.begin(); it != tmp_vector.end(); it++)
+			std::map<Client, bool> users = channel->get_users_map();
+			for (std::map<Client, bool>::iterator it = users.begin(); it != users.end(); ++it)
 			{
-				if (channel->get_admin_users_list().end() != std::find(channel->get_admin_users_list().begin(), channel->get_admin_users_list().end(), *it))
-					message += "@" + it->getNickname() + " ";
-				else
-					message += it->getNickname() + " ";
+				if (it->second == true)
+					message += "@";
+				message += it->first.getNickname() + " ";
 			}
 			message += "\r\n";
 			break;

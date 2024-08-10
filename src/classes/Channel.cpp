@@ -194,6 +194,10 @@ void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OT
 	}
 }
 
+std::map<Client, bool> Channel::get_users_map(){
+	return this->users_list;
+}
+
 void Channel::send_private_msg(std::string msg , Client who_send, Client who_receive)
 {
 	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;

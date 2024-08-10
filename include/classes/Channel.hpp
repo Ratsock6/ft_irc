@@ -35,6 +35,7 @@ class Channel{
 		void set_invite_only(bool invite_only, Client client);
 		void send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER);
 		void send_private_msg(std::string msg, Client who_send , Client who_receive);
+		std::map<Client, bool> get_users_map();
 
 		std::string get_channel_name();
 		std::string get_topic();
