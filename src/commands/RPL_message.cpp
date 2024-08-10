@@ -107,7 +107,10 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			std::vector<Client> tmp_vector = channel->get_users_list();
 			for (std::vector<Client>::iterator it = tmp_vector.begin(); it != tmp_vector.end(); it++)
 			{
-				message += it->getNickname() + " ";
+				if (channel->get_admin_users_list().end() != std::find(channel->get_admin_users_list().begin(), channel->get_admin_users_list().end(), *it))
+					message += "@" + it->getNickname() + " ";
+				else
+					message += it->getNickname() + " ";
 			}
 			message += "\r\n";
 			break;
