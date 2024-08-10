@@ -207,6 +207,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
 {
     Channel *channel = Search_channel(channels, args[1]);
     std::vector<Client> users_list = server.get_clients();
+    std::map<Client, bool> users_map;
     std::string tmp;
     
     switch (get_command(args[0])) {
@@ -223,7 +224,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case KICK:
             if (args.size() <= 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            
+            users_map = channel->get_users_map();
+            for(std::map<Client, bool>::iterator it = users_map.begin(); it != users_map.end(); ++it)
+            {
+                std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
+            }
             channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
             if (args.size() < 4)
             {
