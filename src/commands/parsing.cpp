@@ -54,12 +54,17 @@ int get_mode(const std::string& command) {
     return mode_error;
 }
 
-Client Search_client_ID(std::string str, std::vector<Client> users_list)
+Client Search_client_ID(std::string str, std::vector<Client> users_list, Client *who_search = NULL)
 {
     for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
     {
         if (it->getUsername() == str)
             return *it;
+    }
+    if (who_search != NULL)
+    {
+        std::cout << "who_search: " << who_search->getUsername() << std::endl;
+        send_RPL_message(401, NULL, *who_search, NULL, "No such nick/channel");
     }
     throw std::invalid_argument("User does not exist");
 }
@@ -205,7 +210,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case KICK:
             if (args.size() <= 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->remove_user(Search_client_ID(args[1], channel->get_users_list()), client);
+            
+            channel->remove_user(Search_client_ID(args[1], channel->get_users_list(), &client), client);
             if (args.size() < 4)
             {
                 for (size_t i = 3; i < args.size(); i++)
@@ -248,7 +254,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args[2][0] == ':')
                 args[2].erase(args[2].begin());
-            channel->send_msg_to_channel(args[2], client);
+            for (size_t i = 2; i < args.size(); i++)
+            {
+                tmp += args[i];
+                if (i != args.size() - 1)
+                    tmp += " ";
+            }
+            channel->send_msg_to_channel(tmp, client);
             break;
         case NICK:
             if (args.size() != 2)
