@@ -176,10 +176,13 @@ void Channel::change_user_limit(int user_limit, Client client){
 	}
 }
 
-void Channel::send_msg_to_channel(std::string msg, Client client){
+void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER){
 	std::cout << "sending msg to channel " << msg << std::endl;
-	
-	std::string temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
+	std::string temp;
+	if (MSG_OR_OTHER == true)
+		temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
+	else
+		temp = msg;
 	std::cout << temp << std::endl;
 	std::cout << "user list size :" << this->users_list.size() << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
