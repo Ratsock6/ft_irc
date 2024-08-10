@@ -84,7 +84,10 @@ Client Search_client_ID(std::string str, std::vector<Client> users_list)
     for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
     {
         if (it->getUsername() == str)
+        {
+            std::cout << "(to remove) Found : " << it->getUsername() << std::endl;
             return *it;
+        }
     }
     throw std::invalid_argument("User does not exist");
 }
@@ -221,7 +224,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() <= 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             
-            channel->remove_user(Search_client_ID(args[1], channel->get_users_list()), client);
+            channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
             if (args.size() < 4)
             {
                 for (size_t i = 3; i < args.size(); i++)

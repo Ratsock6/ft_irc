@@ -48,16 +48,29 @@ void Channel::add_user_by_admin(Client user_to_add, Client user_who_add){
 		throw std::invalid_argument("User already in the channel");
 }
 
-void Channel::remove_user(Client user_to_remove, Client user_who_remove){
-	if (users_list[user_who_remove] == false)
-		throw std::invalid_argument("You are not an admin");
-	if (user_to_remove.getID() == this->creator.getID())
-		throw std::invalid_argument("You are trying to remove the creator of the channel (its the big boss)");
-	if (users_list[user_to_remove] == true)
-		this->users_list.erase(user_to_remove);
-	else{
-		throw std::invalid_argument("You are not an admin");
-	}
+void Channel::remove_user(Client user_to_remove, Client user_who_remove) {
+    // Vérifie si l'utilisateur qui veut supprimer est dans la liste
+    std::map<Client, bool>::iterator it = users_list.find(user_who_remove);
+    
+    if (it == users_list.end() || it->second == false) {
+        // Si l'utilisateur n'est pas trouvé ou n'est pas admin, on lance une exception
+        throw std::invalid_argument("You are not an admin");
+    }
+    
+    // Vérifie si l'utilisateur à supprimer est le créateur du channel
+    if (user_to_remove.getID() == this->creator.getID()) {
+        throw std::invalid_argument("You are trying to remove the creator of the channel (it's the big boss)");
+    }
+    
+    // Vérifie si l'utilisateur à supprimer est dans la liste
+    it = users_list.find(user_to_remove);
+    if (it != users_list.end()) {
+        // Si trouvé, on le supprime de la liste
+        this->users_list.erase(it);
+    } else {
+        // Sinon, on lance une exception
+        throw std::invalid_argument("User not found in the channel");
+    }
 }
 
 void Channel::add_admin(Client user_to_add, Client user_who_add){
