@@ -142,11 +142,12 @@ void Channel::change_topic(std::string topic_name, Client client){
 		return;
 
 	}
-	if (client.getAdmin() == true){
+	std::cout << "client admin : " << client.getAdmin() << std::endl;
+	if (client.getAdmin() == true || this->creator.getID() == client.getID()){
 		this->topic = topic_name;
 	}
 	else{
-		throw std::invalid_argument("You are not an admin");
+		throw std::invalid_argument("You are not an admin or the creator of the channel");
 	}
 }
 
