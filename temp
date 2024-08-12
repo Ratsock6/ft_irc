@@ -1,0 +1,23 @@
+:ft_irc.com 001 tuvo_ :Welcome to the ft_irc.com Network, tuvo_!vsoltys@vsoltys
+IRC_server 001 tuvo :Welcome to the IRC_server , tuvo!vsoltys_@vsoltys_
+
+:ft_irc.com 002 tuvo_ :Your host is ft_irc.com, running version 1.0
+
+:ft_irc.com 003 tuvo_ :This server was created 2024/05/15 10:26:37
+
+:ft_irc.com 004 tuvo_ :There are 2 users connected
+
+:ft_irc.com 005 tuvo_ :The channels must begin with a '#'
+fd :5
+RPL_number: 2
+Message: :IRC_server 002 tuvo :Your host is IRC_server, running version 8.0
+fd :5
+RPL_number: 3
+Message: :IRC_server 003 tuvo :This server was created 2024/8/12 15:39:15
+fd :5
+RPL_number: 4
+Message: :IRC_server 004 tuvo :There are 002 users connected
+fd :5
+RPL_number: 5
+Message: :IRC_server 005 tuvo :The channels must begin with a '#'
+Nicklen = 30

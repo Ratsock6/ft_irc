@@ -305,11 +305,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 if (users_list[i].getNickname() == args[1])
                 {
-                    client.setNickname(args[1]);
+                    client.setNickname("temptest");
                     send_RPL_message(433, &server, client, channel," " + args[1]);
                     break;
                 }
             }
+            tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " NICK " + args[1] + "\r\n";
+            send(client.getFd(),tmp.c_str(), tmp.size(), 0);
             client.setNickname(args[1]);
             break;
         case PART:
@@ -358,7 +360,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
-                channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
 		        send_RPL_message(366, NULL, client, channel, "end of /NAMES list");
@@ -369,7 +370,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
-                channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
 		        send_RPL_message(366, NULL, client, channel, "end of /NAMES list");
@@ -379,8 +379,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case WHOIS:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            Client target = Search_client_ID(args[1], server.get_clients());
-            std::string msg = target.getUsername() + "@42.fr";
+            Client target = Search_client_ID_Nick(args[1], server.get_clients());
+            std::string msg = target.getUsername() + "@42.fr\r\n";
             send(target.getFd(), msg.c_str(), msg.size(), 0);
             break;
         //case CMD_ERROR:
@@ -432,7 +432,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
         tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + new_channel->get_channel_name() + "\r\n";
         std::cout << "tmp: " << tmp << std::endl;
         
-        new_channel->send_msg_to_channel(tmp, client, false);
+        //new_channel->send_msg_to_channel(tmp, client, false);
         new_channel->send_msg_to_channel(tmp, client, false);
         send_RPL_message(332, NULL, client, new_channel, "topic");
 		send_RPL_message(353, NULL, client, new_channel, "users");
