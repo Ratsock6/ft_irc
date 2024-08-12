@@ -262,7 +262,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case INVITE:
             if (args.size() != 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->add_user_by_admin(Search_client_ID(args[2], channel->get_users_list()), client);
+            channel->invite_user_by_admin(Search_client_ID(args[2], channel->get_users_list()), client);
             break;
         case TOPIC:
             if (args.size() <= 2)
