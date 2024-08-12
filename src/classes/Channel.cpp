@@ -53,11 +53,7 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 		throw std::invalid_argument("You are not an admin");
 	if (user_to_remove.getID() == this->creator.getID())
 		throw std::invalid_argument("You are trying to remove the creator of the channel (its the big boss)");
-	if (users_list[user_to_remove] == true)
-		this->users_list.erase(user_to_remove);
-	else {
-		throw std::invalid_argument("Try but not working");
-	}
+	this->users_list.erase(user_to_remove);
 }
 
 void Channel::add_admin(Client user_to_add, Client user_who_add){
@@ -188,7 +184,7 @@ void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OT
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
 		if (it->first.getFd() != client.getFd())
 		{
-            send(it->first.getFd(), temp.c_str(), temp.size(), 0);
+        	send(it->first.getFd(), temp.c_str(), temp.size(), 0);
 			std::cout << "fd: "<< it->first.getFd() << std::endl;
 		}
 	}

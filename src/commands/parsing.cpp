@@ -229,7 +229,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
             }
-            channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
             if (args.size() < 4)
             {
                 for (size_t i = 3; i < args.size(); i++)
@@ -238,11 +237,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                     if (i != args.size() - 1)
                         tmp += " ";
                 }
-                channel->send_private_msg("KICK " + args[1] + " " + args[2] + " :" + tmp, client, client);
+                channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
             }
             else
-                channel->send_private_msg("KICK " + args[1] + " " + args[2], client, client);
-
+                channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
+            channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
             break;
         case INVITE:
             if (args.size() != 3)
@@ -338,6 +337,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
+                channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
 		        send_RPL_message(366, NULL, client, channel, "end of /NAMES list");
@@ -347,6 +347,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 channel->join_request(client, args[1]);
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
+                channel->send_msg_to_channel(tmp, client, false);
                 channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
@@ -409,11 +410,14 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
         channels.push_back(new_channel);
         tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + new_channel->get_channel_name() + "\r\n";
         std::cout << "tmp: " << tmp << std::endl;
+        
         new_channel->send_msg_to_channel(tmp, client, false);
-        // send_RPL_message(332, NULL, client, new_channel, "topic");
-		// send_RPL_message(353, NULL, client, new_channel, "users");
-		// send_RPL_message(366, NULL, client, new_channel, "end of /NAMES list");
+        new_channel->send_msg_to_channel(tmp, client, false);
+        send_RPL_message(332, NULL, client, new_channel, "topic");
+		send_RPL_message(353, NULL, client, new_channel, "users");
+		send_RPL_message(366, NULL, client, new_channel, "end of /NAMES list");
         std::cout << "new channel created" << std::endl;
+        return 1;
     }
 
     // Fetch the channel
