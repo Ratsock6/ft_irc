@@ -138,8 +138,7 @@ void Channel::change_topic(std::string topic_name, Client client){
 		return;
 
 	}
-	std::cout << "client admin : " << client.getAdmin() << std::endl;
-	if (client.getAdmin() == true || this->creator.getID() == client.getID()){
+	if (users_list[client] == true){
 		this->topic = topic_name;
 	}
 	else{
@@ -183,11 +182,16 @@ void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OT
 	std::cout << temp << std::endl;
 	std::cout << "user list size :" << this->users_list.size() << std::endl;
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
-		if (it->first.getFd() != client.getFd())
+		if (MSG_OR_OTHER == true)
 		{
-        	send(it->first.getFd(), temp.c_str(), temp.size(), 0);
-			std::cout << "fd: "<< it->first.getFd() << std::endl;
+			if (it->first.getFd() != client.getFd())
+			{
+        		send(it->first.getFd(), temp.c_str(), temp.size(), 0);
+				std::cout << "fd: "<< it->first.getFd() << std::endl;
+			}
 		}
+		else
+			send(it->first.getFd(), temp.c_str(), temp.size(), 0);
 	}
 }
 
