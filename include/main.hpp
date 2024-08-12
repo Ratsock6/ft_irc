@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/08 14:50:58 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/12 18:41:45 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ enum mode{
 
 # define RECV_BUFFER_SIZE 10000 // small for testing purposes (should concatenate until '\r\n')
 # define MESSAGE_END "\r\n"
+
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 /*###########################################################################*/
 /*                                  Includes                                 */

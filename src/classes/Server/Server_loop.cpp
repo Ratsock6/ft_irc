@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 16:27:06 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/12 18:41:18 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	Server::server_loop()
 		else if (status == NOTHING)
 			continue;
 		// Check for events
-		std::cout << "poll count: " << poll_count << std::endl;
+		if (DEBUG)
+			std::cout << "poll count: " << poll_count << std::endl;
 		for (int i = 0; i < poll_count; i++)
 		{
 			if ((all_sockets[i].revents & POLLIN) == 1)
@@ -99,7 +100,7 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		std::cout << BGreen;
-		std::cout << "[Server] Received message: " << message.str() << std::endl;
+		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message.str();
 		std::cout << Color_Off;
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {

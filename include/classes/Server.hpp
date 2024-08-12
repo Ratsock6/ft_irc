@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 13:56:56 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:37:00 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ class Server {
 		void	server_loop();
 		void	accept_new_client();
 		void	receive_data( int client_socket );
-		void	send_data( int client_socket, std::string data );
 		Client&	get_client_by_socket( int client_socket );
 
 		// Stop

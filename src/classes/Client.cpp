@@ -85,7 +85,8 @@ void Client::setUsername(std::string username){
 	if (username.length() > 30)
 		username.resize(30);
 	this->username = username;
-	std::cout << "Username : " << this->username << std::endl;
+	if (DEBUG)
+		std::cout << "Username : " << this->username << std::endl;
 }
 void Client::setRealname(std::string realname){
 	this->realname = realname;

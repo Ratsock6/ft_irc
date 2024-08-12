@@ -54,10 +54,10 @@ int get_mode(const std::string& command) {
 	return mode_error;
 }
 
-bool check_if_username_exist(std::string str, Server server)
+bool check_if_username_exist(std::string str, Server & server)
 {
 	std::vector<Client> users_list = server.get_clients();
-	std::cout << "(to remove) Searching (bool): " << str << std::endl;   
+	// std::cout << "(to remove) Searching (bool): " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getUsername() == str)
@@ -66,10 +66,10 @@ bool check_if_username_exist(std::string str, Server server)
 	return false;
 }
 
-bool check_if_nickname_exist(std::string str, Server server)
+bool check_if_nickname_exist(std::string str, Server & server)
 {
 	std::vector<Client> users_list = server.get_clients();
-	std::cout << "(to remove) Searching (bool): " << str << std::endl;   
+	// std::cout << "(to remove) Searching (bool): " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getNickname() == str)
@@ -80,12 +80,12 @@ bool check_if_nickname_exist(std::string str, Server server)
 
 Client Search_client_ID(std::string str, std::vector<Client> users_list)
 {
-	std::cout << "(to remove) Searching : " << str << std::endl;   
+	// std::cout << "(to remove) Searching : " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getUsername() == str)
 		{
-			std::cout << "(to remove) Found : " << it->getUsername() << std::endl;
+			// std::cout << "(to remove) Found : " << it->getUsername() << std::endl;
 			return *it;
 		}
 	}
@@ -94,12 +94,12 @@ Client Search_client_ID(std::string str, std::vector<Client> users_list)
 
 Client Search_client_ID_Nick(std::string str, std::vector<Client> users_list)
 {
-	std::cout << "(to remove) Searching : " << str << std::endl;   
+	// std::cout << "(to remove) Searching : " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getNickname() == str)
 		{
-			std::cout << "(to remove) Found : " << it->getNickname() << std::endl;
+			// std::cout << "(to remove) Found : " << it->getNickname() << std::endl;
 			return *it;
 		}
 	}
@@ -110,9 +110,12 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 {
 	std::stringstream test;
 	int num;
-	for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+	if (DEBUG)
 	{
-		std::cout << "args: " << *it << std::endl;
+		for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+		{
+			std::cout << "args: " << *it << std::endl;
+		}
 	}
 	int mode_temp;
 	for (size_t i = 0; i < args.size(); i++)
@@ -132,10 +135,7 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			if (channel == NULL)
-			{
-				std::cout << " test" << std::endl;
 				break;
-			}
 			channel->set_invite_only(true, client);
 			break;
 		case minus_t:
@@ -272,7 +272,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             break;
         // vsoltys!vsoltys@vsoltys TOPIC #channel :test
         case MODE:
-            std::cout << "args size :" << args.size() << std::endl;
+			if (DEBUG)
+        		std::cout << "args size :" << args.size() << std::endl;
             if (args.size() < 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args.size() == 2)
@@ -355,7 +356,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PING:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->send_private_msg("PONG " + args[1] + "\r\n", client, client);
+            send_RPL_message(6, NULL, client, NULL, "");
+			// channel->send_private_msg("PONG " + args[1] + "\r\n", client, client);
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
@@ -485,12 +487,16 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 	
 	for (std::vector<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
 	{
-		std::cout << "command: " << *it << std::endl;
+		if (DEBUG)
+			std::cout << "command: " << *it << std::endl;
 		parsing_command(*it, channels, client, server);
 	}
 	std::vector<Client> users_list = server.get_clients();
-	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+	if (DEBUG)
 	{
-		std::cout << "client Nick : " << it->getNickname() << " client user : " << it->getUsername() << std::endl;
+		for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+		{
+			std::cout << "client Nick : " << it->getNickname() << " client user : " << it->getUsername() << std::endl;
+		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 14:36:33 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/12 18:48:46 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,9 +323,9 @@ void Server::add_client(Client client)
 
 void Server::send_private_msg(std::string msg , Client who_send, Client who_receive)
 {
-	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
+	// std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
 	std::string final_msg = ":" + who_send.getNickname() +"!" +who_send.getUsername() + "@" + who_send.getUsername() +" PRIVMSG " + who_send.getNickname() + " :"+ msg + "\r\n";
-	std::cout << final_msg << std::endl;
+	// std::cout << final_msg << std::endl;
 	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
 }
 

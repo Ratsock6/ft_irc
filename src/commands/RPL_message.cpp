@@ -17,7 +17,8 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 {	
 
 	std::string message = "wrong RPL number";
-	std::cout << "RPL_number: " << RPL_number << std::endl;
+	if (DEBUG)
+		std::cout << "RPL_number: " << RPL_number << std::endl;
 	bool throww = true;
 	std::string server_name = "IRC_server";
 	std::string base_msg = ":" + server_name + " " + int_to_string(RPL_number) + " " + client.getNickname();
@@ -57,7 +58,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 		}
 		case PONG:
 		{
-			message = "PONG" + server_name + "\r\n";
+			message = "PONG " + server_name + "\r\n";
 			throww = false;
 			break;
 		}
@@ -158,8 +159,8 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			message = base_msg + msg_utils + " :is unknown mode char to me\r\n";
 			break;
 	}
-	std::cout << "Message: " << message << "fd :"<< client.getFd() <<std::endl;
 	send(client.getFd(), message.c_str(), message.size(), MSG_NOSIGNAL);
+	std::cout << BYellow << message << Color_Off;
 	if (throww == true)
 		throw std::invalid_argument(message);
 

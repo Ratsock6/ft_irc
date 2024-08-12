@@ -234,8 +234,8 @@ void Channel::send_private_msg(std::string msg , Client who_send, Client who_rec
 	{
 		final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
 	}
-	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
-	std::cout << final_msg << std::endl;
+	// std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
+	// std::cout << final_msg << std::endl;
 	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
 }
 
