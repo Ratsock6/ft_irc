@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 13:55:58 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:27:06 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	Server::server_loop()
 	while (server_status == RUNNING)
 	{
 		server_command();
-
 		// Poll for events
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)
