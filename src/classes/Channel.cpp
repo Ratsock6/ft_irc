@@ -96,7 +96,7 @@ void Channel::remove_admin(Client user, Client admin){
 }
 
 void Channel::set_password(std::string password, Client client){
-	if (client.getAdmin() == true){
+	if (users_list[client] == true){
 		std::cout << "Password set" << std::endl;
 		this->password = password;
 	}
@@ -107,7 +107,7 @@ std::string Channel::get_password(){
 }
 
 void Channel::unset_password(Client client){
-	if (client.getAdmin() == true){
+	if (users_list[client] == true){
 		this->password.clear();
 	}
 }
@@ -147,7 +147,7 @@ void Channel::change_topic(std::string topic_name, Client client){
 }
 
 void Channel::change_topic_autorization(bool topic_autorization, Client client){
-	if (client.getAdmin() == true){
+	if (users_list[client] == true){
 		this->topic_autorization = topic_autorization;
 	}
 	else{
@@ -155,7 +155,7 @@ void Channel::change_topic_autorization(bool topic_autorization, Client client){
 	}
 }
 void Channel::set_invite_only(bool invite_only, Client client){
-	if (client.getAdmin() == true){
+	if (users_list[client] == true){
 		this->invite_only = invite_only;
 	}
 }
@@ -164,7 +164,7 @@ void Channel::change_user_limit(int user_limit, Client client){
 	if (user_limit < 0){
 		throw std::invalid_argument("User limit can't be negative");
 	}
-	if (client.getAdmin() == true){
+	if (users_list[client] == true){
 		this->user_limit = user_limit;
 	}
 	else{
