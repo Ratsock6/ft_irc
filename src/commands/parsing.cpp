@@ -92,6 +92,20 @@ Client Search_client_ID(std::string str, std::vector<Client> users_list)
     throw std::invalid_argument("User does not exist");
 }
 
+Client Search_client_ID_Nick(std::string str, std::vector<Client> users_list)
+{
+    std::cout << "(to remove) Searching : " << str << std::endl;   
+    for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+    {
+        if (it->getNickname() == str)
+        {
+            std::cout << "(to remove) Found : " << it->getNickname() << std::endl;
+            return *it;
+        }
+    }
+    throw std::invalid_argument("User does not exist");
+}
+
 int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client)
 {
     std::stringstream test;
@@ -280,7 +294,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                     tmp += " ";
             }
             if (args[1][0] != '#')
-                server.send_private_msg(tmp, client, Search_client_ID(args[1], server.get_clients()));
+                server.send_private_msg(tmp, client, Search_client_ID_Nick(args[1], server.get_clients()));
             else
                 channel->send_msg_to_channel(tmp, client, true);
             break;
