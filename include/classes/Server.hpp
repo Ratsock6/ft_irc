@@ -6,7 +6,7 @@
 /*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 16:25:58 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/12 13:32:51 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Server {
 		int 						poll_count;    // Current number of descriptors in the array
 		std::vector<Client>			clients; 	   // Array of clients
 		std::vector<Channel *>		channels;	   // Array of channels
+		std::string 				server_adress;
 
 		/// Private Functions :
 		// Start
@@ -75,5 +76,8 @@ class Server {
 		void add_channel(Channel *channel);
 		void add_client(Client client);
 		pollfd get_server_socket(void) const;
+		void send_private_msg(std::string msg , Client who_send, Client who_receive);
+		std::string get_server_adress();
+		void set_server_adress(std::string server_adress);
 
 };

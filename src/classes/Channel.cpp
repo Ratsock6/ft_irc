@@ -201,8 +201,16 @@ std::map<Client, bool> Channel::get_users_map(){
 
 void Channel::send_private_msg(std::string msg , Client who_send, Client who_receive)
 {
+	std::string final_msg;
+	if (who_send.getID() == who_receive.getID())
+	{
+		final_msg = msg;
+	}
+	else
+	{
+		final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
+	}
 	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
-	std::string final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
 	std::cout << final_msg << std::endl;
 	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
 }

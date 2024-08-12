@@ -279,16 +279,21 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 if (i != args.size() - 1)
                     tmp += " ";
             }
-            channel->send_msg_to_channel(tmp, client, true);
+            if (args[1][0] != '#')
+                server.send_private_msg(tmp, client, Search_client_ID(args[1], server.get_clients()));
+            else
+                channel->send_msg_to_channel(tmp, client, true);
             break;
         case NICK:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             for (size_t i = 0 ; i < users_list.size(); i++)
             {
-                while (check_if_nickname_exist(args[1], server))
+                if (users_list[i].getNickname() == args[1])
                 {
-                    args[1] += "_";
+                    client.setNickname(args[1]);
+                    send_RPL_message(433, &server, client, channel," " + args[1]);
+                    break;
                 }
             }
             client.setNickname(args[1]);
@@ -327,7 +332,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PING:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->send_private_msg("PONG " + args[1], client, client);
+            channel->send_private_msg("PONG " + args[1] + "\r\n", client, client);
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
@@ -338,11 +343,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 channel->join_request(client, "");
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
+                channel->send_msg_to_channel(tmp, client, false);
+                channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
 		        send_RPL_message(366, NULL, client, channel, "end of /NAMES list");
-                channel->send_msg_to_channel(tmp, client, false);
-                channel->send_msg_to_channel(tmp, client, false);
             }
             else
             {
@@ -354,8 +359,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
 		        send_RPL_message(366, NULL, client, channel, "end of /NAMES list");
-                channel->send_msg_to_channel(tmp, client, false);
-                channel->send_msg_to_channel(tmp, client, false);
             }
                 
             break;
