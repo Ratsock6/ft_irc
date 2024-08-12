@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/08 17:31:51 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:53:54 by vsoltys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 Server::Server( const int port, std::string password )
 {
 	this->port = port;
+	this->server_adress = "localhost";
 	this->password = password;
 	this->server_status = STOPPED;
 	this->poll_size = 1;
@@ -318,5 +319,25 @@ void Server::add_channel(Channel *channel)
 void Server::add_client(Client client)
 {
 	clients.push_back(client);
+}
+
+void Server::send_private_msg(std::string msg , Client who_send, Client who_receive)
+{
+	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
+	std::string final_msg = ":" + who_send.getNickname() +"!" +who_send.getUsername() + "@" + who_send.getUsername() +" PRIVMSG " + who_send.getNickname() + " :"+ msg + "\r\n";
+	//:DailyWind!mgallais@mgallais PRIVMSG DailyWin1 :coucou sa va ?
+	//:vsoltys_!vsoltys_@localhost PRIVMSG vsoltys :vsoltys_
+	std::cout << final_msg << std::endl;
+	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
+}
+
+std::string Server::get_server_adress()
+{
+	return server_adress;
+}
+
+void Server::set_server_adress(std::string server_adress)
+{
+	this->server_adress = server_adress;
 }
 /// ---

@@ -86,6 +86,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		case 433:
 			message = base_msg + msg_utils + " :Nickname is already in use\r\n";
+			throww = false;
 			break;
 		case 409:
 			message = base_msg + " :No origin specified\r\n";
