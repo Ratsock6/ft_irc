@@ -268,7 +268,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() <= 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             channel->change_topic(args[2], client);
-            channel->send_msg_to_channel(":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " TOPIC " + channel->get_channel_name() + " :" + args[2] + "\r\n", client, false);
+            channel->send_msg_to_channel(":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " TOPIC " + channel->get_channel_name() + " " + args[2] + "\r\n", client, false);
             break;
         // vsoltys!vsoltys@vsoltys TOPIC #channel :test
         case MODE:

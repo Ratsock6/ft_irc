@@ -15,11 +15,7 @@ std::string int_to_string(int number)
 }
 void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *channel ,std::string msg_utils = "")
 {	
-	if (channel == NULL)
-	{
-		Channel tmp("dummy", client);
-		channel = &tmp;
-	}
+
 	std::string message = "wrong RPL number";
 	std::cout << "RPL_number: " << RPL_number << std::endl;
 	bool throww = true;

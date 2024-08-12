@@ -54,6 +54,11 @@ void Channel::invite_user_by_admin(Client user_to_add, Client user_who_add){
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 	if (users_list[user_who_remove] == false)
 		throw std::invalid_argument("You are not an admin");
+	if (user_to_remove.getID() == user_who_remove.getID())
+	{
+		this->users_list.erase(user_to_remove);
+		return;
+	}
 	if (user_to_remove.getID() == this->creator.getID())
 		throw std::invalid_argument("You are trying to remove the creator of the channel (its the big boss)");
 	this->users_list.erase(user_to_remove);
