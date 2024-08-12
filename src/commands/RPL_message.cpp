@@ -132,7 +132,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			message = base_msg + msg_utils + " :No topic is set\r\n";
 			break;
 		case 482:
-			message = base_msg + channel->get_channel_name() + " :You're not channel operator\r\n";
+			message = base_msg + " " + channel->get_channel_name() + " :You're not channel operator\r\n";
 			break;
 		case 401:
 			message = base_msg + msg_utils + " :No such nick/channel\r\n";

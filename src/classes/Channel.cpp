@@ -56,6 +56,19 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 	this->users_list.erase(user_to_remove);
 }
 
+bool Channel::check_if_user_is_admin(Client client){
+	if (users_list[client] == true)
+		return true;
+	return false;
+}
+
+bool Channel::check_if_user_is_in_channel(Client client){
+	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); it++){
+		if (it->first.getID() == client.getID())
+			return true;
+	}
+	return false;
+}
 void Channel::add_admin(Client user_to_add, Client user_who_add){
 
 	if (users_list[user_who_add] == true || user_who_add.getID() == this->creator.getID())

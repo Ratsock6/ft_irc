@@ -32,6 +32,8 @@ class Channel{
 		void set_password(std::string password, Client client);
 		void unset_password(Client client);
 		void change_user_limit(int user_limit, Client client);
+		bool check_if_user_is_admin(Client client);
+		bool check_if_user_is_in_channel(Client client);
 		void set_invite_only(bool invite_only, Client client);
 		void send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER);
 		void send_private_msg(std::string msg, Client who_send , Client who_receive);

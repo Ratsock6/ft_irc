@@ -243,6 +243,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
             }
+            if (channel->check_if_user_is_admin(client) == false)
+                send_RPL_message(482, &server, client, channel, "You are not an admin");
             if (args.size() < 4)
             {
                 for (size_t i = 3; i < args.size(); i++)
@@ -251,11 +253,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                     if (i != args.size() - 1)
                         tmp += " ";
                 }
-                channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
+                channel->send_msg_to_channel((":"+ client.getNickname() + " KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
             }
             else
-                channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
-            channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
+                channel->send_msg_to_channel((":"+ client.getNickname() + " KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
+            channel->remove_user(Search_client_ID_Nick(args[2], channel->get_users_list()), client);
             break;
         case INVITE:
             if (args.size() != 3)
@@ -296,7 +298,12 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args[1][0] != '#')
                 server.send_private_msg(tmp, client, Search_client_ID_Nick(args[1], server.get_clients()));
             else
+            {
+                if (channel->check_if_user_is_in_channel(client) == false)
+                    send_RPL_message(442, &server, client, channel, "");
+                else
                 channel->send_msg_to_channel(tmp, client, true);
+            }
             break;
         case NICK:
             if (args.size() != 2)
