@@ -103,14 +103,6 @@ std::string Client::getIp(){
 	return this->ip;
 }
 
-bool Client::getAdmin(){
-	return this->admin;
-}
-
-void Client::setAdmin(bool admin){
-	this->admin = admin;
-}
-
 void Client::setTopicAutorization(bool topic_autorization){
 	this->topic_autorization = topic_autorization;
 }

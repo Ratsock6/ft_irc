@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 11:49:32 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/12 11:54:29 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,12 @@ class Client{
 		Channel getCurrentChannel() const;
 		void setCurrentChannel(Channel *channel);
 		std::string getIp();
-		bool getAdmin();
 		bool getTopicAutorization();
 		bool getput_pwd() const;
 		void setput_pwd(bool put_pwd);
 		int getID() const;
 		std::stringstream& getMessageBuffer();
 
-		void setAdmin(bool admin);
 		void setTopicAutorization(bool topic_autorization);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
