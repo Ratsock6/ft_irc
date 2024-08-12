@@ -279,7 +279,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() == 2)
             {
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " MODE " + channel->get_channel_name() + "itkol"+ "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 send(client.getFd(), tmp.c_str() , tmp.size(), 0);
                 break;
             }
@@ -367,7 +366,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 std::cout << "test" << std::endl;
                 channel->join_request(client, "", channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
@@ -377,7 +375,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 channel->join_request(client, args[2], channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
                 channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
@@ -440,7 +437,6 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 		server.add_channel(new_channel);
 		channels.push_back(new_channel);
 		tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + new_channel->get_channel_name() + "\r\n";
-		std::cout << "tmp: " << tmp << std::endl;
 		
 		// new_channel->send_msg_to_channel(tmp, client, false);
 		new_channel->send_msg_to_channel(tmp, client, false);

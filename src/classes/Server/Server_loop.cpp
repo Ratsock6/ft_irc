@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 18:41:18 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:10:32 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,6 @@ void	Server::accept_new_client()
 	new_client.setNickname("temp_nick");
 	//new_client.setRealname("temp_realname");
 	this->clients.push_back(new_client);
-	for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
-	{
-		std::cout << "Client: " << it->getNickname() << std::endl;
-	}
 	/**************test val *****************************/
 
 	// Client test_client("test_client", 2, new_ID(), true);
