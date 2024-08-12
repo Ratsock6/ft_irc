@@ -2,7 +2,7 @@
 #include "Client.hpp"
 
 Channel::Channel(std::string channel_name, Client &creator)
-    : channel_name(channel_name), creator(creator) {
+	: channel_name(channel_name), creator(creator) {
 	Channel::add_admin(creator, creator);
 	invite_only = false;
 	topic = "No topic is set";
@@ -31,6 +31,7 @@ Channel& Channel::operator=(const Channel &c){
 	this->channel_name = c.channel_name;
 	this->topic = c.topic;
 	this->users_list = c.users_list;
+	this->invite = c.invite;
 	this->creator = c.creator;
 	this->invite_only = c.invite_only;
 	this->user_limit = c.user_limit;
@@ -39,13 +40,15 @@ Channel& Channel::operator=(const Channel &c){
 	return *this;
 }
 
-void Channel::add_user_by_admin(Client user_to_add, Client user_who_add){
+void Channel::invite_user_by_admin(Client user_to_add, Client user_who_add){
 	if (users_list[user_who_add] == false)
 		throw std::invalid_argument("You are not an admin");
-	if (users_list.find(user_to_add) == users_list.end())
-		this->users_list[user_to_add] = false;
+	if (is_invite(user_to_add))
+		throw std::invalid_argument("User already invited");
+	if (this->invite.find(user_to_add) != this->invite.end())
+		this->invite[user_to_add] = true;
 	else
-		throw std::invalid_argument("User already in the channel");
+		this->invite.insert(std::pair<Client, bool>(user_to_add, true));	
 }
 
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
@@ -112,6 +115,10 @@ void Channel::unset_password(Client client){
 	}
 }
 
+bool Channel::is_invite_only(){
+	return this->invite_only;
+}
+
 void Channel::join_request(Client user_to_add, std::string password){
 	std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
 	if (this->users_list.size() == static_cast<size_t>(this->user_limit) && this->user_limit != 0){
@@ -128,7 +135,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
-		throw std::invalid_argument("Wrong password 2");
+		throw std::invalid_argument("Wrong password (2)");
 	}
 }
 
@@ -186,7 +193,7 @@ void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OT
 		{
 			if (it->first.getFd() != client.getFd())
 			{
-        		send(it->first.getFd(), temp.c_str(), temp.size(), 0);
+				send(it->first.getFd(), temp.c_str(), temp.size(), 0);
 				std::cout << "fd: "<< it->first.getFd() << std::endl;
 			}
 		}
@@ -245,4 +252,14 @@ std::vector<Client> Channel::get_admin_users_list(){
 
 Client Channel::get_creator(){
 	return this->creator;
+}
+
+std::map<Client, bool> Channel::get_invite_map(){
+	return this->invite;
+}
+
+bool Channel::is_invite(Client client) {
+	if (this->invite.find(client) == this->invite.end())
+		return false;
+	return this->invite[client];
 }
