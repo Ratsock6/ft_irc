@@ -9,6 +9,7 @@ Channel::Channel(std::string channel_name, Client &creator)
 	topic_autorization = true;
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
+	invite.insert(std::pair<Client, bool>(creator, true));
 }
 
 Channel::~Channel(){
