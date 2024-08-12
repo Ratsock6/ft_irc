@@ -23,8 +23,8 @@ class Channel{
 		//Channel(const Channel &c);
 		Channel& operator=(const Channel &c);
 
-		void invite_user_by_admin(Client user_to_add, Client user_who_add);
-		void join_request(Client user_to_add, std::string password);
+		void invite_user_by_admin(Client user_to_add);
+		void join_request(Client user_to_add, std::string password, std::string channel_name);
 		void remove_user(Client user_to_remove, Client user_who_remove);
 		void add_admin(Client user_to_add, Client user_who_add);
 		void remove_admin(Client user_to_remove, Client user_who_remove);

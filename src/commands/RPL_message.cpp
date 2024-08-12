@@ -116,7 +116,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			message = base_msg + " " + channel->get_channel_name() + " :End of /NAMES list\r\n";
 			break;
 		case 475:
-			message = base_msg + channel->get_channel_name() + " :Cannot join channel (+k)\r\n";
+			message = base_msg + " " + msg_utils + " :Cannot join channel (+k)\r\n";
 			break;
 		case 403:
 			message = base_msg + msg_utils + " :No such channel\r\n";
@@ -140,10 +140,10 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		}
 		case 473:
-			message = base_msg + channel->get_channel_name() + " :Cannot join channel (+i)\r\n";
+			message = base_msg + " " + msg_utils + " :Cannot join channel (+i)\r\n";
 			break;
 		case 471:
-			message = base_msg + channel->get_channel_name() + " :Cannot join channel (+l)\r\n";
+			message = base_msg + " " + msg_utils + " :Cannot join channel (+l)\r\n";
 			break;
 		case 696:
 			message = base_msg + msg_utils + "\r\n";

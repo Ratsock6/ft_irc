@@ -124,7 +124,7 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 	switch(mode_temp)
 	{
 		case minus_i:
-			if (args.size() != 2)
+			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			channel->set_invite_only(false, client);
 			break;
@@ -139,44 +139,44 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 			channel->set_invite_only(true, client);
 			break;
 		case minus_t:
-			if (args.size() != 2)
+			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			channel->change_topic_autorization(false, client);
 			break;
 		case plus_t:
-			if (args.size() != 2)
+			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			channel->change_topic_autorization(true, client);
 			break;
 		case plus_k:
-			if (args.size() != 3)
-				throw std::invalid_argument("wrong number of arguments");
-			channel->set_password(args[2], client);
+			if (args.size() != 4)
+				send_RPL_message(461, NULL, client, channel, "Wrong number of arguments");
+			channel->set_password(args[3], client);
 			break;
 		case minus_k:
-			if (args.size() != 2)
+			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			channel->unset_password(client);
 			break;
 		case plus_o:
-			if(args.size() != 3)
+			if(args.size() != 4)
 				throw std::invalid_argument("wrong number of arguments");
-			channel->add_admin(Search_client_ID(args[2], channel->get_users_list()), client);
+			channel->add_admin(Search_client_ID(args[3], channel->get_users_list()), client);
 			break;
 		case minus_o:
-			if(args.size() != 3)
+			if(args.size() != 4)
 				throw std::invalid_argument("wrong number of arguments");
-			channel->remove_admin(Search_client_ID(args[3], channel->get_users_list()), client);
+			channel->remove_admin(Search_client_ID(args[4], channel->get_users_list()), client);
 			break;
 		case minus_l:
-			if(args.size() != 2)
+			if(args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			channel->change_user_limit(0, client);
 			break;
 		case plus_l:
-			if(args.size() != 3)
+			if(args.size() != 4)
 				throw std::invalid_argument("Not enough arguments");
-			test << args[2];
+			test << args[3];
 			test >> num;
 			if (test.fail())
 				throw std::invalid_argument("User limit must be a number");
@@ -262,7 +262,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case INVITE:
             if (args.size() != 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->invite_user_by_admin(Search_client_ID(args[2], channel->get_users_list()), client);
+            channel->invite_user_by_admin(Search_client_ID_Nick(args[1], server.get_clients()));
             break;
         case TOPIC:
             if (args.size() <= 2)
@@ -277,7 +277,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args.size() == 2)
             {
-                tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " MODE " + channel->get_channel_name() + " itkol"+ "\r\n";
+                tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " MODE " + channel->get_channel_name() + "itkol"+ "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 send(client.getFd(), tmp.c_str() , tmp.size(), 0);
                 break;
@@ -359,11 +359,11 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
-                throw std::invalid_argument("Wrong number of arguments");
-            if (args.size() == 1)
+                send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
+            if (args.size() == 2)
             {
                 std::cout << "test" << std::endl;
-                channel->join_request(client, "");
+                channel->join_request(client, "", channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
@@ -373,7 +373,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             }
             else
             {
-                channel->join_request(client, args[1]);
+                channel->join_request(client, args[2], channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);

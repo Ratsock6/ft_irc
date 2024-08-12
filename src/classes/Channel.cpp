@@ -40,9 +40,7 @@ Channel& Channel::operator=(const Channel &c){
 	return *this;
 }
 
-void Channel::invite_user_by_admin(Client user_to_add, Client user_who_add){
-	if (users_list[user_who_add] == false)
-		throw std::invalid_argument("You are not an admin");
+void Channel::invite_user_by_admin(Client user_to_add){
 	if (is_invite(user_to_add))
 		throw std::invalid_argument("User already invited");
 	if (this->invite.find(user_to_add) != this->invite.end())
@@ -137,15 +135,15 @@ bool Channel::is_invite_only(){
 	return this->invite_only;
 }
 
-void Channel::join_request(Client user_to_add, std::string password){
+void Channel::join_request(Client user_to_add, std::string password, std::string channel_name){
 	std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
 	if (this->users_list.size() == static_cast<size_t>(this->user_limit) && this->user_limit != 0){
-		throw std::invalid_argument("Channel is full");
+		send_RPL_message(471, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
 	if (this->invite_only == true)
 	{
-		throw std::invalid_argument("This channel is invite only");
+		send_RPL_message(473, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
 	if (this->password == password || this->password.empty()){
@@ -153,7 +151,7 @@ void Channel::join_request(Client user_to_add, std::string password){
 		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
-		throw std::invalid_argument("Wrong password (2)");
+		send_RPL_message(475, NULL, user_to_add, NULL, channel_name);
 	}
 }
 
