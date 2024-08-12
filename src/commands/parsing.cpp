@@ -360,6 +360,14 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
                 throw std::invalid_argument("Wrong number of arguments");
+			if (channel->is_invite_only())
+			{
+				if (channel->is_invite(client) == false)
+				{
+					send_RPL_message(473, &server, client, channel, "You are not invited");
+					break;
+				}
+			}
             if (args.size() == 1)
             {
                 std::cout << "test" << std::endl;
