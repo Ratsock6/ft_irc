@@ -6,11 +6,13 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 18:48:46 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:49:18 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+Server* Server::singleton = NULL;
 
 /// Constructors & Destructor :
 Server::Server( const int port, std::string password )
@@ -33,6 +35,22 @@ Server::~Server()
 	std::cout << BWhite;
 	std::cout << "[Server] Server destroyed\n";
 	std::cout << Color_Off;
+}
+
+Server *Server::get_instance(int port, std::string password)
+{
+	if (!singleton)
+		singleton = new Server(port, password);
+	return singleton;
+}
+
+void Server::destroy_instance()
+{
+    if (singleton)
+    {
+        delete singleton;
+        singleton = NULL;
+    }
 }
 /// ---
 
