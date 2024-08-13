@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/13 10:49:18 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:18:46 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ void	Server::close_all_clients()
 /// Public Functions :
 void	Server::start()
 {
-	signal_handler();
 	try
 	{
 		create_server_socket();

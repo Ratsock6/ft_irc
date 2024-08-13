@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/13 10:48:15 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:21:18 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ class Server {
 
 		/// Private Functions :
 		// Start
-		void	signal_handler();
 		void	create_server_socket(); // done
 		void	server_loop();
 		void	accept_new_client();
@@ -69,7 +68,8 @@ class Server {
 		void	close_client( int client_socket );
 		void	stop();
 		bool	server_command();
-		int new_ID();
+		int		new_ID();
+		void	signal_handler();
 
 		/// Getters & Setters :
 		void remove_user(Client client);
