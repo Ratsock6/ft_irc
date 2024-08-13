@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 19:10:32 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:17:08 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	Server::receive_data(int client_socket)
 			}
 			catch (std::exception &e){
 				std::cerr << BRed;
-				std::cerr << e.what() << std::endl;
+				std::cerr << "[Server] Error : " << e.what() << std::endl;
 				std::cerr << Color_Off;
 			}
 			

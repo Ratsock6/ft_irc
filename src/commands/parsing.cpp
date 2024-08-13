@@ -228,7 +228,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-                std::cout << "la"   << std::endl;
                 send_RPL_message(464, &server, client, channels[0], "Wrong password");
                 server.close_client(client.getFd());
                 throw std::invalid_argument("Wrong password 1");
@@ -239,10 +238,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() <= 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             users_map = channel->get_users_map();
-            for(std::map<Client, bool>::iterator it = users_map.begin(); it != users_map.end(); ++it)
-            {
-                std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
-            }
+			if (DEBUG)
+			{
+				for(std::map<Client, bool>::iterator it = users_map.begin(); it != users_map.end(); ++it)
+				{
+					std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
+				}
+			}
             if (channel->check_if_user_is_admin(client) == false)
                 send_RPL_message(482, &server, client, channel, "You are not an admin");
             if (args.size() < 4)
@@ -345,7 +347,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 if (users_list[i].getRealname() == args[1])
                 {
-                    std::cout << "getnick = " << users_list[i].getRealname() << "args[1] = " << args[1] << std::endl;
+					if (DEBUG)
+                   		std::cout << "getnick = " << users_list[i].getRealname() << "args[1] = " << args[1] << std::endl;
                     args[1] += "_";
                     break;
                 }
@@ -363,7 +366,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args.size() == 2)
             {
-                std::cout << "test" << std::endl;
                 channel->join_request(client, "", channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
                 channel->send_msg_to_channel(tmp, client, false);
@@ -443,7 +445,8 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 		send_RPL_message(332, NULL, client, new_channel, "topic");
 		send_RPL_message(353, NULL, client, new_channel, "users");
 		send_RPL_message(366, NULL, client, new_channel, "end of /NAMES list");
-		std::cout << "new channel created" << std::endl;
+		if (DEBUG)
+			std::cout << "new channel created" << std::endl;
 		return 1;
 	}
 

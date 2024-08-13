@@ -15,8 +15,8 @@ std::string int_to_string(int number)
 }
 void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *channel ,std::string msg_utils = "")
 {	
-
 	std::string message = "wrong RPL number";
+	std::string error_message = "Unknow error";
 	if (DEBUG)
 		std::cout << "RPL_number: " << RPL_number << std::endl;
 	bool throww = true;
@@ -64,6 +64,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 		}
 		case 461:
 			message = base_msg + msg_utils + " :Not enough parameters\r\n";
+			error_message = "Not enough parameters";
 			break;
 		case 462:
 		{
@@ -77,9 +78,11 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		case 431:
 			message = base_msg + " :No nickname given\r\n";
+			error_message = "No nickname given";
 			break;
 		case 432:
 			message = base_msg + msg_utils + " :Erroneous nickname\r\n";
+			error_message = "Erroneous nickname";
 			break;
 		case 433:
 			message = base_msg + msg_utils + " :Nickname is already in use\r\n";
@@ -87,9 +90,11 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		case 409:
 			message = base_msg + " :No origin specified\r\n";
+			error_message = "No origin specified";
 			break;
 		case 402:
 			message = base_msg + server_name + " :No such server\r\n";
+			error_message = "No such server";
 			break;
 		case 332:
 			throww = false;
@@ -118,21 +123,27 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		case 475:
 			message = base_msg + " " + msg_utils + " :Cannot join channel (+k)\r\n";
+			error_message = "Cannot join channel (+k)";
 			break;
 		case 403:
 			message = base_msg + msg_utils + " :No such channel\r\n";
+			error_message = "No such channel";
 			break;
 		case 442:
 			message = base_msg + msg_utils + " :You're not on that channel\r\n";
+			error_message = "Client is not on that channel";
 			break;
 		case 331:
 			message = base_msg + msg_utils + " :No topic is set\r\n";
+			error_message = "No topic is set";
 			break;
 		case 482:
 			message = base_msg + " " + channel->get_channel_name() + " :You're not channel operator\r\n";
+			error_message = "Client is not channel operator";
 			break;
 		case 401:
 			message = base_msg + msg_utils + " :No such nick/channel\r\n";
+			error_message = "No such nick/channel";
 			break;
 		case 341:
 		{
@@ -142,26 +153,32 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 		}
 		case 473:
 			message = base_msg + " " + msg_utils + " :Cannot join channel (+i)\r\n";
+			error_message = "Cannot join channel (+i)";
 			break;
 		case 471:
 			message = base_msg + " " + msg_utils + " :Cannot join channel (+l)\r\n";
+			error_message = "Cannot join channel (+l)";
 			break;
 		case 696:
 			message = base_msg + msg_utils + "\r\n";
+			error_message = "Channel name is too long";
 			break;
 		case 525:
 			message = base_msg + channel->get_channel_name() + " :Key is not well-formed\r\n";
+			error_message = "Key is not well-formed";
 			break;
 		case 502:
 			message = base_msg + " :Cant change mode for other users\r\n";
+			error_message = "Cant change mode for other users";
 			break;
 		case 472:
 			message = base_msg + msg_utils + " :is unknown mode char to me\r\n";
+			error_message = "is unknown mode char to me";
 			break;
 	}
 	send(client.getFd(), message.c_str(), message.size(), MSG_NOSIGNAL);
 	std::cout << BYellow << message << Color_Off;
 	if (throww == true)
-		throw std::invalid_argument(message);
+		throw std::invalid_argument(error_message);
 
 }

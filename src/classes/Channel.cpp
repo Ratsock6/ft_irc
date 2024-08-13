@@ -117,7 +117,8 @@ void Channel::remove_admin(Client user, Client admin){
 
 void Channel::set_password(std::string password, Client client){
 	if (users_list[client] == true){
-		std::cout << "Password set" << std::endl;
+		if (DEBUG)
+			std::cout << "Password set" << std::endl;
 		this->password = password;
 	}
 }
@@ -137,7 +138,8 @@ bool Channel::is_invite_only(){
 }
 
 void Channel::join_request(Client user_to_add, std::string password, std::string channel_name){
-	std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
+	if (DEBUG)
+		std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
 	if (this->users_list.size() == static_cast<size_t>(this->user_limit) && this->user_limit != 0){
 		send_RPL_message(471, NULL, user_to_add, NULL, channel_name);
 		return;
@@ -148,7 +150,8 @@ void Channel::join_request(Client user_to_add, std::string password, std::string
 		return;
 	}
 	if (this->password == password || this->password.empty()){
-		std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
+		if (DEBUG)
+			std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
 		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
@@ -197,21 +200,26 @@ void Channel::change_user_limit(int user_limit, Client client){
 }
 
 void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER){
-	std::cout << "sending msg to channel " << msg << std::endl;
+	if (DEBUG)
+		std::cout << "sending msg to channel " << msg << std::endl;
 	std::string temp;
 	if (MSG_OR_OTHER == true)
 		temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
 	else
 		temp = msg;
-	std::cout << temp << std::endl;
-	std::cout << "user list size :" << this->users_list.size() << std::endl;
+	if (DEBUG)
+	{
+		std::cout << temp << std::endl;
+		std::cout << "user list size :" << this->users_list.size() << std::endl;
+	}
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
 		if (MSG_OR_OTHER == true)
 		{
 			if (it->first.getFd() != client.getFd())
 			{
 				send(it->first.getFd(), temp.c_str(), temp.size(), 0);
-				std::cout << "fd: "<< it->first.getFd() << std::endl;
+				if (DEBUG)
+					std::cout << "fd: "<< it->first.getFd() << std::endl;
 			}
 		}
 		else
