@@ -480,12 +480,12 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 						client.setput_pwd(true);
 						break;
 					}
-					if (commands[i].find("CAP") != std::string::npos)
-					{
-						std::cout << "CAP found" << std::endl;
-						pwd_state = true;
-						break;
-					}
+					// if (commands[i].find("CAP") != std::string::npos)
+					// {
+					// 	std::cout << "CAP found" << std::endl;
+					// 	pwd_state = true;
+					// 	break;
+					// }
 				}
 			}
 		}
