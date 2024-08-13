@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:54:06 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/06 15:48:42 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:37:08 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	main( int argc, char **argv )
 		return 1;
 	}
 	
-	Server server( port , argv[2] );
-	while (server.server_command()) {}; // loop until '/exit' command
+	Server *server = Server::get_instance(port, argv[2]);
+	while (server->server_command()) {}; // loop until '/exit' command
 
 	return 0;
 }

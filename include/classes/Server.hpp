@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:27:02 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 13:56:56 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:48:15 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Server {
 		// Server socket :
 		unsigned short	port;
 		int				server_socket;
+		std::string 	server_adress;
 
 		// To monitor client sockets :
 		std::vector<struct pollfd>	all_sockets;   // Array of client sockets (0 is the server socket)
@@ -38,7 +39,6 @@ class Server {
 		int 						poll_count;    // Current number of descriptors in the array
 		std::vector<Client>			clients; 	   // Array of clients
 		std::vector<Channel *>		channels;	   // Array of channels
-		std::string 				server_adress;
 
 		/// Private Functions :
 		// Start
@@ -47,17 +47,21 @@ class Server {
 		void	server_loop();
 		void	accept_new_client();
 		void	receive_data( int client_socket );
-		void	send_data( int client_socket, std::string data );
 		Client&	get_client_by_socket( int client_socket );
 
 		// Stop
 		void	close_all_clients();
 	
+		// Singleton
+		Server( int port , std::string password );
+		static Server *singleton;
+
 	public :
 		/// Constructors & Destructor :
 		std::time_t time;
 		bool new_client;
-		Server( int port , std::string password );
+		static	Server *get_instance( int port = 0, std::string password = "" ); // Singleton
+		static	void	destroy_instance();
 		~Server();
 
 		/// Public Functions :

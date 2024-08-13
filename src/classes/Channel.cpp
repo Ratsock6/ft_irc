@@ -10,6 +10,20 @@ Channel::Channel(std::string channel_name, Client &creator)
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
 	invite.insert(std::pair<Client, bool>(creator, true));
+	if (DEBUG)
+	{
+		std::cout << "------------------" << std::endl;
+		std::cout << "Channel created" << std::endl;
+		std::cout << "Channel name : " << channel_name << std::endl;
+		std::cout << "Creator : " << creator.getUsername() << std::endl;
+		std::cout << "Topic : " << topic << std::endl;
+		for (std::map<Client, bool>::iterator it = users_list.begin(); it != users_list.end(); it++)
+			std::cout << "User : " << it->first.getUsername() << " Admin : " << it->second << std::endl;
+		std::cout << "------------------" << std::endl;
+		for (std::map<Client, bool>::iterator it = invite.begin(); it != invite.end(); it++)
+			std::cout << "User : " << it->first.getUsername() << " invited : " << it->second << std::endl;
+		std::cout << "------------------" << std::endl;
+	}
 }
 
 Channel::~Channel(){
@@ -64,7 +78,9 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 	this->users_list.erase(user_to_remove);
 }
 
-bool Channel::check_if_user_is_admin(Client client){
+bool Channel::check_if_user_is_admin(Client client) {
+	if (this->users_list.find(client) == this->users_list.end())
+		return false;
 	if (users_list[client] == true)
 		return true;
 	return false;
@@ -118,7 +134,8 @@ void Channel::remove_admin(Client user, Client admin){
 
 void Channel::set_password(std::string password, Client client){
 	if (users_list[client] == true){
-		std::cout << "Password set" << std::endl;
+		if (DEBUG)
+			std::cout << "Password set" << std::endl;
 		this->password = password;
 	}
 }
@@ -138,18 +155,20 @@ bool Channel::is_invite_only(){
 }
 
 void Channel::join_request(Client user_to_add, std::string password, std::string channel_name){
-	std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
+	if (DEBUG)
+		std::cout << "channel pwd : "<< this->password << " user pwd :" << password << std::endl;
 	if (this->users_list.size() == static_cast<size_t>(this->user_limit) && this->user_limit != 0){
 		send_RPL_message(471, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
-	if (this->invite_only == true)
+	if (this->invite_only == true && is_invite(user_to_add) == false)
 	{
 		send_RPL_message(473, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
 	if (this->password == password || this->password.empty()){
-		std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
+		if (DEBUG)
+			std::cout << "User " << user_to_add.getUsername() << " joined the channel" << std::endl;
 		this->users_list.insert(std::pair<Client, bool>(user_to_add, false));
 	}
 	else{
@@ -198,21 +217,26 @@ void Channel::change_user_limit(int user_limit, Client client){
 }
 
 void Channel::send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER){
-	std::cout << "sending msg to channel " << msg << std::endl;
+	if (DEBUG)
+		std::cout << "sending msg to channel " << msg << std::endl;
 	std::string temp;
 	if (MSG_OR_OTHER == true)
 		temp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " PRIVMSG " + this->channel_name + " :" + msg + "\r\n";
 	else
 		temp = msg;
-	std::cout << temp << std::endl;
-	std::cout << "user list size :" << this->users_list.size() << std::endl;
+	if (DEBUG)
+	{
+		std::cout << temp << std::endl;
+		std::cout << "user list size :" << this->users_list.size() << std::endl;
+	}
 	for (std::map<Client, bool>::iterator it = this->users_list.begin(); it != this->users_list.end(); ++it) {
 		if (MSG_OR_OTHER == true)
 		{
 			if (it->first.getFd() != client.getFd())
 			{
 				send(it->first.getFd(), temp.c_str(), temp.size(), 0);
-				std::cout << "fd: "<< it->first.getFd() << std::endl;
+				if (DEBUG)
+					std::cout << "fd: "<< it->first.getFd() << std::endl;
 			}
 		}
 		else
@@ -235,8 +259,8 @@ void Channel::send_private_msg(std::string msg , Client who_send, Client who_rec
 	{
 		final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
 	}
-	std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
-	std::cout << final_msg << std::endl;
+	// std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
+	// std::cout << final_msg << std::endl;
 	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
 }
 

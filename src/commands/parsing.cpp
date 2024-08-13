@@ -54,10 +54,10 @@ int get_mode(const std::string& command) {
 	return mode_error;
 }
 
-bool check_if_username_exist(std::string str, Server server)
+bool check_if_username_exist(std::string str, Server & server)
 {
 	std::vector<Client> users_list = server.get_clients();
-	std::cout << "(to remove) Searching (bool): " << str << std::endl;   
+	// std::cout << "(to remove) Searching (bool): " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getUsername() == str)
@@ -66,10 +66,10 @@ bool check_if_username_exist(std::string str, Server server)
 	return false;
 }
 
-bool check_if_nickname_exist(std::string str, Server server)
+bool check_if_nickname_exist(std::string str, Server & server)
 {
 	std::vector<Client> users_list = server.get_clients();
-	std::cout << "(to remove) Searching (bool): " << str << std::endl;   
+	// std::cout << "(to remove) Searching (bool): " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getNickname() == str)
@@ -80,12 +80,12 @@ bool check_if_nickname_exist(std::string str, Server server)
 
 Client Search_client_ID(std::string str, std::vector<Client> users_list)
 {
-	std::cout << "(to remove) Searching : " << str << std::endl;   
+	// std::cout << "(to remove) Searching : " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getUsername() == str)
 		{
-			std::cout << "(to remove) Found : " << it->getUsername() << std::endl;
+			// std::cout << "(to remove) Found : " << it->getUsername() << std::endl;
 			return *it;
 		}
 	}
@@ -94,12 +94,12 @@ Client Search_client_ID(std::string str, std::vector<Client> users_list)
 
 Client Search_client_ID_Nick(std::string str, std::vector<Client> users_list)
 {
-	std::cout << "(to remove) Searching : " << str << std::endl;   
+	// std::cout << "(to remove) Searching : " << str << std::endl;   
 	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
 	{
 		if (it->getNickname() == str)
 		{
-			std::cout << "(to remove) Found : " << it->getNickname() << std::endl;
+			// std::cout << "(to remove) Found : " << it->getNickname() << std::endl;
 			return *it;
 		}
 	}
@@ -110,9 +110,12 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 {
 	std::stringstream test;
 	int num;
-	for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+	if (DEBUG)
 	{
-		std::cout << "args: " << *it << std::endl;
+		for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+		{
+			std::cout << "args: " << *it << std::endl;
+		}
 	}
 	int mode_temp;
 	for (size_t i = 0; i < args.size(); i++)
@@ -132,10 +135,7 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 			if (args.size() != 3)
 				throw std::invalid_argument("wrong number of arguments");
 			if (channel == NULL)
-			{
-				std::cout << " test" << std::endl;
 				break;
-			}
 			channel->set_invite_only(true, client);
 			break;
 		case minus_t:
@@ -228,7 +228,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-                std::cout << "la"   << std::endl;
                 send_RPL_message(464, &server, client, channels[0], "Wrong password");
                 server.close_client(client.getFd());
                 throw std::invalid_argument("Wrong password 1");
@@ -239,10 +238,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() <= 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             users_map = channel->get_users_map();
-            for(std::map<Client, bool>::iterator it = users_map.begin(); it != users_map.end(); ++it)
-            {
-                std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
-            }
+			if (DEBUG)
+			{
+				for(std::map<Client, bool>::iterator it = users_map.begin(); it != users_map.end(); ++it)
+				{
+					std::cout << "user: " << it->first.getNickname() << " is admin :" << it->second <<std::endl;
+				}
+			}
             if (channel->check_if_user_is_admin(client) == false)
                 send_RPL_message(482, &server, client, channel, "You are not an admin");
             if (args.size() < 4)
@@ -272,13 +274,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             break;
         // vsoltys!vsoltys@vsoltys TOPIC #channel :test
         case MODE:
-            std::cout << "args size :" << args.size() << std::endl;
+			if (DEBUG)
+        		std::cout << "args size :" << args.size() << std::endl;
             if (args.size() < 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args.size() == 2)
             {
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " MODE " + channel->get_channel_name() + "itkol"+ "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 send(client.getFd(), tmp.c_str() , tmp.size(), 0);
                 break;
             }
@@ -345,7 +347,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 if (users_list[i].getRealname() == args[1])
                 {
-                    std::cout << "getnick = " << users_list[i].getRealname() << "args[1] = " << args[1] << std::endl;
+					if (DEBUG)
+                   		std::cout << "getnick = " << users_list[i].getRealname() << "args[1] = " << args[1] << std::endl;
                     args[1] += "_";
                     break;
                 }
@@ -355,17 +358,16 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PING:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->send_private_msg("PONG " + args[1] + "\r\n", client, client);
+            send_RPL_message(6, NULL, client, NULL, "");
+			// channel->send_private_msg("PONG " + args[1] + "\r\n", client, client);
             break;
         case JOIN:
             if (args.size() < 2 || args.size() > 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             if (args.size() == 2)
             {
-                std::cout << "test" << std::endl;
                 channel->join_request(client, "", channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
 		        send_RPL_message(353, NULL, client, channel, "users");
@@ -375,7 +377,6 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             {
                 channel->join_request(client, args[2], channel->get_channel_name());
                 tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + channel->get_channel_name() + "\r\n";
-                std::cout << "tmp: " << tmp << std::endl;
                 channel->send_msg_to_channel(tmp, client, false);
                 channel->send_msg_to_channel(tmp, client, false);
                 send_RPL_message(332, NULL, client, channel, "topic");
@@ -438,14 +439,14 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 		server.add_channel(new_channel);
 		channels.push_back(new_channel);
 		tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " JOIN " + new_channel->get_channel_name() + "\r\n";
-		std::cout << "tmp: " << tmp << std::endl;
 		
 		// new_channel->send_msg_to_channel(tmp, client, false);
 		new_channel->send_msg_to_channel(tmp, client, false);
 		send_RPL_message(332, NULL, client, new_channel, "topic");
 		send_RPL_message(353, NULL, client, new_channel, "users");
 		send_RPL_message(366, NULL, client, new_channel, "end of /NAMES list");
-		std::cout << "new channel created" << std::endl;
+		if (DEBUG)
+			std::cout << "new channel created" << std::endl;
 		return 1;
 	}
 
@@ -485,12 +486,16 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 	
 	for (std::vector<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
 	{
-		std::cout << "command: " << *it << std::endl;
+		if (DEBUG)
+			std::cout << "command: " << *it << std::endl;
 		parsing_command(*it, channels, client, server);
 	}
 	std::vector<Client> users_list = server.get_clients();
-	for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+	if (DEBUG)
 	{
-		std::cout << "client Nick : " << it->getNickname() << " client user : " << it->getUsername() << std::endl;
+		for (std::vector<Client>::iterator it = users_list.begin(); it != users_list.end(); ++it)
+		{
+			std::cout << "client Nick : " << it->getNickname() << " client user : " << it->getUsername() << std::endl;
+		}
 	}
 }

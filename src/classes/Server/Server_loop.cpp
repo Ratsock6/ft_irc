@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsoltys <vsoltys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 16:27:06 by vsoltys          ###   ########.fr       */
+/*   Updated: 2024/08/13 11:17:08 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	Server::server_loop()
 		else if (status == NOTHING)
 			continue;
 		// Check for events
-		std::cout << "poll count: " << poll_count << std::endl;
+		if (DEBUG)
+			std::cout << "poll count: " << poll_count << std::endl;
 		for (int i = 0; i < poll_count; i++)
 		{
 			if ((all_sockets[i].revents & POLLIN) == 1)
@@ -99,7 +100,7 @@ void	Server::receive_data(int client_socket)
 		client.setMessageBuffer(message);
 		
 		std::cout << BGreen;
-		std::cout << "[Server] Received message: " << message.str() << std::endl;
+		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message.str();
 		std::cout << Color_Off;
 		
 		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
@@ -118,7 +119,7 @@ void	Server::receive_data(int client_socket)
 			}
 			catch (std::exception &e){
 				std::cerr << BRed;
-				std::cerr << e.what() << std::endl;
+				std::cerr << "[Server] Error : " << e.what() << std::endl;
 				std::cerr << Color_Off;
 			}
 			
@@ -169,10 +170,6 @@ void	Server::accept_new_client()
 	new_client.setNickname("temp_nick");
 	//new_client.setRealname("temp_realname");
 	this->clients.push_back(new_client);
-	for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
-	{
-		std::cout << "Client: " << it->getNickname() << std::endl;
-	}
 	/**************test val *****************************/
 
 	// Client test_client("test_client", 2, new_ID(), true);
