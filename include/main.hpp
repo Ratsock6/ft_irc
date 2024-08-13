@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:55:33 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 18:41:45 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:03:43 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,19 @@ enum mode{
 // Classes
 # include "Client.hpp"
 class Client;
+
 # include "Channel.hpp"
 class Channel;
 
 # include "Server.hpp"
 class Server;
 
-
 // Structures
 
 /*###########################################################################*/
 /*                            Functions Prototypes                           */
 /*###########################################################################*/
-int 		connection_setup(int port, char *password);
-std::vector<std::string> splitCommands(const std::string& str);
-void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
-int parsing_command(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
-void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *channel, std::string msg_utils);
+std::vector<std::string>	splitCommands(const std::string& str);
+void						pre_parsing(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
+int							parsing_command(const std::string& str, std::vector<Channel*> channels, Client &client, Server &server);
+void						send_RPL_message(int RPL_number ,Server *server, Client client, Channel *channel, std::string msg_utils);

@@ -55,6 +55,7 @@ Channel& Channel::operator=(const Channel &c){
 	this->user_limit = c.user_limit;
 	this->topic_autorization = c.topic_autorization;
 	this->password = c.password;
+	this->invite = c.invite;
 	return *this;
 }
 
@@ -295,8 +296,12 @@ Client Channel::get_creator(){
 	return this->creator;
 }
 
-bool	Channel::is_invite(int client_id) {
-	if (invited_users.empty())
-        return false;
-	return std::find(invited_users.begin(), invited_users.end(), client_id) != invited_users.end();
+std::map<Client, bool> Channel::get_invite_map(){
+	return this->invite;
+}
+
+bool Channel::is_invite(Client client) {
+	if (this->invite.find(client) == this->invite.end())
+		return false;
+	return this->invite[client];
 }
