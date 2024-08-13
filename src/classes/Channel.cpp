@@ -2,14 +2,14 @@
 #include "Client.hpp"
 
 Channel::Channel(std::string channel_name, Client &creator)
-	: channel_name(channel_name), creator(creator) {
+	: channel_name(channel_name), creator(creator), invited_users() {
 	Channel::add_admin(creator, creator);
 	invite_only = false;
 	topic = "No topic is set";
 	topic_autorization = true;
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
-	invite.insert(std::pair<Client, bool>(creator, true));
+	invited_users.push_back(creator.getID());
 	if (DEBUG)
 	{
 		std::cout << "------------------" << std::endl;
@@ -17,11 +17,14 @@ Channel::Channel(std::string channel_name, Client &creator)
 		std::cout << "Channel name : " << channel_name << std::endl;
 		std::cout << "Creator : " << creator.getUsername() << std::endl;
 		std::cout << "Topic : " << topic << std::endl;
+		std::cout << "------------------" << std::endl;
+		std::cout << "USER LIST : " << user_limit << std::endl;
 		for (std::map<Client, bool>::iterator it = users_list.begin(); it != users_list.end(); it++)
 			std::cout << "User : " << it->first.getUsername() << " Admin : " << it->second << std::endl;
 		std::cout << "------------------" << std::endl;
-		for (std::map<Client, bool>::iterator it = invite.begin(); it != invite.end(); it++)
-			std::cout << "User : " << it->first.getUsername() << " invited : " << it->second << std::endl;
+		std::cout << "INVITED USERS" << std::endl;
+		for (std::vector<int>::iterator it = invited_users.begin(); it != invited_users.end(); it++)
+			std::cout << "(ID) - " << *it << std::endl;
 		std::cout << "------------------" << std::endl;
 	}
 }
@@ -46,7 +49,7 @@ Channel& Channel::operator=(const Channel &c){
 	this->channel_name = c.channel_name;
 	this->topic = c.topic;
 	this->users_list = c.users_list;
-	this->invite = c.invite;
+	this->invited_users = c.invited_users;
 	this->creator = c.creator;
 	this->invite_only = c.invite_only;
 	this->user_limit = c.user_limit;
@@ -55,13 +58,10 @@ Channel& Channel::operator=(const Channel &c){
 	return *this;
 }
 
-void Channel::invite_user_by_admin(Client user_to_add){
-	if (is_invite(user_to_add))
+void Channel::invite_user_by_admin(int user_ID){
+	if (is_invite(user_ID))
 		throw std::invalid_argument("User already invited");
-	if (this->invite.find(user_to_add) != this->invite.end())
-		this->invite[user_to_add] = true;
-	else
-		this->invite.insert(std::pair<Client, bool>(user_to_add, true));	
+	invited_users.push_back(user_ID);
 }
 
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
@@ -160,7 +160,7 @@ void Channel::join_request(Client user_to_add, std::string password, std::string
 		send_RPL_message(471, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
-	if (this->invite_only == true && is_invite(user_to_add) == false)
+	if (this->invite_only == true && is_invite(user_to_add.getID()) == false)
 	{
 		send_RPL_message(473, NULL, user_to_add, NULL, channel_name);
 		return;
@@ -295,12 +295,8 @@ Client Channel::get_creator(){
 	return this->creator;
 }
 
-std::map<Client, bool> Channel::get_invite_map(){
-	return this->invite;
-}
-
-bool Channel::is_invite(Client client) {
-	if (this->invite.find(client) == this->invite.end())
-		return false;
-	return this->invite[client];
+bool	Channel::is_invite(int client_id) {
+	if (invited_users.empty())
+        return false;
+	return std::find(invited_users.begin(), invited_users.end(), client_id) != invited_users.end();
 }

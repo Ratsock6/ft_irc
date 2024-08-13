@@ -13,8 +13,8 @@ class Channel{
 		std::string password;
 		std::string topic;
 		std::map<Client, bool> users_list;
-		std::map<Client, bool> invite;
 		Client &creator;
+		std::vector<int> invited_users;
 		bool invite_only;
 		bool topic_autorization;
 	public:
@@ -23,7 +23,7 @@ class Channel{
 		//Channel(const Channel &c);
 		Channel& operator=(const Channel &c);
 
-		void invite_user_by_admin(Client user_to_add);
+		void invite_user_by_admin(int user_ID);
 		void join_request(Client user_to_add, std::string password, std::string channel_name);
 		void remove_user(Client user_to_remove, Client user_who_remove);
 		void add_admin(Client user_to_add, Client user_who_add);
@@ -39,8 +39,8 @@ class Channel{
 		void send_msg_to_channel(std::string msg, Client client, bool MSG_OR_OTHER);
 		void send_private_msg(std::string msg, Client who_send , Client who_receive);
 		std::map<Client, bool> get_users_map();
-		std::map<Client, bool> get_invite_map();
-		bool is_invite(Client client);
+		std::vector<int> get_invite_map();
+		bool is_invite(int client_id);
 		bool is_invite_only();
 
 		std::string get_channel_name();
