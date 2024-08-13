@@ -30,6 +30,7 @@ Channel::Channel(std::string channel_name, Client &creator)
 }
 
 Channel::~Channel(){
+	invited_users.clear();
 }
 
 // Channel::Channel(const Channel &c)

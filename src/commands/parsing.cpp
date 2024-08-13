@@ -223,8 +223,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
     std::vector<Client> users_list = server.get_clients();
     std::map<Client, bool> users_map;
     std::string tmp;
-	Client target = Client("DUMMY", 0, -2, false);
-    
+
     switch (get_command(args[0])) {
         case PASS:
             if (args[1] != server.get_password())
@@ -267,10 +266,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
 			if (DEBUG)
 				std::cout << "args[1] = " << args[1] << std::endl;
-			target = Search_client_ID_Nick(args[1], server.get_clients());
-			if (DEBUG)
-				std::cout << "target = " << target.getNickname() << std::endl;
-			channel->invite_user_by_admin(target.getID());
+			channel = Search_channel(channels, args[2]);
+			channel->invite_user_by_admin(Search_client_ID_Nick(args[1], server.get_clients()).getID());
             break;
         case TOPIC:
             if (args.size() <= 2)
