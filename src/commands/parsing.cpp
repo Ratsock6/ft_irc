@@ -467,19 +467,23 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 	{
 		bool pwd_state = false;
 		if (server.get_password() != "")
-		{
-			for (size_t i = 0; i < commands.size(); i++)
+		{	
+			if (client.getput_pwd() == true)
 			{
-				if (commands[i].find("PASS") != std::string::npos)
+				for (size_t i = 0; i < commands.size(); i++)
 				{
-					pwd_state = true;
-					client.setput_pwd(true);
-					break;
-				}
-				if (commands[i].find("CAP") != std::string::npos)
-				{
-					pwd_state = true;
-					break;
+					if (commands[i].find("PASS") != std::string::npos)
+					{
+						pwd_state = true;
+						client.setput_pwd(true);
+						break;
+					}
+					if (commands[i].find("CAP") != std::string::npos)
+					{
+						std::cout << "CAP found" << std::endl;
+						pwd_state = true;
+						break;
+					}
 				}
 			}
 		}
