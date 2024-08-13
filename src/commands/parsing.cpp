@@ -110,6 +110,12 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 {
 	std::stringstream test;
 	int num;
+
+	if (channel != NULL && channel->check_if_user_is_admin(client) == false)
+	{
+		send_RPL_message(482, NULL, client, channel, "You are not an admin");
+		return 0;
+	}
 	if (DEBUG)
 	{
 		for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
