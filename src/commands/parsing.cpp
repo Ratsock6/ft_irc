@@ -228,11 +228,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
+				std::cout << "args[1] = " << args[1] << std::endl;
+				std::cout << "server.get_password() = " << server.get_password() << std::endl;
                 send_RPL_message(464, &server, client, NULL, "Wrong password");
                 server.close_client(client.getFd());
                 throw std::invalid_argument("Wrong password 1");
             }
-            //client.setput_pwd(true);
+            client.setput_pwd(true);
             break;
         case KICK:
             if (args.size() <= 3)
@@ -474,6 +476,11 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 				
 				for (size_t i = 0; i < commands.size(); i++)
 				{
+					if (commands[i].find("CAP") != std::string::npos)
+					{
+						pwd_state = true;
+						break;
+					}
 					if (commands[i].find("PASS") != std::string::npos)
 					{
 						pwd_state = true;
@@ -496,7 +503,8 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 	{
 		if (DEBUG)
 			std::cout << "command: " << *it << std::endl;
-		parsing_command(*it, channels, client, server);
+		if (*it != "JOIN :")
+			parsing_command(*it, channels, client, server);
 	}
 	std::vector<Client> users_list = server.get_clients();
 	if (DEBUG)
