@@ -10,6 +10,20 @@ Channel::Channel(std::string channel_name, Client &creator)
 	user_limit = 20;
 	users_list.insert(std::pair<Client, bool>(creator, true));
 	invite.insert(std::pair<Client, bool>(creator, true));
+	if (DEBUG)
+	{
+		std::cout << "------------------" << std::endl;
+		std::cout << "Channel created" << std::endl;
+		std::cout << "Channel name : " << channel_name << std::endl;
+		std::cout << "Creator : " << creator.getUsername() << std::endl;
+		std::cout << "Topic : " << topic << std::endl;
+		for (std::map<Client, bool>::iterator it = users_list.begin(); it != users_list.end(); it++)
+			std::cout << "User : " << it->first.getUsername() << " Admin : " << it->second << std::endl;
+		std::cout << "------------------" << std::endl;
+		for (std::map<Client, bool>::iterator it = invite.begin(); it != invite.end(); it++)
+			std::cout << "User : " << it->first.getUsername() << " invited : " << it->second << std::endl;
+		std::cout << "------------------" << std::endl;
+	}
 }
 
 Channel::~Channel(){
@@ -63,7 +77,9 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 	this->users_list.erase(user_to_remove);
 }
 
-bool Channel::check_if_user_is_admin(Client client){
+bool Channel::check_if_user_is_admin(Client client) {
+	if (this->users_list.find(client) == this->users_list.end())
+		return false;
 	if (users_list[client] == true)
 		return true;
 	return false;
@@ -144,7 +160,7 @@ void Channel::join_request(Client user_to_add, std::string password, std::string
 		send_RPL_message(471, NULL, user_to_add, NULL, channel_name);
 		return;
 	}
-	if (this->invite_only == true)
+	if (this->invite_only == true && is_invite(user_to_add) == false)
 	{
 		send_RPL_message(473, NULL, user_to_add, NULL, channel_name);
 		return;
