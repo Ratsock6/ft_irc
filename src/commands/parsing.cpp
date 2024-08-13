@@ -228,7 +228,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-                send_RPL_message(464, &server, client, channels[0], "Wrong password");
+                send_RPL_message(464, &server, client, NULL, "Wrong password");
                 server.close_client(client.getFd());
                 throw std::invalid_argument("Wrong password 1");
             }
