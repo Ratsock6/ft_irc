@@ -27,7 +27,6 @@ Channel::Channel(std::string channel_name, Client &creator)
 			std::cout << "(ID) - " << *it << std::endl;
 		std::cout << "------------------" << std::endl;
 	}
-	std::cout << "Channel created" << std::endl;
 }
 
 Channel::~Channel(){
