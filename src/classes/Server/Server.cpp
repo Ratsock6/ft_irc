@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/13 14:38:06 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:04:26 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,13 @@ void	Server::create_server_socket()
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_INET;       // IPv4
 	hints.ai_socktype = SOCK_STREAM; // TCP socket
+	hints.ai_flags = AI_PASSIVE;     // For wildcard IP address
 
 	// convertion of port to string
 	std::stringstream ss;
 	ss << port;
 
-	status = getaddrinfo("localhost", ss.str().c_str(), &hints, &res);
+	status = getaddrinfo(NULL, ss.str().c_str(), &hints, &res);
 	if (status != 0) {
 		throw std::runtime_error( gai_strerror(status) );
 	}
@@ -101,6 +102,14 @@ void	Server::create_server_socket()
 		freeaddrinfo(res);
 		throw std::runtime_error( strerror(errno) );
 	}
+	
+	// Set socket options to reuse address
+    int optval = 1;
+    if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) == -1) {
+        freeaddrinfo(res);
+        close(server_socket);
+        throw std::runtime_error(strerror(errno));
+    }
 
 	std::cout << BWhite;
 	std::cout << "[Server] Created server socket fd: " << server_socket << std::endl;
