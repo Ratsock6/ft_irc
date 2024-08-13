@@ -465,11 +465,13 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 	std::vector<std::string> commands = splitCommands(str);
 	if (client.getput_pwd() == false)
 	{
-		bool pwd_state = false;
-		if (server.get_password() != "")
-		{	
-			if (client.getput_pwd() == true)
-			{
+		bool pwd_state = true;
+		if (client.getput_pwd() == false)
+		{
+			pwd_state = false;
+			if (server.get_password() != "")
+			{	
+				
 				for (size_t i = 0; i < commands.size(); i++)
 				{
 					if (commands[i].find("PASS") != std::string::npos)
