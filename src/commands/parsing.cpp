@@ -161,12 +161,12 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 		case plus_o:
 			if(args.size() != 4)
 				throw std::invalid_argument("wrong number of arguments");
-			channel->add_admin(Search_client_ID(args[3], channel->get_users_list()), client);
+			channel->add_admin(Search_client_ID_Nick(args[3], channel->get_users_list()), client);
 			break;
 		case minus_o:
 			if(args.size() != 4)
 				throw std::invalid_argument("wrong number of arguments");
-			channel->remove_admin(Search_client_ID(args[4], channel->get_users_list()), client);
+			channel->remove_admin(Search_client_ID_Nick(args[3], channel->get_users_list()), client);
 			break;
 		case minus_l:
 			if(args.size() != 3)
@@ -260,7 +260,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             }
             else
                 channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
-            channel->remove_user(Search_client_ID(args[2], channel->get_users_list()), client);
+            channel->remove_user(Search_client_ID_Nick(args[2], channel->get_users_list()), client);
             break;
         case INVITE:
             if (args.size() != 3)
