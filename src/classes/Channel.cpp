@@ -27,6 +27,7 @@ Channel::Channel(std::string channel_name, Client &creator)
 			std::cout << "(ID) - " << *it << std::endl;
 		std::cout << "------------------" << std::endl;
 	}
+	std::cout << "Channel created" << std::endl;
 }
 
 Channel::~Channel(){
@@ -55,7 +56,6 @@ Channel& Channel::operator=(const Channel &c){
 	this->user_limit = c.user_limit;
 	this->topic_autorization = c.topic_autorization;
 	this->password = c.password;
-	this->invite = c.invite;
 	return *this;
 }
 
@@ -296,12 +296,11 @@ Client Channel::get_creator(){
 	return this->creator;
 }
 
-std::map<Client, bool> Channel::get_invite_map(){
-	return this->invite;
-}
 
-bool Channel::is_invite(Client client) {
-	if (this->invite.find(client) == this->invite.end())
-		return false;
-	return this->invite[client];
+bool Channel::is_invite(int client_id) {
+	for (std::vector<int>::iterator it = this->invited_users.begin(); it != this->invited_users.end(); it++){
+		if (*it == client_id)
+			return true;
+	}
+	return false;
 }

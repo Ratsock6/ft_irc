@@ -10,6 +10,7 @@ Client::Client(std::string username, int fd,int ID, bool admin){
 	this->user_ID = ID;
 	this->put_pwd = false;
 	this->topic_autorization = false;
+	std::cout << "Client created" << std::endl;
 }
 
 Client::~Client(){
