@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/13 14:18:46 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:38:06 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,9 @@ bool Server::server_command()
 		std::cout << BWhite << "[Server] Password changed to " << password << "" << std::endl << Color_Off;
 	}
 
+	if (buffer == "/clear")
+		system("clear");
+
 	if (buffer == "/exit")
 	{
 		if (server_status == RUNNING)
@@ -296,6 +299,7 @@ bool Server::server_command()
 		std::cout << "[Server] /stop : stop the server if running\n";
 		std::cout << "[Server] /port <port> : change the port of the server\n";
 		std::cout << "[Server] /passw <password>: Change password\n";
+		std::cout << "[Server] /clear : clear the terminal\n";
 		std::cout << "[Server] /exit : exit the program\n";
 		std::cout << "[Server] /help : display this help\n";
 		std::cout << Color_Off;
