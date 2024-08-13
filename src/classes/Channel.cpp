@@ -199,7 +199,7 @@ void Channel::change_topic_autorization(bool topic_autorization, Client client){
 	}
 }
 void Channel::set_invite_only(bool invite_only, Client client){
-	if (users_list[client] == true){
+	if (users_list[client] == false){
 		this->invite_only = invite_only;
 	}
 }

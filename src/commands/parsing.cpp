@@ -110,6 +110,7 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 {
 	std::stringstream test;
 	int num;
+	std::string msg;
 
 	if (channel != NULL && channel->check_if_user_is_admin(client) == false)
 	{
@@ -134,61 +135,127 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 	{
 		case minus_i:
 			if (args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->set_invite_only(false, client);
+			msg = "The channel " + channel->get_channel_name() + " is no longer invite only\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case plus_i:
 			if (args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			if (channel == NULL)
 				break;
 			channel->set_invite_only(true, client);
+			msg = "The channel " + channel->get_channel_name() + " is now invite only\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case minus_t:
 			if (args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->change_topic_autorization(false, client);
+			msg = "The channel " + channel->get_channel_name() + " is no longer topic protected\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case plus_t:
 			if (args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->change_topic_autorization(true, client);
+			msg = "The channel " + channel->get_channel_name() + " is now topic protected\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case plus_k:
 			if (args.size() != 4)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				send_RPL_message(461, NULL, client, channel, "Wrong number of arguments");
+			}
 			channel->set_password(args[3], client);
+			msg = "The channel " + channel->get_channel_name() + " is now password protected\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case minus_k:
 			if (args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->unset_password(client);
+			msg = "The channel " + channel->get_channel_name() + " is no longer password protected\r\n";
+			send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case plus_o:
 			if(args.size() != 4)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->add_admin(Search_client_ID_Nick(args[3], channel->get_users_list()), client);
+			msg = "The user " + args[3] + " is now an admin of the channel " + channel->get_channel_name() + "\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case minus_o:
 			if(args.size() != 4)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->remove_admin(Search_client_ID_Nick(args[3], channel->get_users_list()), client);
+			msg = "The user " + args[3] + " is no longer an admin of the channel " + channel->get_channel_name() + "\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case minus_l:
 			if(args.size() != 3)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("wrong number of arguments");
+			}
 			channel->change_user_limit(0, client);
+			msg = "The user limit of the channel " + channel->get_channel_name() + " has been removed\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case plus_l:
 			if(args.size() != 4)
+			{
+				msg = "Wrong number of arguments\r\n";
+				send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("Not enough arguments");
+			}
 			test << args[3];
 			test >> num;
 			if (test.fail())
+			{
+				msg = "The user limit of the channel " + channel->get_channel_name() + " must be a number\r\n";
+            	send(client.getFd(), msg.c_str(), msg.size(), 0);
 				throw std::invalid_argument("User limit must be a number");
+			}
 			channel->change_user_limit(num, client);
+			msg = "The user limit of the channel " + channel->get_channel_name() + " has been set to " + args[3] + "\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case mode_error:
+			msg = "The mode " + args[2] + " does not exist\r\n";
+            send(client.getFd(), msg.c_str(), msg.size(), 0);
 			throw std::invalid_argument("Mode does not exist");
 	}
 	return 1;
@@ -276,6 +343,9 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
 				std::cout << "args[1] = " << args[1] << std::endl;
 			channel = Search_channel(channels, args[2]);
 			channel->invite_user_by_admin(Search_client_ID_Nick(args[1], server.get_clients()).getID());
+			send_RPL_message(345, &server, client, channel, args[1]);
+			tmp =  "You have invited " + args[1] + " to the channel " + channel->get_channel_name() + "\r\n";
+			send(Search_client_ID_Nick(args[1], server.get_clients()).getFd(), tmp.c_str(), tmp.size(), 0);
             break;
         case TOPIC:
             if (args.size() <= 2)

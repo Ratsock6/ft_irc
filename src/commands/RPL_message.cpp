@@ -103,6 +103,11 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			else
 				message = base_msg + " " + channel->get_channel_name() + " :" + channel->get_topic() + "\r\n";
 			break;
+		case 345:
+			message = ":" + server_name + " " + int_to_string(RPL_number) + " " + channel->get_channel_name() + " :" + msg_utils + " has been invited by " + client.getUsername() + "\r\n";
+			error_message = "Client has been invited by client";
+			throww = false;
+			break;
 		case 353:
 		{
 			throww = false;
