@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/13 18:04:26 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:33:27 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,10 @@ void	Server::close_all_clients()
 		close(all_sockets[i].fd);
 	
 	clients.clear();
+	for (std::size_t i = 0; i < channels.size(); ++i) {
+        delete channels[i];
+		std::cout << "Delete channel ID" << i << std::endl;
+    }
 	channels.clear();
 	poll_count = 0;
 }
