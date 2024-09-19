@@ -4,6 +4,9 @@
  - https://modern.ircdocs.horse/
  - https://github.com/marineks/Ft_irc
 
+# Connection au server avec netcat
+echo -n "CAP LS\r\nPASS 10\r\nNICK DailyWind\r\nUSER mgallais mgallais localhost :Mael Gallais\r\n" | nc localhost <server-port>
+
 ## Infos :
  - Signaux a gerer (priorite) : CTRL+C, CTRL+D, CTRL+Z
  - Tout les inputs du client DOIVENT finir par "\r\n" pour eviter les EOF inattendu
