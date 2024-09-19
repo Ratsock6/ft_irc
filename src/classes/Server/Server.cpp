@@ -6,7 +6,7 @@
 /*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/19 13:40:42 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:49:58 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,8 @@ void	Server::close_all_clients()
 	clients.clear();
 	for (std::size_t i = 0; i < channels.size(); ++i) {
 		delete channels[i];
-		std::cout << "Delete channel ID" << i << std::endl;
+		if (DEBUG)
+			std::cout << "Channel [" << i << "] deleted" << std::endl;
 	}
 	channels.clear();
 	poll_count = 0;
