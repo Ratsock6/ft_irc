@@ -2,7 +2,8 @@
 #include "Client.hpp"
 
 Channel::Channel(std::string channel_name, Client &creator)
-	: channel_name(channel_name), creator(creator), invited_users() {
+	: channel_name(channel_name), creator(creator), invited_users()
+{
 	Channel::add_admin(creator, creator);
 	invite_only = false;
 	topic = "No topic is set";
@@ -68,13 +69,6 @@ void Channel::invite_user_by_admin(int user_ID){
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
 	if (users_list[user_who_remove] == false)
 		throw std::invalid_argument("You are not an admin");
-	if (user_to_remove.getID() == user_who_remove.getID())
-	{
-		this->users_list.erase(user_to_remove);
-		return;
-	}
-	if (user_to_remove.getID() == this->creator.getID())
-		throw std::invalid_argument("You are trying to remove the creator of the channel (its the big boss)");
 	this->users_list.erase(user_to_remove);
 }
 
@@ -178,6 +172,7 @@ void Channel::join_request(Client user_to_add, std::string password, std::string
 
 void Channel::change_topic(std::string topic_name, Client client){
 	if (this->topic_autorization == false){
+		Channel::send_msg_to_channel("You are not allowed to change the topic", client, false);
 		throw std::invalid_argument("You are not allowed to change the topic(/mode t)");
 		return;
 
@@ -199,7 +194,7 @@ void Channel::change_topic_autorization(bool topic_autorization, Client client){
 	}
 }
 void Channel::set_invite_only(bool invite_only, Client client){
-	if (users_list[client] == false){
+	if (users_list[client] == true){
 		this->invite_only = invite_only;
 	}
 }

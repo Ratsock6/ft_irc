@@ -155,7 +155,7 @@ int parsing_mode(std::vector<std::string> args, Channel *channel, Client &client
 				break;
 			channel->set_invite_only(true, client);
 			msg = "The channel " + channel->get_channel_name() + " is now invite only\r\n";
-            send(client.getFd(), msg.c_str(), msg.size(), 0);
+			send(client.getFd(), msg.c_str(), msg.size(), 0);
 			break;
 		case minus_t:
 			if (args.size() != 3)
