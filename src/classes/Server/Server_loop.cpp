@@ -83,7 +83,7 @@ void	Server::close_client( int client_socket )
 
 void	Server::receive_data(int client_socket)
 {
-	Client				client = get_client_by_socket(client_socket);
+	Client&				client = get_client_by_socket(client_socket);
 	std::string			message;
 	char				buffer[RECV_BUFFER_SIZE];
 	int					status;
@@ -100,7 +100,9 @@ void	Server::receive_data(int client_socket)
 		message.append(std::string(buffer, status));
 		
 		std::cout << BGreen;
-		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message;
+		std::cout << "[Server] Received message from client " << client_socket << ":\n" << message;
+		if (message.size() >= 1 && message.substr(message.size() - 1) != "\n")
+			std::cout << BRed	 << " (message not complete)\n";
 		std::cout << Color_Off;
 		
 		if (message.size() >= 1 && message.substr(message.size() - 1) == "\n") {

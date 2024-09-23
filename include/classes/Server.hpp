@@ -20,6 +20,7 @@ enum server_status_e
 };
 
 # define POLL_TIMEOUT 10
+# define RECV_BUFFER_SIZE 32767
 
 class Server {
 	private :

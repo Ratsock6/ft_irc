@@ -10,6 +10,8 @@ Client::Client(std::string username, int fd,int ID, bool admin){
 	this->user_ID = ID;
 	this->put_pwd = false;
 	this->topic_autorization = false;
+	if (DEBUG)
+		std::cout << "Username : " << this->username << std::endl;
 }
 
 Client::~Client(){
@@ -121,5 +123,5 @@ std::string& Client::getMessageBuffer(){
 }
 
 void Client::setMessageBuffer(std::string& message){
-	this->messageBuffer = message;
+	this->messageBuffer.append(message);
 }

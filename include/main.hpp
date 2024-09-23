@@ -48,9 +48,6 @@ enum mode{
 	mode_error
 };
 
-# define RECV_BUFFER_SIZE 10000 // small for testing purposes (should concatenate until '\r\n')
-# define MESSAGE_END "\r\n"
-
 # ifndef DEBUG
 #  define DEBUG 0
 # endif

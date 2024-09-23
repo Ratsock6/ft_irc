@@ -42,7 +42,9 @@ redirect: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
-	@printf "\033[1;92m >>> Ircserv compiled                                                     \n\n\033[0m"
+	@printf "\033[1;92m >>> Ircserv compiled                                                     \n\033[0m"
+	@if [ $(DEBUG) -eq 1 ]; then printf "\033[1;93m >>> Debug mode activated\n\033[0m"; fi
+	@printf "\n\033[0m"
 
 %.o: %.cpp
 	@printf "\033[0;33mCompilation de %-33.33s\r\e[0m" $@
@@ -66,7 +68,5 @@ test:
 
 debug: fclean
 	@make -s DEBUG=1 all
-	@make clean
-	@clear
 
 .PHONY: all redirect clean fclean re test debug
