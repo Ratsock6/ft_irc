@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/19 16:27:32 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/09/23 09:25:11 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	Server::receive_data(int client_socket)
 		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message.str();
 		std::cout << Color_Off;
 		
-		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 2) == MESSAGE_END) {
+		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 1) == "\n") {
 			
 			try{
 				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
