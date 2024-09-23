@@ -34,19 +34,6 @@ Channel::~Channel(){
 	invited_users.clear();
 }
 
-// Channel::Channel(const Channel &c)
-//     : 
-// 	  user_limit(c.user_limit),
-// 	  channel_name(c.channel_name),
-//       password(c.password) ,
-// 	  topic(c.topic),
-// 	  users_list(c.users_list),
-// 	  creator(c.creator),
-// 	  invite_only(c.invite_only),
-// 	  topic_autorization(c.topic_autorization){
-//     // No need for further assignments as they are handled in the initializer list
-// }
-
 Channel& Channel::operator=(const Channel &c){
 	this->channel_name = c.channel_name;
 	this->topic = c.topic;
@@ -98,18 +85,6 @@ void Channel::add_admin(Client user_to_add, Client user_who_add){
 	}
 	else
 		throw std::invalid_argument("You are not an admin");
-	// if (user_who_add.getAdmin() == true){
-	// 	for (std::map<Client, bool>::iterator it = this->admin_users_list.begin(); it != this->admin_users_list.end(); it++){
-	// 		if (it->first.getID() == user_to_add.getID()){
-	// 			throw std::invalid_argument("User already admin in this channel");
-	// 			return;
-	// 		}
-	// 	}
-	// 	this->admin_users_list.push_back(user_to_add);
-	// }
-	// else{
-	// 	throw std::invalid_argument("You are not an admin");
-	// }
 }
 void Channel::remove_admin(Client user, Client admin){
 	//if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
@@ -254,8 +229,6 @@ void Channel::send_private_msg(std::string msg , Client who_send, Client who_rec
 	{
 		final_msg = "user : " + who_send.getUsername() + " send you : " + msg;
 	}
-	// std::cout << "(to remove) :" << " user : " << who_send.getUsername() << " send to : " << who_receive.getUsername() << " : " << msg << std::endl;
-	// std::cout << final_msg << std::endl;
 	send(who_receive.getFd(), final_msg.c_str() , final_msg.size(), 0);
 }
 

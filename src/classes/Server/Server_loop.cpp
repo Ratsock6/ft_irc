@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/23 11:12:21 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:51:37 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,14 +169,7 @@ void	Server::accept_new_client()
 
 	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
 	new_client.setNickname("temp_nick");
-	//new_client.setRealname("temp_realname");
 	this->clients.push_back(new_client);
-	/**************test val *****************************/
-
-	// Client test_client("test_client", 2, new_ID(), true);
-	// Channel test("test", new_client);
-	// test.send_private_msg("YOUHOUU", test_client, new_client);
-	/******************************************************/
 	
 	std::cout << BGreen;
 	std::cout << "[Server] New client connected : " << client_socket << "\n";
