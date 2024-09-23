@@ -21,7 +21,7 @@ Client::Client(const Client &c){
 	this->nickname = c.nickname;
 	this->ip = c.ip;
 	this->topic_autorization = c.topic_autorization;
-	this->messageBuffer.str(c.messageBuffer.str());
+	this->messageBuffer = c.messageBuffer;
 	this->fd = c.fd;
 	this->admin = c.admin;
 	this->put_pwd = c.put_pwd;
@@ -36,7 +36,7 @@ Client& Client::operator=(const Client &c){
 	this->put_pwd = c.put_pwd;
 	this->ip = c.ip;
 	this->topic_autorization = c.topic_autorization;
-	this->messageBuffer.str(c.messageBuffer.str());
+	this->messageBuffer = c.messageBuffer;
 	this->fd = c.fd;
 	this->admin = c.admin;
 	this->user_ID = c.user_ID;
@@ -116,10 +116,10 @@ int Client::getID() const{
 	return this->user_ID;
 }
 
-std::stringstream& Client::getMessageBuffer(){
+std::string& Client::getMessageBuffer(){
 	return this->messageBuffer;
 }
 
-void Client::setMessageBuffer(std::stringstream& message){
-	this->messageBuffer.str(message.str());
+void Client::setMessageBuffer(std::string& message){
+	this->messageBuffer = message;
 }

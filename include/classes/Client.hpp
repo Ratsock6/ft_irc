@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 09:26:47 by mgallais          #+#    #+#             */
-/*   Updated: 2024/08/12 11:54:29 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:05:25 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Client{
 		std::string ip;
 		bool admin;
 		bool topic_autorization;
-		std::stringstream	messageBuffer;
+		std::string	messageBuffer;
 	
 	public:
 		Client(std::string username, int fd, int ID, bool admin);
@@ -49,12 +49,12 @@ class Client{
 		bool getput_pwd() const;
 		void setput_pwd(bool put_pwd);
 		int getID() const;
-		std::stringstream& getMessageBuffer();
+		std::string& getMessageBuffer();
 
 		void setTopicAutorization(bool topic_autorization);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
-		void setMessageBuffer(std::stringstream &message);
+		void setMessageBuffer(std::string &message);
 		bool operator<(const Client& other) const { return getID() < other.getID(); }
 		bool operator==(const Client& other) const { return this->getID() == other.getID(); }
 };

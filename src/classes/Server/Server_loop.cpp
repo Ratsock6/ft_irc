@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/23 11:51:37 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:17:49 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void	Server::close_client( int client_socket )
 void	Server::receive_data(int client_socket)
 {
 	Client				client = get_client_by_socket(client_socket);
-	std::stringstream	message;
+	std::string			message;
 	char				buffer[RECV_BUFFER_SIZE];
 	int					status;
 
-	message.str() = client.getMessageBuffer().str();
+	message = client.getMessageBuffer();
 	status = recv(client_socket, buffer, RECV_BUFFER_SIZE, MSG_DONTWAIT);
 	if (status == -1) {
 		throw std::runtime_error("recv: " + std::string(strerror(errno)));
@@ -97,17 +97,16 @@ void	Server::receive_data(int client_socket)
 		close_client(client_socket);
 	}
 	else {
-		message << std::string(buffer, status);
-		client.setMessageBuffer(message);
+		message.append(std::string(buffer, status));
 		
 		std::cout << BGreen;
-		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message.str();
+		std::cout << "[Server] Received message from client " << client_socket << ": " << std::endl << message;
 		std::cout << Color_Off;
 		
-		if (message.str().size() >= 2 && message.str().substr(message.str().size() - 1) == "\n") {
+		if (message.size() >= 1 && message.substr(message.size() - 1) == "\n") {
 			
 			try{
-				pre_parsing(message.str(), channels, get_client_by_socket(client_socket), *this);
+				pre_parsing(message, channels, get_client_by_socket(client_socket), *this);
 				if (this->new_client == true)
 				{
 					send_RPL_message(1, this, get_client_by_socket(client_socket), NULL, "");
@@ -124,9 +123,10 @@ void	Server::receive_data(int client_socket)
 				std::cerr << Color_Off;
 			}
 			
-			message.str("");
 			message.clear();
 		}
+		else
+			client.setMessageBuffer(message); // Save the message for later (ctrl + d)
 	}
 }
 
