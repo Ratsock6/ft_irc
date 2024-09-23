@@ -6,7 +6,7 @@
 /*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/23 09:25:11 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:12:21 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	Server::server_loop()
 
 	while (server_status == RUNNING)
 	{
-		server_command();
+		if (!server_command())
+			break;
 		// Poll for events
 		status = poll(all_sockets.data(), poll_count, POLL_TIMEOUT);
 		if (status == ERROR)

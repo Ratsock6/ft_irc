@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/19 13:49:58 by aallou-v         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:12:45 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void Server::destroy_instance()
 {
     if (singleton)
     {
+		if (singleton->get_status() == RUNNING)
+			singleton->stop();
         delete singleton;
         singleton = NULL;
     }
@@ -199,7 +201,7 @@ void	Server::start()
 		std::cerr << BRed;
 		std::cerr << "[Server] Critical error : " << e.what() << " | Shutdown\n";
 		std::cerr << Color_Off;
-		//stop();
+		stop(); // didn't test, may double free
 	}
 }
 
@@ -296,9 +298,8 @@ bool Server::server_command()
 
 	if (buffer == "/exit")
 	{
-		if (server_status == RUNNING)
-			stop();
 		program_running = false;
+		destroy_instance();
 	}
 
 	if (buffer == "/help" || first_run)
