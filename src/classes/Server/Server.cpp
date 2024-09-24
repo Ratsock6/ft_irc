@@ -59,6 +59,23 @@ void Server::destroy_instance()
 
 
 /// Private Functions :
+void Server::remove_user_from_all_channel(Client client)
+{
+	for (std::size_t i = 0; i < channels.size(); ++i)
+	{
+		if (channels[i]->check_if_user_is_in_channel(client))
+		{
+			channels[i]->remove_user(client, client);
+			std::string debug = client.getNickname() + "!" + client.getUsername() + "@" + this->server_adress +  " PART " + channels[i]->get_channel_name();
+			std::cout << debug << std::endl;
+			
+			channels[i]->send_msg_to_channel((":" + client.getNickname() + "!" + client.getNickname() + "@" + client.getNickname() +  " PART " + channels[i]->get_channel_name() + " :" + "leave channel\r\n"), client, false);
+			std::cout << BRed << "user : " << client.getNickname() << " removed from channel : " << channels[i]->get_channel_name() << Color_Off << std::endl;
+
+		}
+	}
+}
+
 
 void Server::remove_user(Client client)
 {

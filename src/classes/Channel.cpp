@@ -54,7 +54,9 @@ void Channel::invite_user_by_admin(int user_ID){
 }
 
 void Channel::remove_user(Client user_to_remove, Client user_who_remove){
-	if (users_list[user_who_remove] == false)
+	if (user_to_remove == user_who_remove)
+		std::cout << "delete himself" << std::endl;
+	else if (users_list[user_who_remove] == false)
 		throw std::invalid_argument("You are not an admin");
 	this->users_list.erase(user_to_remove);
 }
@@ -147,7 +149,7 @@ void Channel::join_request(Client user_to_add, std::string password, std::string
 
 void Channel::change_topic(std::string topic_name, Client client){
 	if (this->topic_autorization == false){
-		Channel::send_msg_to_channel("You are not allowed to change the topic", client, false);
+		Channel::send_msg_to_channel("You are not allowed to change the topic\n", client, false);
 		throw std::invalid_argument("You are not allowed to change the topic(/mode t)");
 		return;
 
@@ -156,6 +158,7 @@ void Channel::change_topic(std::string topic_name, Client client){
 		this->topic = topic_name;
 	}
 	else{
+		Channel::send_msg_to_channel("You are not an admin or the creator of the channel\n", client, false);
 		throw std::invalid_argument("You are not an admin or the creator of the channel");
 	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.hpp"
+#include "./../include/main.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
 

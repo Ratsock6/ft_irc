@@ -22,6 +22,10 @@ enum server_status_e
 # define POLL_TIMEOUT 10
 # define RECV_BUFFER_SIZE 32767
 
+#include <sstream>
+
+#define SSTR( x ) static_cast< std::ostringstream & >( \
+        ( std::ostringstream() << std::dec << x ) ).str()
 class Server {
 	private :
 		/// Attributes :
@@ -83,6 +87,7 @@ class Server {
 		pollfd get_server_socket(void) const;
 		void send_private_msg(std::string msg , Client who_send, Client who_receive);
 		std::string get_server_adress();
+		void remove_user_from_all_channel(Client client);
 		void set_server_adress(std::string server_adress);
 
 };

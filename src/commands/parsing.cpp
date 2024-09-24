@@ -301,10 +301,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PASS:
             if (args[1] != server.get_password())
             {
-				std::cout << "args[1] = " << args[1] << std::endl;
-				std::cout << "server.get_password() = " << server.get_password() << std::endl;
                 send_RPL_message(464, &server, client, NULL, "Wrong password");
-                server.close_client(client.getFd());
                 throw std::invalid_argument("Wrong password 1");
             }
             client.setput_pwd(true);
@@ -393,11 +390,12 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             for (size_t i = 0 ; i < users_list.size(); i++)
             {
-                if (users_list[i].getNickname() == args[1])
+                if (users_list[i].getNickname() == args[1] && client.getFd() != users_list[i].getFd())
                 {
-                    client.setNickname("temptest");
-                    send_RPL_message(433, &server, client, channel," " + args[1]);
-                    break;
+					args[1] += "_";
+                    // send_RPL_message(433, &server, client, channel," " + args[1]);
+                    // break;
+                    i = 0;
                 }
             }
             tmp = ":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() + " NICK " + args[1] + "\r\n";
@@ -410,8 +408,13 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             channel->remove_user(client, client);
             break;
         case QUIT:
-            if (args.size() < 2)
+            if (args.size() > 3)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
+            tmp = ":" + client.getNickname() + "!" + client.getNickname() + "@" + client.getNickname() +  " QUIT " + ":" + "leave server\r\n";
+            send(client.getFd(), tmp.c_str(), tmp.size(), 0);
+            server.close_client(client.getFd());
+
+            server.remove_user_from_all_channel(client);
             break;
         case USER:
             if (args.size() <= 3)
@@ -509,7 +512,7 @@ int parsing_command(const std::string& str, std::vector<Channel*> channels, Clie
 		send_RPL_message(461, &server, client , NULL, "wrong arguments");
 	}
 	// Check for channel name presence
-	if (args.size() < 2 || args[1].empty()) {
+	if (args.size() < 2 || (args[1].empty() && args[0] != "QUIT")) {
 		send_RPL_message(461, &server, client , NULL, "wrong arguments");
 	}
 
@@ -566,10 +569,9 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 				}
 			}
 		}
-		if (pwd_state == false)
+		if (pwd_state == false && commands[1].find("QUIT") != std::string::npos)
 		{
 			send_RPL_message(464, NULL, client, NULL, "Wrong password");
-			server.close_client(client.getFd());
 			throw std::invalid_argument("Wrong password 3");
 		}
 	}

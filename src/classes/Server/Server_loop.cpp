@@ -47,8 +47,6 @@ void	Server::close_client( int client_socket )
 	std::vector<struct pollfd>::iterator	it;
 	std::vector<Client>::iterator			client_it;
 
-	close(client_socket);
-
 	it = all_sockets.begin();
 	while (it != all_sockets.end())
 	{
@@ -73,7 +71,8 @@ void	Server::close_client( int client_socket )
 		else
 			client_it++;
 	}
-	
+		
+	close(client_socket);
 	std::cout << BGreen;
 	std::cout << "[Server] Client disconnected : " << client_socket << "\n";
 	std::cout << Color_Off;
@@ -170,7 +169,7 @@ void	Server::accept_new_client()
 	poll_count++;
 
 	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
-	new_client.setNickname("temp_nick");
+	new_client.setNickname("temp_nick" + SSTR(new_client.getID()));
 	this->clients.push_back(new_client);
 	
 	std::cout << BGreen;

@@ -63,7 +63,7 @@ void send_RPL_message(int RPL_number ,Server *server, Client client, Channel *ch
 			break;
 		}
 		case 461:
-			message = base_msg + msg_utils + " :Not enough parameters\r\n";
+			message = base_msg + " " + msg_utils + " :Not enough parameters\r\n";
 			error_message = "Not enough parameters";
 			break;
 		case 462:
