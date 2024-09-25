@@ -66,6 +66,11 @@ void Server::remove_user_from_all_channel(Client client)
 		if (channels[i]->check_if_user_is_in_channel(client))
 		{
 			channels[i]->remove_user(client, client);
+			if (channels[i]->get_users_list().size() == 0)
+			{
+				std::cout << BRed << "Channel : " << channels[i]->get_channel_name() << " is empty, deleted" << Color_Off << std::endl;
+				channels.erase(channels.begin() + i);
+			}
 			std::string debug = client.getNickname() + "!" + client.getUsername() + "@" + this->server_adress +  " PART " + channels[i]->get_channel_name();
 			std::cout << debug << std::endl;
 			

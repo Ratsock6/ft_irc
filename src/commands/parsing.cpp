@@ -569,7 +569,7 @@ void pre_parsing(const std::string& str, std::vector<Channel*> channels, Client 
 				}
 			}
 		}
-		if (pwd_state == false && commands[1].find("QUIT") != std::string::npos)
+		if (pwd_state == false) 
 		{
 			send_RPL_message(464, NULL, client, NULL, "Wrong password");
 			throw std::invalid_argument("Wrong password 3");
