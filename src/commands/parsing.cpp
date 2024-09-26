@@ -331,7 +331,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             }
             else
                 channel->send_msg_to_channel((":IRC_server KICK " + args[1] + " " + args[2] + " :" + tmp + "\r\n"), client, false);
-            channel->remove_user(Search_client_ID_Nick(args[2], channel->get_users_list()), client);
+            channel->remove_user(Search_client_ID_Nick(args[2], channel->get_users_list()), client, server);
             break;
         case INVITE:
             if (args.size() != 3)
@@ -405,7 +405,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PART:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
-            channel->remove_user(client, client);
+            channel->remove_user(client, client, server);
             break;
         case QUIT:
             if (args.size() > 3)

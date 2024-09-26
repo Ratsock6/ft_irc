@@ -25,7 +25,7 @@ class Channel{
 
 		void invite_user_by_admin(int user_ID);
 		void join_request(Client user_to_add, std::string password, std::string channel_name);
-		void remove_user(Client user_to_remove, Client user_who_remove);
+		void remove_user(Client user_to_remove, Client user_who_remove, Server &server);
 		void add_admin(Client user_to_add, Client user_who_add);
 		void remove_admin(Client user_to_remove, Client user_who_remove);
 		void change_topic(std::string topic_name, Client client);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:03:17 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/23 11:12:45 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:30:45 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void Server::remove_user_from_all_channel(Client client)
 	{
 		if (channels[i]->check_if_user_is_in_channel(client))
 		{
-			channels[i]->remove_user(client, client);
+			channels[i]->remove_user(client, client, *this);
 			if (channels[i]->get_users_list().size() == 0)
 			{
 				std::cout << BRed << "Channel : " << channels[i]->get_channel_name() << " is empty, deleted" << Color_Off << std::endl;
@@ -81,6 +81,18 @@ void Server::remove_user_from_all_channel(Client client)
 	}
 }
 
+void Server::delete_channel(Channel *channel)
+{
+	for (std::size_t i = 0; i < channels.size(); ++i)
+	{
+		if (channels[i] == channel)
+		{
+			delete channels[i];
+			channels.erase(channels.begin() + i);
+			break;
+		}
+	}
+}
 
 void Server::remove_user(Client client)
 {

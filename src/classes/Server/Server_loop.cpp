@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aallou-v <aallou-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:22:20 by mgallais          #+#    #+#             */
-/*   Updated: 2024/09/23 14:17:49 by mgallais         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:20:02 by aallou-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	Server::accept_new_client()
 
 	Client new_client("temp_name", all_sockets[poll_count - 1].fd, new_ID(), false);
 	new_client.setNickname("temp_nick" + SSTR(new_client.getID()));
+	// std::cout << "test : " << new_client.getID() << std::endl;
 	this->clients.push_back(new_client);
 	
 	std::cout << BGreen;

@@ -16,7 +16,7 @@ Channel::Channel(std::string channel_name, Client &creator)
 		std::cout << "------------------" << std::endl;
 		std::cout << "Channel created" << std::endl;
 		std::cout << "Channel name : " << channel_name << std::endl;
-		std::cout << "Creator : " << creator.getUsername() << std::endl;
+		std::cout << "Creator : " << creator.getUsername() << " Creator ID : " << creator.getID() << std::endl;
 		std::cout << "Topic : " << topic << std::endl;
 		std::cout << "------------------" << std::endl;
 		std::cout << "USER LIST : " << user_limit << std::endl;
@@ -53,12 +53,26 @@ void Channel::invite_user_by_admin(int user_ID){
 	invited_users.push_back(user_ID);
 }
 
-void Channel::remove_user(Client user_to_remove, Client user_who_remove){
+void Channel::remove_user(Client user_to_remove, Client user_who_remove, Server &server) {
 	if (user_to_remove == user_who_remove)
-		std::cout << "delete himself" << std::endl;
-	else if (users_list[user_who_remove] == false)
-		throw std::invalid_argument("You are not an admin");
+	{
+		users_list.erase(user_to_remove);
+		if (user_to_remove.getID() == this->creator.getID())
+		{
+			std::cout << BRed << "Creator of the channel " << channel_name << " left the channel" << std::endl;
+			if (users_list.size() == 0)
+				std::cout << BRed << "TODO : deleted the channel" << std::endl;
+			else
+			{
+				std::cout << BRed << "TODO : Determinate a new creator" << std::endl;
+			}
+		}
+		return ;
+	}
+	else if (users_list[user_who_remove] == false || user_to_remove.getID() != this->creator.getID())
+		throw std::invalid_argument("You are not an admin or you can't remove the creator of the channel");
 	this->users_list.erase(user_to_remove);
+	(void)server;
 }
 
 bool Channel::check_if_user_is_admin(Client client) {
