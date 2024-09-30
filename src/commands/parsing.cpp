@@ -406,6 +406,8 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
             channel->remove_user(client, client, server);
+            tmp = ":" + client.getNickname() + "!" + client.getNickname() + "@" + client.getNickname() +  " PART " + ":" + "leave server\r\n";
+            send(client.getFd(), tmp.c_str(), tmp.size(), 0);
             break;
         case QUIT:
             if (args.size() > 3)
