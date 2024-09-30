@@ -382,7 +382,7 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
                 if (channel->check_if_user_is_in_channel(client) == false)
                     send_RPL_message(442, &server, client, channel, "");
                 else
-                channel->send_msg_to_channel(tmp, client, true);
+                	channel->send_msg_to_channel(tmp, client, true);
             }
             break;
         case NICK:
@@ -405,9 +405,18 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
         case PART:
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
+			channel->send_msg_to_channel((":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() +  " PART " + channel->get_channel_name() + " :" + "leave channel\r\n"), client, false);
             channel->remove_user(client, client, server);
-            tmp = ":" + client.getNickname() + "!" + client.getNickname() + "@" + client.getNickname() +  " PART " + ":" + "leave server\r\n";
-            send(client.getFd(), tmp.c_str(), tmp.size(), 0);
+			if (channel->get_users_list().size() == 0)
+			{
+				std::cout << BRed << "Channel : " << channel->get_channel_name() << " is empty, deleted" << Color_Off << std::endl;
+				server.delete_channel(channel);
+			}
+			if (channel->get_admin_users_list().size() == 0)
+			{
+				std::cout << BRed << "Channel : " << channel->get_channel_name() << "dont have OP anymore , add another one" << Color_Off << std::endl;
+				channel->force_admin();
+			}
             break;
         case QUIT:
             if (args.size() > 3)

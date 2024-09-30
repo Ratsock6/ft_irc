@@ -1,5 +1,6 @@
 #include "Channel.hpp"
 #include "Client.hpp"
+#include "color.h"
 
 Channel::Channel(std::string channel_name, Client &creator)
 	: channel_name(channel_name), creator(creator), invited_users()
@@ -59,9 +60,9 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove, Server 
 		users_list.erase(user_to_remove);
 		if (user_to_remove.getID() == this->creator.getID())
 		{
-			std::cout << BRed << "Creator of the channel " << channel_name << " left the channel" << std::endl;
+			std::cout << BRed << "Creator of the channel " << channel_name << " left the channel" << Color_Off << std::endl;
 			if (users_list.size() == 0)
-				std::cout << BRed << "TODO : deleted the channel" << std::endl;
+				std::cout << BRed << "TODO : deleted the channel"<< Color_Off << std::endl;
 			else
 			{
 				std::cout << BRed << "TODO : Determinate a new creator" << std::endl;
@@ -103,9 +104,9 @@ void Channel::add_admin(Client user_to_add, Client user_who_add){
 		throw std::invalid_argument("You are not an admin");
 }
 
-void Channel::force_admin(Client client)
+void Channel::force_admin()
 {
-	users_list[client] = true;
+	users_list.begin()->second = true;
 }
 void Channel::remove_admin(Client user, Client admin){
 	//if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
