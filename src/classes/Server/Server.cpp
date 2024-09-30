@@ -71,6 +71,11 @@ void Server::remove_user_from_all_channel(Client client)
 				std::cout << BRed << "Channel : " << channels[i]->get_channel_name() << " is empty, deleted" << Color_Off << std::endl;
 				channels.erase(channels.begin() + i);
 			}
+			if (channels[i]->get_admin_users_list().size() == 0)
+			{
+				std::cout << BRed << "Channel : " << channels[i]->get_channel_name() << "dont have OP anymore , add another one" << Color_Off << std::endl;
+				channels[i]->force_admin(client);
+			}
 			std::string debug = client.getNickname() + "!" + client.getUsername() + "@" + this->server_adress +  " PART " + channels[i]->get_channel_name();
 			std::cout << debug << std::endl;
 			

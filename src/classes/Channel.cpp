@@ -102,6 +102,11 @@ void Channel::add_admin(Client user_to_add, Client user_who_add){
 	else
 		throw std::invalid_argument("You are not an admin");
 }
+
+void Channel::force_admin(Client client)
+{
+	users_list[client] = true;
+}
 void Channel::remove_admin(Client user, Client admin){
 	//if (admin.getAdmin() == true && user.getID() != this->creator.getID()){
 	if (users_list[admin] == true){
