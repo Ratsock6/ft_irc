@@ -37,4 +37,4 @@ ircserv
 .vscode
 *.json
 #tests/
-
+.cache
