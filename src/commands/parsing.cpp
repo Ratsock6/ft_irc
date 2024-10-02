@@ -403,19 +403,21 @@ int switch_search_command(std::vector<std::string> args , const std::vector<Chan
             client.setNickname(args[1]);
             break;
         case PART:
+	        std::cout << "PART" << channel->get_channel_name() << std::endl;
             if (args.size() != 2)
                 send_RPL_message(461, &server, client, channel, "Wrong number of arguments");
 			channel->send_msg_to_channel((":" + client.getNickname() + "!" + client.getUsername() + "@" + client.getRealname() +  " PART " + channel->get_channel_name() + " :" + "leave channel\r\n"), client, false);
             channel->remove_user(client, client, server);
+			if (channel->get_admin_users_list().size() == 0)
+			{
+				std::cout << BRed << "Channel : " << channel->get_channel_name() << " dont have OP anymore , add another one" << Color_Off << std::endl;
+				if (channel->get_users_list().size() > 0)
+					channel->force_admin();
+			}
 			if (channel->get_users_list().size() == 0)
 			{
 				std::cout << BRed << "Channel : " << channel->get_channel_name() << " is empty, deleted" << Color_Off << std::endl;
 				server.delete_channel(channel);
-			}
-			if (channel->get_admin_users_list().size() == 0)
-			{
-				std::cout << BRed << "Channel : " << channel->get_channel_name() << "dont have OP anymore , add another one" << Color_Off << std::endl;
-				channel->force_admin();
 			}
             break;
         case QUIT:

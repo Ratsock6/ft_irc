@@ -89,14 +89,12 @@ enum mode{
 /*                            Structures & Classes                           */
 /*###########################################################################*/
 // Classes
-# include "Client.hpp"
-class Client;
-
-# include "Channel.hpp"
-class Channel;
-
-# include "Server.hpp"
 class Server;
+class Client;
+class Channel;
+# include "Channel.hpp"
+# include "Client.hpp"
+# include "Server.hpp"
 
 // Structures
 

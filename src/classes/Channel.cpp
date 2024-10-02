@@ -58,15 +58,11 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove, Server 
 	if (user_to_remove == user_who_remove)
 	{
 		users_list.erase(user_to_remove);
-		if (user_to_remove.getID() == this->creator.getID())
+		if (users_list.size() == 0)
+			std::cout << BRed << "TODO : deleted the channel"<< Color_Off << std::endl;
+		else
 		{
-			std::cout << BRed << "Creator of the channel " << channel_name << " left the channel" << Color_Off << std::endl;
-			if (users_list.size() == 0)
-				std::cout << BRed << "TODO : deleted the channel"<< Color_Off << std::endl;
-			else
-			{
-				std::cout << BRed << "TODO : Determinate a new creator" << std::endl;
-			}
+			std::cout << BRed << "TODO : Determinate a new creator" << std::endl;
 		}
 		return ;
 	}
@@ -106,6 +102,8 @@ void Channel::add_admin(Client user_to_add, Client user_who_add){
 
 void Channel::force_admin()
 {
+	if (users_list.size() == 0)
+		return;
 	users_list.begin()->second = true;
 }
 void Channel::remove_admin(Client user, Client admin){

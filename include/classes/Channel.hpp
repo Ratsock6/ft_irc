@@ -4,8 +4,6 @@
 #include <vector>
 #include <map>
 #include "main.hpp"
-class Server;
-
 class Channel{
 	private:
 		int user_limit;
