@@ -58,12 +58,6 @@ void Channel::remove_user(Client user_to_remove, Client user_who_remove, Server 
 	if (user_to_remove == user_who_remove)
 	{
 		users_list.erase(user_to_remove);
-		if (users_list.size() == 0)
-			std::cout << BRed << "TODO : deleted the channel"<< Color_Off << std::endl;
-		else
-		{
-			std::cout << BRed << "TODO : Determinate a new creator" << std::endl;
-		}
 		return ;
 	}
 	else if (users_list[user_who_remove] == false || user_to_remove.getID() != this->creator.getID())
