@@ -123,5 +123,6 @@ std::string& Client::getMessageBuffer(){
 }
 
 void Client::setMessageBuffer(std::string& message){
+	this->messageBuffer.clear();
 	this->messageBuffer.append(message);
 }
